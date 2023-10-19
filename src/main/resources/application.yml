@@ -2,9 +2,9 @@ server:
   port: 8080
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/catpaw
-    username: inguk
-    password: 0504
+    url: jdbc:postgresql://cat-paw.cdy4cjlwhxdj.ap-northeast-2.rds.amazonaws.com/catpaw
+    username: catpaw
+    password: GDj3xK4XCS
     driver-class-name: org.postgresql.Driver
   jpa:
     open-in-view: false
