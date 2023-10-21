@@ -1,6 +1,5 @@
 package com.catpaw.catpawmiddleware.repository;
 
-import com.catpaw.catpawmiddleware.domain.entity.Comment;
 import com.catpaw.catpawmiddleware.domain.entity.GroupBoard;
 import com.catpaw.catpawmiddleware.repository.dto.CommentDetailDto;
 import org.springframework.data.jpa.repository.Query;
