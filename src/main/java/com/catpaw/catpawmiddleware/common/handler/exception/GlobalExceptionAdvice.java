@@ -1,4 +1,4 @@
-package com.catpaw.catpawmiddleware.exception;
+package com.catpaw.catpawmiddleware.common.handler.exception;
 
 
 import com.catpaw.catpawmiddleware.controller.response.Result;

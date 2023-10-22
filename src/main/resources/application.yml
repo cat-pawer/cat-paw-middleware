@@ -66,6 +66,7 @@ spring:
             jwk-set-uri: https://kauth.kakao.com/.well-known/jwks.json
             user-name-attribute: id
 secret-key: vGrxHgTxbsj4QQGUWDuxpWSHKq8RQVPkashUHsuvur3oA9djvk6afij2Adnsici2nfkaz9x4sksdbij3i
+token-valid-time: 18000
 ---
 spring:
   config:

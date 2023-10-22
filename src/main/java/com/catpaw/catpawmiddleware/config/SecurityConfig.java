@@ -1,6 +1,11 @@
 package com.catpaw.catpawmiddleware.config;
 
 
+import com.catpaw.catpawmiddleware.common.handler.security.OAuthAuthenticationSuccessHandler;
+import com.catpaw.catpawmiddleware.filter.JwtAuthenticationFilter;
+import com.catpaw.catpawmiddleware.common.handler.security.JwtTokenManager;
+import com.catpaw.catpawmiddleware.service.security.SecurityLoginService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,11 +14,22 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Autowired
+    UserDetailsService userDetailsService;
+
+    @Autowired
+    SecurityLoginService securityLoginService;
+
+    @Autowired
+    JwtTokenManager jwtTokenManager;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -25,9 +41,28 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
-                .sessionManagement(configurer ->
-                        configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .sessionManagement(conf ->
+                        conf.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.oauth2Login(conf -> {
+            conf.redirectionEndpoint(redirectConf -> redirectConf.baseUri("/oauth/code/**"));
+            conf.userInfoEndpoint(
+                    userConf -> {
+                        userConf
+//                                .oidcUserService(customOidcUserService)
+                                .userService(securityLoginService);
+                    }
+            );
+            conf.successHandler(oAuthAuthenticationSuccessHandler());
+        });
+        http.addFilterBefore(
+                new JwtAuthenticationFilter(jwtTokenManager, userDetailsService),
+                UsernamePasswordAuthenticationFilter.class);
         return http.build();
+    }
+
+    @Bean
+    public OAuthAuthenticationSuccessHandler oAuthAuthenticationSuccessHandler() {
+        return new OAuthAuthenticationSuccessHandler(jwtTokenManager);
     }
 
     @Bean
