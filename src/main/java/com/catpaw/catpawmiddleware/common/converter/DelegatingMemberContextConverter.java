@@ -25,7 +25,7 @@ public class DelegatingMemberContextConverter {
     }
 
     public MemberContext convert(MemberAuthenticationFormFactory form) {
-        for (MemberPrincipalConverter converter : converterList) {
+          for (MemberPrincipalConverter converter : converterList) {
             if (!converter.supports(form)) {
                 continue;
             }

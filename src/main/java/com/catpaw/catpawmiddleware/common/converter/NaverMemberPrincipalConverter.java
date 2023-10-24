@@ -13,7 +13,7 @@ public class NaverMemberPrincipalConverter implements MemberPrincipalConverter {
 
     @Override
     public boolean supports(MemberAuthenticationFormFactory form) {
-        return SocialType.NAVER.toString().equals(form.getClientRegistration().getRegistrationId());
+        return SocialType.NAVER.toString().toLowerCase().equals(form.getClientRegistration().getRegistrationId());
     }
 
     @Override

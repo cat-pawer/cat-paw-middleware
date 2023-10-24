@@ -30,6 +30,16 @@ public class MemberContext {
     public static MemberContext fromEntity(Member member) {
 
         MemberContext memberContext = new MemberContext();
+        memberContext.id = member.getId();
+        memberContext.name = member.getName();
+        memberContext.email = member.getEmail();
+        memberContext.nickname= member.getNickname();
+        memberContext.password = member.getPassword();
+        memberContext.auth = member.getAuth();
+        memberContext.socialType = member.getSocialType();
+        memberContext.birth = member.getBirth();
+        memberContext.phone = member.getPhone();
+
         return memberContext;
     }
 }

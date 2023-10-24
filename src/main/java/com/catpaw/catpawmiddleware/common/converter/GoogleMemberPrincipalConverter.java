@@ -13,7 +13,7 @@ public class GoogleMemberPrincipalConverter implements MemberPrincipalConverter 
 
     @Override
     public boolean supports(MemberAuthenticationFormFactory form) {
-        return SocialType.GOOGLE.toString().equals(form.getClientRegistration().getRegistrationId());
+        return SocialType.GOOGLE.toString().toLowerCase().equals(form.getClientRegistration().getRegistrationId());
     }
 
     @Override
