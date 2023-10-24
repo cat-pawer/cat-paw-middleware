@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,10 +25,12 @@ public class JwtTokenManager {
     @Value("${secret-key}")
     private String secretKey;
 
-    private final Key key;
+    private Key key;
 
+    public JwtTokenManager() {}
 
-    public JwtTokenManager() {
+    @PostConstruct
+    public void init() {
         this.key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(this.secretKey));
     }
 
