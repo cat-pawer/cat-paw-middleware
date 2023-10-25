@@ -18,6 +18,7 @@ build/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
+/src/main/resources/*.yml
 
 ### IntelliJ IDEA ###
 .idea
