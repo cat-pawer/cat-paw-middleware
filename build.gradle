@@ -65,3 +65,11 @@ tasks.withType(JavaCompile).configureEach {
 clean.doLast {
 	output.get().asFile.deleteDir()
 }
+
+task copyPrivate(type: Copy) {
+	copy {
+		from './config'
+		include "/backend/*.yml"
+		into 'src/main/resources'
+	}
+}
