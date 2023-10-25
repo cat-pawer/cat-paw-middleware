@@ -68,8 +68,8 @@ clean.doLast {
 
 tasks.register('copyPrivate', Copy) {
 	copy {
-		from './config'
-		include "/backend/*.yml"
+		from './config/backend/'
+		include "*.yml"
 		into 'src/main/resources'
 	}
 }
