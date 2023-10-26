@@ -1,1 +1,2 @@
 rootProject.name = 'cat-paw-middleware'
+include 'cat-paw-middleware', 'config'
