@@ -70,6 +70,6 @@ tasks.register('copyPrivate', Copy) {
 	copy {
 		from './config/backend/'
 		include "*.yml"
-		into 'src/main/resources'
+		into 'src/main/resources/'
 	}
 }
