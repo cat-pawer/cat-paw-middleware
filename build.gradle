@@ -54,6 +54,12 @@ Provider<Directory> output = layout.buildDirectory.dir("generated/querydsl")
 def buildPath = output.map {it.asFile.path }
 
 sourceSets {
+	main {
+		resources {
+			srcDirs file('src/main/resources')
+		}
+	}
+
 	main.java.srcDirs += [ buildPath.get() ]
 }
 
@@ -68,8 +74,9 @@ clean.doLast {
 
 tasks.register('copyPrivate', Copy) {
 	copy {
-		from './config/backend/'
+		from 'config/backend/'
 		include "*.yml"
 		into 'src/main/resources/'
 	}
 }
+
