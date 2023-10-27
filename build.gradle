@@ -66,11 +66,16 @@ clean.doLast {
 	output.get().asFile.deleteDir()
 }
 
+tasks.register('deleteSetting', Delete) {
+	delete 'src/main/resources/*.yml'
+}
+
 tasks.register('copyPrivate', Copy) {
 	from project(':config').fileTree('backend')
 	into 'src/main/resources'
 }
 
+tasks.copyPrivate.dependsOn tasks.deleteSetting
 tasks.processResources.dependsOn tasks.copyPrivate
 
 
