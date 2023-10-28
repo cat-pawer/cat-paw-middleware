@@ -4,9 +4,13 @@ import com.catpaw.catpawmiddleware.domain.eumns.Auth;
 import com.catpaw.catpawmiddleware.domain.eumns.SocialType;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Getter
 @Entity
+@Where(clause = "is_delete = 'N'")
+@SQLDelete(sql = "UPDATE member SET is_delete = 'Y' WHERE member_id = ?")
 public class Member extends BaseEntity {
 
     @Id @GeneratedValue

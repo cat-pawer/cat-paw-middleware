@@ -12,20 +12,20 @@ import java.util.List;
 @Slf4j
 public class DelegatingMemberContextConverter {
 
-    private final List<MemberPrincipalConverter> converterList;
+    private final List<MemberContextConverter> converterList;
 
     public DelegatingMemberContextConverter() {
-        List<MemberPrincipalConverter> converters = Arrays.asList(
-                new LocalMemberPrincipalConverter(),
-                new GoogleMemberPrincipalConverter(),
-                new NaverMemberPrincipalConverter()
+        List<MemberContextConverter> converters = Arrays.asList(
+                new LocalMemberContextConverter(),
+                new GoogleMemberContextConverter(),
+                new NaverMemberContextConverter()
         );
 
         this.converterList = Collections.unmodifiableList(new LinkedList<>(converters));
     }
 
     public MemberContext convert(MemberAuthenticationFormFactory form) {
-          for (MemberPrincipalConverter converter : converterList) {
+          for (MemberContextConverter converter : converterList) {
             if (!converter.supports(form)) {
                 continue;
             }

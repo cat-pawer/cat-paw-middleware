@@ -1,6 +1,7 @@
 package com.catpaw.catpawmiddleware.service.security;
 
 import com.catpaw.catpawmiddleware.common.converter.DelegatingMemberContextConverter;
+import com.catpaw.catpawmiddleware.domain.eumns.Auth;
 import com.catpaw.catpawmiddleware.domain.model.MemberContext;
 import com.catpaw.catpawmiddleware.common.factory.authentication.MemberAuthenticationFactory;
 import com.catpaw.catpawmiddleware.common.factory.authentication.MemberAuthenticationFormFactory;
@@ -33,7 +34,8 @@ public abstract class AbstractSecurityTokenService {
     protected void processSave(MemberContexts memberContexts) {
         Assert.notNull(memberContexts, "MemberContext 값이 존재하지 않습니다.");
 
-        Optional<Member> member = this.memberRepository.findByEmail(memberContexts.getEmail());
+        Optional<Member> member =
+                this.memberRepository.findByEmailAndAuth(memberContexts.getEmail(), Auth.MEMBER);
         Member savedMember = member
                 .map(value -> this.updateIfNoExisted(memberContexts, value))
                 .orElseGet(() -> saveMember(memberContexts));

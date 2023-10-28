@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.Map;
 
-public class GoogleMemberPrincipalConverter implements MemberPrincipalConverter {
+public class GoogleMemberContextConverter implements MemberContextConverter {
 
     @Override
     public boolean supports(MemberAuthenticationFormFactory form) {
@@ -21,19 +21,26 @@ public class GoogleMemberPrincipalConverter implements MemberPrincipalConverter 
 
         Map<String, Object> attributes = form.getOAuth2User().getAttributes();
 
-        String name = (String) attributes.get("name");
-        if (!StringUtils.hasText(name)) {
-            name = UuidUtils.createUuid();
+        Object name = attributes.get("name");
+        Object nickname = attributes.get("given_name");
+        Object email = attributes.get("email");
+
+        if (name == null || !StringUtils.hasText(String.valueOf(name))) {
+            throw new IllegalArgumentException("이름은 필수값 입니다.");
         }
 
-        String email = (String) attributes.get("email");
-        if (!StringUtils.hasText(email)) {
+        if (email == null || !StringUtils.hasText(String.valueOf(email))) {
             throw new IllegalStateException("이메일 정보는 필수 입니다.");
         }
 
+        String strName = String.valueOf(name);
+        String strEmail = String.valueOf(email);
+
         MemberContext memberDto = new MemberContext();
-        memberDto.setName(name);
-        memberDto.setEmail(email);
+        memberDto.setName(strName);
+        memberDto.setEmail(strEmail);
+        memberDto.setNickname(nickname == null ? strName : String.valueOf(nickname));
+        memberDto.setPassword(UuidUtils.createUuid());
         memberDto.setAuth(Auth.MEMBER);
         memberDto.setSocialType(SocialType.GOOGLE);
 

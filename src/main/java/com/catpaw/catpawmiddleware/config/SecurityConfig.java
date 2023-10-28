@@ -1,6 +1,7 @@
 package com.catpaw.catpawmiddleware.config;
 
 
+import com.catpaw.catpawmiddleware.common.handler.security.CustomAuthorityMapper;
 import com.catpaw.catpawmiddleware.common.handler.security.OAuthAuthenticationSuccessHandler;
 import com.catpaw.catpawmiddleware.filter.JwtAuthenticationFilter;
 import com.catpaw.catpawmiddleware.common.handler.security.JwtTokenManager;
@@ -14,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.authority.mapping.GrantedAuthoritiesMapper;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -58,6 +60,11 @@ public class SecurityConfig {
                 new JwtAuthenticationFilter(jwtTokenManager, userDetailsService),
                 UsernamePasswordAuthenticationFilter.class);
         return http.build();
+    }
+
+    @Bean
+    public GrantedAuthoritiesMapper customAuthorityMapper() {
+        return new CustomAuthorityMapper();
     }
 
     @Bean
