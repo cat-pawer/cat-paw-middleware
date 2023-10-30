@@ -1,12 +1,16 @@
 package com.catpaw.catpawmiddleware.controller.response;
 
-import lombok.Builder;
+import jakarta.annotation.Nullable;
 
-@Builder
 public class Result<T> {
 
-    private int code;
-    private String message;
-    private T data;
+    private final int code;
+    private final String message;
+    private final T data;
 
+    public Result(int code, @Nullable String message, @Nullable T data) {
+        this.code = code;
+        this.message = message;
+        this.data = data;
+    }
 }
