@@ -1,4 +1,4 @@
-package com.catpaw.catpawmiddleware.service.dto;
+package com.catpaw.catpawmiddleware.service.dto.friend;
 
 import com.catpaw.catpawmiddleware.domain.eumns.FriendState;
 import lombok.Getter;

@@ -6,19 +6,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
-import java.util.List;
-
 public interface FriendQueryRepository {
 
-    Page<Friend> findFriendSummaryPage(FriendSearchCond searchCond, Pageable pageable);
+    Page<Friend> findPagedFriendList(FriendSearchCond searchCond, Pageable pageable);
 
-    Slice<Friend> findFriendSummarySlice(FriendSearchCond searchCond, Pageable pageable);
+    Slice<Friend> findSlicedFriendList(FriendSearchCond searchCond, Pageable pageable);
 
-    Page<Friend> findMyRequestFriendSummaryPage(FriendSearchCond searchCond, Pageable pageable);
+    Page<Friend> findPagedMyRequestFriendList(FriendSearchCond searchCond, Pageable pageable);
 
-    Slice<Friend> findMyRequestFriendSummarySlice(FriendSearchCond searchCond, Pageable pageable);
+    Slice<Friend> findSlicedMyRequestFriendList(FriendSearchCond searchCond, Pageable pageable);
 
-    Page<Friend> findOtherRequestFriendSummaryPage(FriendSearchCond searchCond, Pageable pageable);
+    Page<Friend> findPagedOtherRequestFriendList(FriendSearchCond searchCond, Pageable pageable);
 
-    Slice<Friend> findOtherRequestFriendSummarySlice(FriendSearchCond searchCond, Pageable pageable);
+    Slice<Friend> findSlicedOtherRequestFriendList(FriendSearchCond searchCond, Pageable pageable);
 }

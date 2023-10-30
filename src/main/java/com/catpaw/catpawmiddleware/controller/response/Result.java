@@ -1,16 +1,33 @@
 package com.catpaw.catpawmiddleware.controller.response;
 
+import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
 import jakarta.annotation.Nullable;
+
 
 public class Result<T> {
 
-    private final int code;
-    private final String message;
-    private final T data;
+    private int code;
 
-    public Result(int code, @Nullable String message, @Nullable T data) {
-        this.code = code;
-        this.message = message;
-        this.data = data;
+    private String message;
+
+    private T data;
+
+
+    public static <T> Result<T> createSingleResult(int code, @Nullable String message, @Nullable T data) {
+        Result<T> result = new Result<>();
+        result.code = code;
+        result.message = message;
+        result.data = data;
+        return result;
     }
+
+    public static <T> Result<CustomPageDto<T>> createPageResult(int code, @Nullable String message, CustomPageDto<T> pageDto) {
+        Result<CustomPageDto<T>> result = new Result<>();
+        result.code = code;
+        result.message = message;
+        result.data = pageDto;
+        return result;
+    }
+
+    private Result() {};
 }

@@ -33,7 +33,7 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
     }
 
     @Override
-    public Page<Friend> findFriendSummaryPage(FriendSearchCond searchCond, Pageable pageable) {
+    public Page<Friend> findPagedFriendList(FriendSearchCond searchCond, Pageable pageable) {
         QMember fromMember = new QMember("fromMember");
         QMember toMember = new QMember("toMember");
 
@@ -68,7 +68,7 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
     }
 
     @Override
-    public Slice<Friend> findFriendSummarySlice(FriendSearchCond searchCond, Pageable pageable) {
+    public Slice<Friend> findSlicedFriendList(FriendSearchCond searchCond, Pageable pageable) {
         QMember fromMember = new QMember("fromMember");
         QMember toMember = new QMember("toMember");
 
@@ -92,7 +92,7 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
     }
 
     @Override
-    public Page<Friend> findMyRequestFriendSummaryPage(FriendSearchCond searchCond, Pageable pageable) {
+    public Page<Friend> findPagedMyRequestFriendList(FriendSearchCond searchCond, Pageable pageable) {
         QMember fromMember = new QMember("fromMember");
         QMember toMember = new QMember("toMember");
 
@@ -127,7 +127,7 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
     }
 
     @Override
-    public Slice<Friend> findMyRequestFriendSummarySlice(FriendSearchCond searchCond, Pageable pageable) {
+    public Slice<Friend> findSlicedMyRequestFriendList(FriendSearchCond searchCond, Pageable pageable) {
         QMember fromMember = new QMember("fromMember");
         QMember toMember = new QMember("toMember");
 
@@ -151,7 +151,7 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
     }
 
     @Override
-    public Page<Friend> findOtherRequestFriendSummaryPage(FriendSearchCond searchCond, Pageable pageable) {
+    public Page<Friend> findPagedOtherRequestFriendList(FriendSearchCond searchCond, Pageable pageable) {
         QMember fromMember = new QMember("fromMember");
         QMember toMember = new QMember("toMember");
 
@@ -186,7 +186,7 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
     }
 
     @Override
-    public Slice<Friend> findOtherRequestFriendSummarySlice(FriendSearchCond searchCond, Pageable pageable) {
+    public Slice<Friend> findSlicedOtherRequestFriendList(FriendSearchCond searchCond, Pageable pageable) {
         QMember fromMember = new QMember("fromMember");
         QMember toMember = new QMember("toMember");
 
@@ -216,7 +216,6 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
     private BooleanExpression toMemberIdEq(Long id) {
         return id != null ? friend.toMember.id.eq(id) : null;
     }
-
 
     private BooleanExpression friendStateEq(FriendState state) {
         return state != null ? friend.state.eq(state) : null;

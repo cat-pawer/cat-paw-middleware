@@ -1,4 +1,4 @@
-package com.catpaw.catpawmiddleware.service.dto;
+package com.catpaw.catpawmiddleware.service.member;
 
 import com.catpaw.catpawmiddleware.domain.eumns.Auth;
 import com.catpaw.catpawmiddleware.domain.eumns.SocialType;
