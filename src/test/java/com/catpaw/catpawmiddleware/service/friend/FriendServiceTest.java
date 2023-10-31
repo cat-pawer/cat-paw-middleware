@@ -136,6 +136,4 @@ class FriendServiceTest {
         Assertions.assertThat(pagedFriendSummary.getContent().size()).isEqualTo(1);
         Assertions.assertThat(pagedFriendSummary.getContent().get(0).getName()).isEqualTo(friendName);
     }
-
-
 }

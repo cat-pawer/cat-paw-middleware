@@ -1,6 +1,7 @@
 package com.catpaw.catpawmiddleware.config;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import org.springdoc.core.models.GroupedOpenApi;
@@ -18,12 +19,15 @@ public class SwaggerConfig {
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
                 .group("v1")
-                .pathsToMatch("/api/v1")
+//                .pathsToMatch("/*")
+                .packagesToScan("com.catpaw.catpawmiddleware.controller")
                 .build();
     }
+
     @Bean
     public OpenAPI springOpenAPI() {
         return new OpenAPI()
+                .components(new Components())
                 .info(new Info().title("CAT-PAW API")
                         .version("v0.0.1"));
     }

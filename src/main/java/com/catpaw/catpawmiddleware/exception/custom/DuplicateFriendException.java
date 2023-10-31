@@ -1,4 +1,4 @@
-package com.catpaw.catpawmiddleware.common.handler.exception.custom;
+package com.catpaw.catpawmiddleware.exception.custom;
 
 public class DuplicateFriendException extends RuntimeException {
 

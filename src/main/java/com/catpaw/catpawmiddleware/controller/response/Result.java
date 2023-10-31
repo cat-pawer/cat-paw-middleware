@@ -2,8 +2,10 @@ package com.catpaw.catpawmiddleware.controller.response;
 
 import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
 import jakarta.annotation.Nullable;
+import lombok.Getter;
 
 
+@Getter
 public class Result<T> {
 
     private int code;

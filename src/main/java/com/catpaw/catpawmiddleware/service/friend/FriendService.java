@@ -1,7 +1,7 @@
 package com.catpaw.catpawmiddleware.service.friend;
 
 import com.catpaw.catpawmiddleware.common.factory.dto.FriendDtoFactory;
-import com.catpaw.catpawmiddleware.common.handler.exception.custom.DuplicateFriendException;
+import com.catpaw.catpawmiddleware.exception.custom.DuplicateFriendException;
 import com.catpaw.catpawmiddleware.domain.entity.Friend;
 import com.catpaw.catpawmiddleware.domain.entity.Member;
 import com.catpaw.catpawmiddleware.domain.eumns.Auth;

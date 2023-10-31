@@ -54,7 +54,9 @@ public class SecurityConfig {
                                 .userService(securityLoginService);
                     }
             );
+//            conf.failureHandler();
             conf.successHandler(oAuthAuthenticationSuccessHandler());
+
         });
         http.addFilterBefore(
                 new JwtAuthenticationFilter(jwtTokenManager, userDetailsService),
