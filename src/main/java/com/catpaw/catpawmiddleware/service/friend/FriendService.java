@@ -47,7 +47,7 @@ public class FriendService {
         return PageUtils.createCustomPageDto(paged, FriendDtoFactory::toFriendSummary);
     }
 
-    public CustomPageDto<FriendSummaryDto> getSlicedFriendList(FriendSearchDto searchDto, Pageable pageable) {
+    public CustomPageDto<FriendSummaryDto> getSlicedFriendSummary(FriendSearchDto searchDto, Pageable pageable) {
         Assert.notNull(searchDto.getMemberId(), "대상 회원이 존재하지 않습니다.");
 
         FriendSearchCond condition =

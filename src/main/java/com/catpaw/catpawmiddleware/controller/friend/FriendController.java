@@ -31,6 +31,7 @@ import java.util.Optional;
 @Tag(name = "친구", description = "친구 도메인 API")
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/friend")
 public class FriendController {
 
     private final FriendService friendService;
@@ -42,8 +43,8 @@ public class FriendController {
     @ApiResponses({
             @ApiResponse(responseCode = "200",  description = "정상", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")}),
             @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")})})
-    @GetMapping("/friends")
-    public ResponseEntity<Result<CustomPageDto<FriendSummaryDto>>> getFriendList(
+    @GetMapping("/summary")
+    public ResponseEntity<Result<CustomPageDto<FriendSummaryDto>>> friendSummary(
             @Schema(hidden = true) @LoginId Optional<Long> idHolder,
             @RequestParam(value = "myRequest", required = false) Boolean myRequest,
             @RequestParam(value = "otherRequest", required = false) Boolean otherRequest,
@@ -68,7 +69,7 @@ public class FriendController {
 
         CustomPageDto<FriendSummaryDto> pagedFriendSummary = isPage ?
                 friendService.getPagedFriendSummary(friendSearchDto, pageable) :
-                friendService.getSlicedFriendList(friendSearchDto, pageable);
+                friendService.getSlicedFriendSummary(friendSearchDto, pageable);
 
         return ResponseEntity
                 .ok()
@@ -81,8 +82,8 @@ public class FriendController {
     @ApiResponses({
             @ApiResponse(responseCode = "200",  description = "정상", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")}),
             @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")})})
-    @PostMapping("/add/friend")
-    public ResponseEntity<Result<Void>> addFriend(
+    @PostMapping("/")
+    public ResponseEntity<Result<Void>> friendSave(
             @RequestBody AddFriendForm form,
             @Schema(hidden = true) @LoginId Optional<Long> idHolder) {
         Long memberId = idHolder.orElseThrow(() -> {
