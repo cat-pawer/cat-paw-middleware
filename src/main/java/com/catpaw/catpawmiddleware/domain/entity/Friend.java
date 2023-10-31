@@ -27,4 +27,29 @@ public class Friend extends BaseEntity {
     @Column(length = 50)
     @Enumerated(value = EnumType.STRING)
     private FriendState state;
+
+    public static Friend makeFriendRequest(Member fromMember, Member toMember) {
+        Friend friend = new Friend();
+        friend.changeFromMember(fromMember);
+        friend.changeToMember(toMember);
+        friend.setState(FriendState.PENDING);
+
+        return friend;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void changeFromMember(Member fromMember) {
+        this.fromMember = fromMember;
+    }
+
+    public void changeToMember(Member toMember) {
+        this.toMember = toMember;
+    }
+
+    public void setState(FriendState state) {
+        this.state = state;
+    }
 }

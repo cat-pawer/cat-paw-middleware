@@ -22,7 +22,7 @@ public class GlobalExceptionAdvice {
     public ResponseEntity<Result<Object>> badCredentialsExceptionHandler(BadCredentialsException e) {
         log.error("[ex handler] ex", e);
         return new ResponseEntity<>(
-                new Result<>(ResponseCode.NO_MATCH_PASSWORD.getCode(), "잘못된 비밀번호입니다.", null),
+                Result.createSingleResult(ResponseCode.NO_MATCH_PASSWORD.getCode(), "잘못된 비밀번호입니다.", null),
                 HttpStatus.OK
         );
     }
@@ -32,7 +32,7 @@ public class GlobalExceptionAdvice {
     public ResponseEntity<Result<Object>> usernameNotFoundExceptionHandler(UsernameNotFoundException e) {
         log.error("[ex handler] ex", e);
         return new ResponseEntity<>(
-                new Result<>(ResponseCode.NOT_FOUND_MEMBER.getCode(), "사용자를 찾을 수 없습니다.", null),
+                Result.createSingleResult(ResponseCode.NOT_FOUND_MEMBER.getCode(), "사용자를 찾을 수 없습니다.", null),
                 HttpStatus.OK
         );
     }
@@ -42,7 +42,7 @@ public class GlobalExceptionAdvice {
     public ResponseEntity<Result<Object>> exHandler(Exception e) {
         log.error("[ex handler] ex", e);
         return new ResponseEntity<>(
-                new Result<>(ResponseCode.EXCEPTION.getCode(), "잘못된 요청입니다", null),
+                Result.createSingleResult(ResponseCode.EXCEPTION.getCode(), "잘못된 요청입니다", null),
                 HttpStatus.INTERNAL_SERVER_ERROR
         );
     }

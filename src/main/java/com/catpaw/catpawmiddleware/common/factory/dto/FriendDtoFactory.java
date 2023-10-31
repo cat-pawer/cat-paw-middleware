@@ -10,7 +10,7 @@ public class FriendDtoFactory {
         FriendSummaryDto dto = new FriendSummaryDto();
         dto.setFriendId(friend.getId());
         dto.setMemberId(friend.getToMember().getId());
-        dto.setNickname(friend.getToMember().getNickname());
+        dto.setName(friend.getToMember().getName());
         dto.setState(friend.getState());
         dto.setCreated(friend.getCreated());
         dto.setUpdated(friend.getUpdated());

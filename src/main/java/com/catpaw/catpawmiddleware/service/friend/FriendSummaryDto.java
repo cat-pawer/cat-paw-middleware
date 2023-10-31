@@ -13,7 +13,7 @@ public class FriendSummaryDto {
 
     private Long memberId;
 
-    private String nickname;
+    private String name;
 
     private FriendState state;
 

@@ -19,7 +19,6 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 import static com.catpaw.catpawmiddleware.domain.entity.QFriend.friend;
-import static com.catpaw.catpawmiddleware.domain.entity.QMember.member;
 
 @Repository
 public class FriendQueryRepositoryImpl implements FriendQueryRepository {
@@ -46,7 +45,7 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
                 .where(
                         fromMemberIdEq(searchCond.getMemberId()).or(toMemberIdEq(searchCond.getMemberId())),
                         friendStateEq(searchCond.getState()),
-                        memberNameEq(searchCond.getName())
+                        allMemberNameEq(searchCond.getName())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -61,7 +60,7 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
                 .where(
                         fromMemberIdEq(searchCond.getMemberId()).or(toMemberIdEq(searchCond.getMemberId())),
                         friendStateEq(searchCond.getState()),
-                        memberNameEq(searchCond.getName())
+                        allMemberNameEq(searchCond.getName())
                 );
 
         return PageableExecutionUtils.getPage(contents, pageable, count::fetchOne);
@@ -81,7 +80,7 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
                 .where(
                         fromMemberIdEq(searchCond.getMemberId()).or(toMemberIdEq(searchCond.getMemberId())),
                         friendStateEq(searchCond.getState()),
-                        memberNameEq(searchCond.getName())
+                        fromMemberNameEq(searchCond.getName()).or(toMemberNameEq(searchCond.getName()))
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
@@ -105,7 +104,7 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
                 .where(
                         fromMemberIdEq(searchCond.getMemberId()),
                         friendStateEq(searchCond.getState()),
-                        memberNameEq(searchCond.getName())
+                        toMemberNameEq(searchCond.getName())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -120,7 +119,7 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
                 .where(
                         fromMemberIdEq(searchCond.getMemberId()),
                         friendStateEq(searchCond.getState()),
-                        memberNameEq(searchCond.getName())
+                        toMemberNameEq(searchCond.getName())
                 );
 
         return PageableExecutionUtils.getPage(contents, pageable, count::fetchOne);
@@ -140,7 +139,7 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
                 .where(
                         fromMemberIdEq(searchCond.getMemberId()),
                         friendStateEq(searchCond.getState()),
-                        memberNameEq(searchCond.getName())
+                        toMemberNameEq(searchCond.getName())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
@@ -162,9 +161,9 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
                 .innerJoin(friend.toMember, toMember)
                 .fetchJoin()
                 .where(
-                        fromMemberIdEq(searchCond.getMemberId()),
+                        toMemberIdEq(searchCond.getMemberId()),
                         friendStateEq(searchCond.getState()),
-                        memberNameEq(searchCond.getName())
+                        toMemberNameEq(searchCond.getName())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -179,7 +178,7 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
                 .where(
                         toMemberIdEq(searchCond.getMemberId()),
                         friendStateEq(searchCond.getState()),
-                        memberNameEq(searchCond.getName())
+                        toMemberNameEq(searchCond.getName())
                 );
 
         return PageableExecutionUtils.getPage(contents, pageable, count::fetchOne);
@@ -199,7 +198,7 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
                 .where(
                         toMemberIdEq(searchCond.getMemberId()),
                         friendStateEq(searchCond.getState()),
-                        memberNameEq(searchCond.getName())
+                        toMemberNameEq(searchCond.getName())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
@@ -221,8 +220,16 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
         return state != null ? friend.state.eq(state) : null;
     }
 
-    private BooleanExpression memberNameEq(String name) {
-        return StringUtils.hasText(name) ? member.name.eq(name) : null;
+    private BooleanExpression fromMemberNameEq(String name) {
+        return StringUtils.hasText(name) ? friend.fromMember.name.eq(name) : null;
+    }
+
+    private BooleanExpression toMemberNameEq(String name) {
+        return StringUtils.hasText(name) ? friend.toMember.name.eq(name) : null;
+    }
+
+    private BooleanExpression allMemberNameEq(String name) {
+        return StringUtils.hasText(name) ? friend.fromMember.name.eq(name).or(friend.toMember.name.eq(name)) : null;
     }
 
     private OrderSpecifier<?> friendSort(Pageable page) {

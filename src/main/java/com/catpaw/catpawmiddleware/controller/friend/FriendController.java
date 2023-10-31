@@ -1,23 +1,24 @@
 package com.catpaw.catpawmiddleware.controller.friend;
 
+import com.catpaw.catpawmiddleware.common.constants.SortConst;
+import com.catpaw.catpawmiddleware.common.handler.exception.custom.DuplicateFriendException;
 import com.catpaw.catpawmiddleware.common.resolver.annotation.LoginId;
+import com.catpaw.catpawmiddleware.controller.request.AddFriendForm;
 import com.catpaw.catpawmiddleware.controller.response.Result;
 import com.catpaw.catpawmiddleware.domain.eumns.FriendState;
+import com.catpaw.catpawmiddleware.domain.eumns.ResponseCode;
 import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
 import com.catpaw.catpawmiddleware.service.dto.friend.FriendSearchDto;
 import com.catpaw.catpawmiddleware.service.friend.FriendService;
 import com.catpaw.catpawmiddleware.service.friend.FriendSummaryDto;
+import com.catpaw.catpawmiddleware.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -29,7 +30,7 @@ public class FriendController {
 
     @GetMapping("/friends")
     public ResponseEntity<Result<CustomPageDto<FriendSummaryDto>>> getFriendList(
-            @LoginId Optional<Long> memberIdHolder,
+            @LoginId Optional<Long> idHolder,
             @RequestParam(value = "myRequest", required = false) Boolean myRequest,
             @RequestParam(value = "otherRequest", required = false) Boolean otherRequest,
             @RequestParam(value = "isPage", defaultValue = "false") Boolean isPage,
@@ -37,7 +38,10 @@ public class FriendController {
             @RequestParam(value = "name", required = false) String name,
             @PageableDefault(sort = "updated", direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        Long memberId = memberIdHolder.orElseThrow(() -> {
+        if (!PageUtils.checkSortValid(pageable, SortConst.UPDATED))
+            throw new IllegalArgumentException("정렬 값이 올바르지 않습니다.");
+
+        Long memberId = idHolder.orElseThrow(() -> {
             throw new UsernameNotFoundException("로그인하지 않은 사용자입니다.");
         });
 
@@ -54,12 +58,26 @@ public class FriendController {
 
         return ResponseEntity
                 .ok()
-                .body(Result.createPageResult(0, null, pagedFriendSummary));
+                .body(Result.createPageResult(ResponseCode.SUCCESS.getCode(), null, pagedFriendSummary));
     }
 
     @PostMapping("/add/friend")
-    public ResponseEntity<Void> addFriend() {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Result<Void>> addFriend(@RequestBody AddFriendForm form, @LoginId Optional<Long> idHolder) {
+        Long memberId = idHolder.orElseThrow(() -> {
+            throw new UsernameNotFoundException("로그인하지 않은 사용자입니다.");
+        });
+
+        try {
+            friendService.addFriend(memberId, form.targetId());
+            return ResponseEntity
+                    .ok()
+                    .body(Result.createSingleResult(ResponseCode.SUCCESS.getCode(), null, null));
+        }
+        catch (DuplicateFriendException e) {
+            return ResponseEntity
+                    .ok()
+                    .body(Result.createSingleResult(ResponseCode.DUPLICATE_FRIEND.getCode(), null, null));
+        }
     }
 
     @PostMapping("/update/friend")

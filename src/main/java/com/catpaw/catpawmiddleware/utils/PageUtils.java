@@ -1,13 +1,19 @@
 package com.catpaw.catpawmiddleware.utils;
 
+import com.catpaw.catpawmiddleware.common.constants.SortConst;
 import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
 import org.springframework.data.domain.*;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
-import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class PageUtils {
+
+    public static String CREATED = "created";
+    public static String UPDATED = "updated";
 
     public static <T> boolean getHasNext(List<T> contents, Pageable pageable) {
         boolean hasNext = false;
@@ -18,6 +24,14 @@ public class PageUtils {
         }
 
         return hasNext;
+    }
+
+    public static boolean checkSortValid(Pageable pageable, SortConst... properties) {
+        Set<String> sorts = Arrays.stream(properties).map(SortConst::getValue).collect(Collectors.toSet());
+        for (Sort.Order order : pageable.getSort()) {
+            return sorts.contains(order.getProperty());
+        }
+        return true;
     }
 
     public static <T, R> CustomPageDto<R> createCustomPageDto(Page<T> page, Function<T, R> translate) {
