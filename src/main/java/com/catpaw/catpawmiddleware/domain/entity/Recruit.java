@@ -20,9 +20,21 @@ public class Recruit extends BaseEntity {
     private Groups groups;
 
     private String title;
+
+    @Column(columnDefinition = "TEXT")
     private String content;
+
+    private String contact;
+
+    private LocalDate recruitPeriod;
+
+    private Integer peopleNumber;
+
     private LocalDate startDate;
+
     private LocalDate endDate;
+
+    private Integer viewCount;
 
     @Column(length = 50)
     @Enumerated(value = EnumType.STRING)

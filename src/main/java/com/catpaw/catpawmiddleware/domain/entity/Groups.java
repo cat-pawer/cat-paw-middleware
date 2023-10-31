@@ -1,6 +1,7 @@
 package com.catpaw.catpawmiddleware.domain.entity;
 
 import com.catpaw.catpawmiddleware.domain.eumns.GroupState;
+import com.catpaw.catpawmiddleware.domain.eumns.GroupType;
 import com.catpaw.catpawmiddleware.domain.eumns.Scope;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -24,6 +25,10 @@ public class Groups extends BaseEntity {
     @Column(length = 50)
     @Enumerated(value = EnumType.STRING)
     private GroupState state;
+
+    @Column(length = 50)
+    @Enumerated(value = EnumType.STRING)
+    private GroupType type;
 
     @Column(length = 50)
     @Enumerated(value = EnumType.STRING)

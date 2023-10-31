@@ -3,7 +3,6 @@ package com.catpaw.catpawmiddleware.controller.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
-@Schema(description = "친구 요청")
 public class AddFriendForm {
 
     @Schema(description = "친구 요청 대상 id")
