@@ -8,6 +8,7 @@ import com.catpaw.catpawmiddleware.repository.friend.FriendRepository;
 import com.catpaw.catpawmiddleware.repository.member.MemberRepository;
 import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
 import com.catpaw.catpawmiddleware.service.dto.friend.FriendSearchDto;
+import com.catpaw.catpawmiddleware.service.dto.friend.FriendSummaryDto;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -1,6 +1,6 @@
 package com.catpaw.catpawmiddleware.domain.eumns;
 
-public enum TargetType {
+public enum TagType {
 
-    GROUP_BOARD, RECRUIT
+    HASH,
 }

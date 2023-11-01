@@ -39,8 +39,8 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
         List<Friend> contents = queryFactory
                 .select(friend)
                 .from(friend)
-                .innerJoin(friend.fromMember, fromMember)
-                .innerJoin(friend.toMember, toMember)
+                .innerJoin(friend.fromMember, fromMember).fetchJoin()
+                .innerJoin(friend.toMember, toMember).fetchJoin()
                 .fetchJoin()
                 .where(
                         fromMemberIdEq(searchCond.getMemberId()).or(toMemberIdEq(searchCond.getMemberId())),
@@ -74,13 +74,13 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
         List<Friend> contents = queryFactory
                 .select(friend)
                 .from(friend)
-                .innerJoin(friend.fromMember, fromMember)
-                .innerJoin(friend.toMember, toMember)
+                .innerJoin(friend.fromMember, fromMember).fetchJoin()
+                .innerJoin(friend.toMember, toMember).fetchJoin()
                 .fetchJoin()
                 .where(
                         fromMemberIdEq(searchCond.getMemberId()).or(toMemberIdEq(searchCond.getMemberId())),
                         friendStateEq(searchCond.getState()),
-                        fromMemberNameEq(searchCond.getName()).or(toMemberNameEq(searchCond.getName()))
+                        allMemberNameEq(searchCond.getName())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
@@ -98,9 +98,8 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
         List<Friend> contents = queryFactory
                 .select(friend)
                 .from(friend)
-                .innerJoin(friend.fromMember, fromMember)
-                .innerJoin(friend.toMember, toMember)
-                .fetchJoin()
+                .innerJoin(friend.fromMember, fromMember).fetchJoin()
+                .innerJoin(friend.toMember, toMember).fetchJoin()
                 .where(
                         fromMemberIdEq(searchCond.getMemberId()),
                         friendStateEq(searchCond.getState()),
@@ -133,9 +132,8 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
         List<Friend> contents = queryFactory
                 .select(friend)
                 .from(friend)
-                .innerJoin(friend.fromMember, fromMember)
-                .innerJoin(friend.toMember, toMember)
-                .fetchJoin()
+                .innerJoin(friend.fromMember, fromMember).fetchJoin()
+                .innerJoin(friend.toMember, toMember).fetchJoin()
                 .where(
                         fromMemberIdEq(searchCond.getMemberId()),
                         friendStateEq(searchCond.getState()),
@@ -157,9 +155,8 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
         List<Friend> contents = queryFactory
                 .select(friend)
                 .from(friend)
-                .innerJoin(friend.fromMember, fromMember)
-                .innerJoin(friend.toMember, toMember)
-                .fetchJoin()
+                .innerJoin(friend.fromMember, fromMember).fetchJoin()
+                .innerJoin(friend.toMember, toMember).fetchJoin()
                 .where(
                         toMemberIdEq(searchCond.getMemberId()),
                         friendStateEq(searchCond.getState()),
@@ -192,9 +189,8 @@ public class FriendQueryRepositoryImpl implements FriendQueryRepository {
         List<Friend> contents = queryFactory
                 .select(friend)
                 .from(friend)
-                .innerJoin(friend.fromMember, fromMember)
-                .innerJoin(friend.toMember, toMember)
-                .fetchJoin()
+                .innerJoin(friend.fromMember, fromMember).fetchJoin()
+                .innerJoin(friend.toMember, toMember).fetchJoin()
                 .where(
                         toMemberIdEq(searchCond.getMemberId()),
                         friendStateEq(searchCond.getState()),

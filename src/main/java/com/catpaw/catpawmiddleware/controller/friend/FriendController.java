@@ -10,7 +10,7 @@ import com.catpaw.catpawmiddleware.domain.eumns.ResponseCode;
 import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
 import com.catpaw.catpawmiddleware.service.dto.friend.FriendSearchDto;
 import com.catpaw.catpawmiddleware.service.friend.FriendService;
-import com.catpaw.catpawmiddleware.service.friend.FriendSummaryDto;
+import com.catpaw.catpawmiddleware.service.dto.friend.FriendSummaryDto;
 import com.catpaw.catpawmiddleware.utils.PageUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

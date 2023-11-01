@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 @Entity
-public class Log extends BaseEntity {
+public class Log extends SimpleBaseEntity {
 
     @Id @GeneratedValue
     @Column(name = "LOG_ID")

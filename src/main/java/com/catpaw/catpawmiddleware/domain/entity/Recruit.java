@@ -1,5 +1,6 @@
 package com.catpaw.catpawmiddleware.domain.entity;
 
+import com.catpaw.catpawmiddleware.domain.eumns.GroupType;
 import com.catpaw.catpawmiddleware.domain.eumns.OnlineType;
 import com.catpaw.catpawmiddleware.domain.eumns.RecruitState;
 import jakarta.persistence.*;
@@ -26,6 +27,8 @@ public class Recruit extends BaseEntity {
 
     private String contact;
 
+    private GroupType groupType;
+
     private LocalDate recruitPeriod;
 
     private Integer peopleNumber;
@@ -36,6 +39,8 @@ public class Recruit extends BaseEntity {
 
     private Integer viewCount;
 
+    private Integer commentCount;
+
     @Column(length = 50)
     @Enumerated(value = EnumType.STRING)
     private OnlineType onlineType;
@@ -43,5 +48,4 @@ public class Recruit extends BaseEntity {
     @Column(length = 50)
     @Enumerated(value = EnumType.STRING)
     private RecruitState state;
-
 }

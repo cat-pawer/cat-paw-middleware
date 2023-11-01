@@ -10,6 +10,7 @@ import com.catpaw.catpawmiddleware.repository.friend.FriendRepository;
 import com.catpaw.catpawmiddleware.repository.member.MemberRepository;
 import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
 import com.catpaw.catpawmiddleware.service.dto.friend.FriendSearchDto;
+import com.catpaw.catpawmiddleware.service.dto.friend.FriendSummaryDto;
 import com.catpaw.catpawmiddleware.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
