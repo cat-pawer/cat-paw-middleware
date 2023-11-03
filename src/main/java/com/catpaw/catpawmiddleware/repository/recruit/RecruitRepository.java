@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface RecruitRepository extends CrudRepository<Recruit, Long>, RecruitQueryRepository {
+public interface RecruitRepository extends CrudRepository<Recruit, Long>, RecruitQueryRepository, RecruitRepositoryCustom {
 
 
 }

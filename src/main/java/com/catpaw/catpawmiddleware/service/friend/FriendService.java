@@ -45,7 +45,7 @@ public class FriendService {
             paged = friendRepository.findPagedFriendList(condition, pageable);
         }
 
-        return PageUtils.createCustomPageDto(paged, FriendDtoFactory::toFriendSummary);
+        return PageUtils.createCustomPageDto(paged.map(FriendDtoFactory::toFriendSummary));
     }
 
     public CustomPageDto<FriendSummaryDto> getSlicedFriendSummary(FriendSearchDto searchDto, Pageable pageable) {
@@ -65,7 +65,7 @@ public class FriendService {
             paged = friendRepository.findSlicedFriendList(condition, pageable);
         }
 
-        return PageUtils.createCustomPageDto(paged, FriendDtoFactory::toFriendSummary);
+        return PageUtils.createCustomPageDto(paged.map(FriendDtoFactory::toFriendSummary));
     }
 
     public void addFriend(Long memberId, Long targetId) throws DuplicateFriendException {

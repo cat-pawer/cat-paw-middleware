@@ -35,6 +35,7 @@ public class PageUtils {
         return true;
     }
 
+    @Deprecated
     public static <T, R> CustomPageDto<R> createCustomPageDto(Page<T> page, Function<T, R> translate) {
         Assert.notNull(page, "페이지값이 존재하지 않습니다.");
         Assert.notNull(translate, "변환 함수가 존재하지 않습니다.");
@@ -52,6 +53,7 @@ public class PageUtils {
         return dto;
     }
 
+    @Deprecated
     public static <T, R> CustomPageDto<R> createCustomPageDto(Slice<T> slice, Function<T, R> translate) {
         Assert.notNull(slice, "슬라이스값이 존재하지 않습니다.");
         Assert.notNull(translate, "변환 함수가 존재하지 않습니다.");
@@ -67,6 +69,7 @@ public class PageUtils {
         return dto;
     }
 
+    @Deprecated
     public static <T, R> CustomPageDto<R> copyContents(Page<T> origin, List<R> from) {
         Assert.notNull(origin, "페이지값이 존재하지 않습니다.");
         Assert.notNull(from, "복사할 객체가 존재하지 않습니다.");
@@ -84,6 +87,7 @@ public class PageUtils {
         return dto;
     }
 
+    @Deprecated
     public static <T, R> CustomPageDto<R> copyContents(Slice<T> origin, List<R> from) {
         Assert.notNull(origin, "페이지값이 존재하지 않습니다.");
         Assert.notNull(from, "복사할 객체가 존재하지 않습니다.");
@@ -98,8 +102,6 @@ public class PageUtils {
 
         return dto;
     }
-
-
 
     public static <T> CustomPageDto<T> createCustomPageDto(Page<T> page) {
         Assert.notNull(page, "페이지값이 존재하지 않습니다.");
