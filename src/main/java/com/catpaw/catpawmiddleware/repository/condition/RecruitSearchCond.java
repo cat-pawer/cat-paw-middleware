@@ -5,30 +5,23 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 
 @Getter @Setter
 public class RecruitSearchCond {
 
-    private Long groupId;
+    private String searchValue;
 
     private String title;
 
     private LocalDate recruitPeriod;
 
-    private LocalDate startDate;
-
-    private LocalDate endDate;
+    private GroupType recruitType;
 
     private OnlineType onlineType;
 
     private RecruitState state;
 
-    private GroupType recruitType;
-
-    private Long tagId;
-
-    private Long categoryId;
-
-    private TargetType targetType;
+    private List<Long> categoryIdList;
 }

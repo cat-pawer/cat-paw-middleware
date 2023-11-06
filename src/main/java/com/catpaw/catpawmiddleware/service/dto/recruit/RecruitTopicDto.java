@@ -1,20 +1,17 @@
-package com.catpaw.catpawmiddleware.repository.condition;
+package com.catpaw.catpawmiddleware.service.dto.recruit;
 
 import com.catpaw.catpawmiddleware.domain.eumns.RecruitState;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter @Setter
-public class RecruitTopicCond {
+public class RecruitTopicDto {
 
     private String topic;
 
     private LocalDate recruitPeriod;
-
-    private LocalDateTime limitPeriod;
 
     private RecruitState state;
 }

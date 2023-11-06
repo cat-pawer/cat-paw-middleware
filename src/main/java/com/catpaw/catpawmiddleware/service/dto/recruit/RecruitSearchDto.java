@@ -5,12 +5,16 @@ import com.catpaw.catpawmiddleware.domain.eumns.OnlineType;
 import com.catpaw.catpawmiddleware.domain.eumns.RecruitState;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.util.StringUtils;
+
+import java.time.LocalDate;
+import java.util.List;
 
 
 @Getter @Setter
 public class RecruitSearchDto {
 
-    private String title;
+    private String searchValue;
 
     private GroupType recruitType;
 
@@ -18,7 +22,16 @@ public class RecruitSearchDto {
 
     private RecruitState state;
 
-    private Long tagId;
+    private LocalDate recruitPeriod;
 
-    private Long categoryId;
+    private List<Long> categoryIdList;
+
+    public boolean isEmpty() {
+        return
+                !StringUtils.hasText(searchValue)
+                        && recruitType == null
+                        && onlineType == null
+                        && state == null
+                        && (categoryIdList == null || categoryIdList.isEmpty());
+    }
 }

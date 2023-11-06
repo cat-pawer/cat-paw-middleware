@@ -2,11 +2,13 @@ package com.catpaw.catpawmiddleware.service.recruit;
 
 import com.catpaw.catpawmiddleware.common.factory.dto.RecruitDtoFactory;
 import com.catpaw.catpawmiddleware.controller.request.search.SearchForm;
-import com.catpaw.catpawmiddleware.domain.entity.Category;
+import com.catpaw.catpawmiddleware.domain.entity.CategoryMapper;
 import com.catpaw.catpawmiddleware.domain.entity.Recruit;
-import com.catpaw.catpawmiddleware.domain.entity.Tag;
+import com.catpaw.catpawmiddleware.domain.eumns.CategoryType;
 import com.catpaw.catpawmiddleware.domain.eumns.RecruitState;
 import com.catpaw.catpawmiddleware.domain.eumns.TargetType;
+import com.catpaw.catpawmiddleware.repository.category.CategoryMapperRepository;
+import com.catpaw.catpawmiddleware.repository.category.CategoryRepository;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitSearchCond;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitTopicCond;
 import com.catpaw.catpawmiddleware.repository.recruit.RecruitRepository;
@@ -14,7 +16,7 @@ import com.catpaw.catpawmiddleware.service.category.CategoryService;
 import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
 import com.catpaw.catpawmiddleware.service.dto.recruit.RecruitSearchDto;
 import com.catpaw.catpawmiddleware.service.dto.recruit.RecruitSummaryDto;
-import com.catpaw.catpawmiddleware.service.tag.TagService;
+import com.catpaw.catpawmiddleware.service.dto.recruit.RecruitTopicDto;
 import com.catpaw.catpawmiddleware.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -33,143 +36,74 @@ import java.util.Map;
 public class RecruitService {
 
     private final RecruitRepository recruitRepository;
-    private final TagService tagService;
     private final CategoryService categoryService;
 
 
-    public CustomPageDto<RecruitSummaryDto> getPagedRecruitSummary(Pageable pageable) {
+    public CustomPageDto<RecruitSummaryDto> getRecruitSummaryForSearch(RecruitSearchDto searchDto, Pageable pageable) {
         RecruitSearchCond searchCond = new RecruitSearchCond();
-        searchCond.setState(RecruitState.ACTIVE);
-
-        Page<Recruit> pagedRecruitList = recruitRepository.findPagedRecruitList(searchCond, pageable);
-        List<Long> idList = pagedRecruitList.stream().map(Recruit::getId).toList();
-
-        Map<Long, List<Tag>> tagMapper =
-                tagService.getTagMapByRecruitIdList(idList);
-
-        Map<Long, List<Category>> categoryMapper =
-                categoryService.getCategoryMapByIdListAndType(idList, TargetType.RECRUIT);
-
-        return PageUtils.createCustomPageDto(pagedRecruitList
-                .map(recruit -> RecruitDtoFactory.toRecruitSummary(recruit, tagMapper, categoryMapper)));
-    }
-
-    public CustomPageDto<RecruitSummaryDto> getSlicedRecruitSummary(Pageable pageable) {
-        RecruitSearchCond searchCond = new RecruitSearchCond();
-        searchCond.setState(RecruitState.ACTIVE);
-
-        Slice<Recruit> slicedRecruitList = recruitRepository.findSlicedRecruitList(searchCond, pageable);
-        List<Long> idList = slicedRecruitList.stream().map(Recruit::getId).toList();
-
-        Map<Long, List<Tag>> tagMapper =
-                tagService.getTagMapByRecruitIdList(idList);
-
-        Map<Long, List<Category>> categoryMapper =
-                categoryService.getCategoryMapByIdListAndType(idList, TargetType.RECRUIT);
-
-        return PageUtils.createCustomPageDto(slicedRecruitList
-                .map(recruit -> RecruitDtoFactory.toRecruitSummary(recruit, tagMapper, categoryMapper)));
-    }
-
-    public CustomPageDto<RecruitSummaryDto> getPagedRecruitSummaryForSearch(RecruitSearchDto searchDto, Pageable pageable) {
-        if (searchDto.getTagId() != null && searchDto.getCategoryId() != null) {
-            throw new IllegalArgumentException("카테고리 혹은 태그 검색은 하나만 선택 가능합니다.");
-        }
-
-        RecruitSearchCond searchCond = new RecruitSearchCond();
+        searchCond.setSearchValue(searchCond.getSearchValue());
         searchCond.setRecruitType(searchCond.getRecruitType());
-        searchCond.setCategoryId(searchCond.getCategoryId());
-        searchCond.setTagId(searchCond.getTagId());
         searchCond.setOnlineType(searchCond.getOnlineType());
+        searchCond.setCategoryIdList(searchDto.getCategoryIdList());
+        searchCond.setRecruitPeriod(searchDto.getRecruitPeriod() == null ? LocalDate.now() : searchDto.getRecruitPeriod());
         searchCond.setState(searchDto.getState() == null ? RecruitState.ACTIVE : searchDto.getState());
 
-        Page<Recruit> paged;
-        if (searchCond.getTagId() != null) {
-            paged = recruitRepository.findPagedRecruitListForTag(searchCond, pageable);
-        }
-        else if (searchCond.getCategoryId() != null) {
-            searchCond.setTargetType(TargetType.RECRUIT);
-            paged = recruitRepository.findPagedRecruitListForCategory(searchCond, pageable);
-        }
-        else {
-            paged = recruitRepository.findPagedRecruitList(searchCond, pageable);
-        }
+        if (pageable.isPaged()) {
+            Page<Recruit> pagedRecruitList = recruitRepository.findPagedRecruitListWithCategory(searchCond, pageable);
+            Map<Long, List<CategoryMapper>> categoryMapperMap =
+                    this.getCategoryMapByIdList(
+                            pagedRecruitList.getContent().stream().map(Recruit::getId).toList(),
+                            List.of(CategoryType.TECH_STACK, CategoryType.HASH));
 
-        List<Long> idList = paged.stream().map(Recruit::getId).toList();
-        Map<Long, List<Tag>> tagMapper =
-                tagService.getTagMapByRecruitIdList(idList);
-
-        return PageUtils.createCustomPageDto(paged.map(recruit -> RecruitDtoFactory.toRecruitSummary(recruit, tagMapper)));
-    }
-
-    public CustomPageDto<RecruitSummaryDto> getSlicedRecruitSummaryForSearch(RecruitSearchDto searchDto, Pageable pageable) {
-        if (searchDto.getTagId() != null && searchDto.getCategoryId() != null) {
-            throw new IllegalArgumentException("카테고리 혹은 태그 검색은 하나만 선택 가능합니다.");
-        }
-
-        RecruitSearchCond searchCond = new RecruitSearchCond();
-        searchCond.setRecruitType(searchCond.getRecruitType());
-        searchCond.setCategoryId(searchCond.getCategoryId());
-        searchCond.setTagId(searchCond.getTagId());
-        searchCond.setOnlineType(searchCond.getOnlineType());
-        searchCond.setState(searchDto.getState() == null ? RecruitState.ACTIVE : searchDto.getState());
-
-        Slice<Recruit> sliced;
-        if (searchCond.getTagId() != null) {
-            sliced = recruitRepository.findSlicedRecruitListForTag(searchCond, pageable);
-        }
-        else if (searchCond.getCategoryId() != null) {
-            searchCond.setTargetType(TargetType.RECRUIT);
-            sliced = recruitRepository.findSlicedRecruitListForCategory(searchCond, pageable);
+            return PageUtils.createCustomPageDto(
+                    pagedRecruitList.map(recruit -> RecruitDtoFactory.toRecruitSummary(recruit, categoryMapperMap)));
         }
         else {
-            sliced = recruitRepository.findSlicedRecruitList(searchCond, pageable);
+            Slice<Recruit> slicedRecruitList = recruitRepository.findSlicedRecruitListWithCategory(searchCond, pageable);
+            Map<Long, List<CategoryMapper>> categoryMapperMap =
+                    this.getCategoryMapByIdList(
+                            slicedRecruitList.getContent().stream().map(Recruit::getId).toList(),
+                            List.of(CategoryType.TECH_STACK, CategoryType.HASH));
+
+            return PageUtils.createCustomPageDto(
+                    slicedRecruitList.map(recruit -> RecruitDtoFactory.toRecruitSummary(recruit, categoryMapperMap)));
         }
-
-        List<Long> idList = sliced.stream().map(Recruit::getId).toList();
-        Map<Long, List<Tag>> tagMapper =
-                tagService.getTagMapByRecruitIdList(idList);
-
-        return PageUtils.createCustomPageDto(sliced.map(recruit -> RecruitDtoFactory.toRecruitSummary(recruit, tagMapper)));
     }
 
-    public CustomPageDto<RecruitSummaryDto> getPagedRecruitSummaryForTopic(String topic, Pageable pageable) {
-
-        if (!SearchForm.DEADLINE.getValue().equals(topic) && !SearchForm.ISNEW.getValue().equals(topic)) {
+    public CustomPageDto<RecruitSummaryDto> getRecruitSummaryForTopic(RecruitTopicDto topicDto, Pageable pageable) {
+        List<String> supportTopicList = List.of(SearchForm.DEADLINE.getValue(), SearchForm.ISNEW.getValue());
+        if (!supportTopicList.contains(topicDto.getTopic())) {
             throw new IllegalArgumentException("잘못된 검색 조건입니다.");
         }
 
-        else {
-            RecruitTopicCond topicCond = new RecruitTopicCond();
-            topicCond.setTopic(topic);
-            topicCond.setState(RecruitState.ACTIVE);
-            if (SearchForm.DEADLINE.getValue().equals(topic)) topicCond.setRecruitPeriod(LocalDate.now());
+        RecruitTopicCond topicCond = new RecruitTopicCond();
+        topicCond.setRecruitPeriod(topicDto.getRecruitPeriod() == null ? LocalDate.now() : topicDto.getRecruitPeriod());
+        topicCond.setLimitPeriod(LocalDate.now().plusDays(7).atTime(LocalTime.MAX));
+        topicCond.setState(topicDto.getState() == null ? RecruitState.ACTIVE : topicDto.getState());
 
+        if (pageable.isPaged()) {
             Page<Recruit> pagedRecruitList = recruitRepository.findPagedRecruitForTopic(topicCond, pageable);
-            List<Long> idList = pagedRecruitList.stream().map(Recruit::getId).toList();
-            Map<Long, List<Tag>> tagMapper = tagService.getTagMapByRecruitIdList(idList);
+            Map<Long, List<CategoryMapper>> categoryMapperMap =
+                    this.getCategoryMapByIdList(
+                            pagedRecruitList.getContent().stream().map(Recruit::getId).toList(),
+                            List.of(CategoryType.HASH));
 
-            return PageUtils.createCustomPageDto(pagedRecruitList.map(recruit -> RecruitDtoFactory.toRecruitSummary(recruit, tagMapper)));
+            return PageUtils.createCustomPageDto(
+                    pagedRecruitList.map(recruit -> RecruitDtoFactory.toRecruitSummary(recruit, categoryMapperMap)));
+        }
+        else {
+            Slice<Recruit> slicedRecruitList = recruitRepository.findSlicedRecruitForTopic(topicCond, pageable);
+            Map<Long, List<CategoryMapper>> categoryMapperMap =
+                    this.getCategoryMapByIdList(
+                            slicedRecruitList.getContent().stream().map(Recruit::getId).toList(),
+                            List.of(CategoryType.HASH));
+
+            return PageUtils.createCustomPageDto(
+                    slicedRecruitList.map(recruit -> RecruitDtoFactory.toRecruitSummary(recruit, categoryMapperMap)));
         }
     }
 
-    public CustomPageDto<RecruitSummaryDto> getSlicedRecruitSummaryForTopic(String topic, Pageable pageable) {
-
-        if (!SearchForm.DEADLINE.getValue().equals(topic) && !SearchForm.ISNEW.getValue().equals(topic)) {
-            throw new IllegalArgumentException("잘못된 검색 조건입니다.");
-        }
-
-        else {
-            RecruitTopicCond topicCond = new RecruitTopicCond();
-            topicCond.setTopic(topic);
-            topicCond.setState(RecruitState.ACTIVE);
-            if (SearchForm.DEADLINE.getValue().equals(topic)) topicCond.setRecruitPeriod(LocalDate.now());
-
-            Slice<Recruit> slicedRecruitList = recruitRepository.findSlicedRecruitForTopic(topicCond, pageable);
-            List<Long> idList = slicedRecruitList.stream().map(Recruit::getId).toList();
-            Map<Long, List<Tag>> tagMapper = tagService.getTagMapByRecruitIdList(idList);
-
-            return PageUtils.createCustomPageDto(slicedRecruitList.map(recruit -> RecruitDtoFactory.toRecruitSummary(recruit, tagMapper)));
-        }
+    private Map<Long, List<CategoryMapper>> getCategoryMapByIdList(List<Long> idList, List<CategoryType> categoryTypeList) {
+        return categoryService.getMapByCategoryTypeList(idList, TargetType.RECRUIT, categoryTypeList);
     }
 }

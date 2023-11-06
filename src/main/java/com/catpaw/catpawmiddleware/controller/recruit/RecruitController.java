@@ -9,15 +9,18 @@ import com.catpaw.catpawmiddleware.domain.eumns.ResponseCode;
 import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
 import com.catpaw.catpawmiddleware.service.dto.recruit.RecruitSearchDto;
 import com.catpaw.catpawmiddleware.service.dto.recruit.RecruitSummaryDto;
+import com.catpaw.catpawmiddleware.service.dto.recruit.RecruitTopicDto;
 import com.catpaw.catpawmiddleware.service.recruit.RecruitService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Tag(name = "모집", description = "모집 도메인 API")
@@ -33,49 +36,39 @@ public class RecruitController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/summary")
-    public ResponseEntity<Result<CustomPageDto<RecruitSummaryDto>>> recruitSummary(
-            @PageableDefault(sort = "updated", direction = Sort.Direction.DESC) Pageable pageable
-    ) {
-        CustomPageDto<RecruitSummaryDto> result;
-        if (pageable.isPaged()) result = recruitService.getPagedRecruitSummary(pageable);
-        else result = recruitService.getSlicedRecruitSummary(pageable);
-
-        return ResponseEntity
-                .ok()
-                .body(Result.createPageResult(ResponseCode.SUCCESS.getCode(), null, result));
-    }
+//    @GetMapping("/summary")
+//    public ResponseEntity<Result<CustomPageDto<RecruitSummaryDto>>> recruitSummary(
+//            @PageableDefault(sort = "created", direction = Sort.Direction.DESC) Pageable pageable
+//    ) {
+//        CustomPageDto<RecruitSummaryDto> result;
+//        if (pageable.isPaged()) result = recruitService.getPagedRecruitSummary(pageable);
+//        else result = recruitService.getSlicedRecruitSummary(pageable);
+//
+//        return ResponseEntity
+//                .ok()
+//                .body(Result.createPageResult(ResponseCode.SUCCESS.getCode(), null, result));
+//    }
 
     @GetMapping("/summary/search")
     public ResponseEntity<Result<CustomPageDto<RecruitSummaryDto>>> recruitSummarySearch(
-            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String searchValue,
             @RequestParam(required = false) GroupType recruitType,
             @RequestParam(required = false) OnlineType onlineType,
             @RequestParam(required = false) RecruitState recruitState,
-            @RequestParam(required = false) Long tagId,
-            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate recruitPeriod,
+            @RequestParam(required = false) List<Long> categoryIdList,
             @PageableDefault(sort = "created", direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        if (title == null
-                && recruitType == null
-                && onlineType == null
-                && recruitState == null
-                && tagId == null
-                && categoryId == null) {
-            throw new IllegalArgumentException("검색 조건을 입력해주세요.");
-        }
-
         RecruitSearchDto searchDto = new RecruitSearchDto();
-        searchDto.setTitle(title);
+        searchDto.setSearchValue(searchValue);
         searchDto.setRecruitType(recruitType);
         searchDto.setOnlineType(onlineType);
         searchDto.setState(recruitState);
-        searchDto.setTagId(tagId);
-        searchDto.setCategoryId(categoryId);
+        searchDto.setRecruitPeriod(recruitPeriod);
+        searchDto.setCategoryIdList(categoryIdList);
 
-        CustomPageDto<RecruitSummaryDto> result;
-        if (pageable.isPaged()) result = recruitService.getPagedRecruitSummaryForSearch(searchDto, pageable);
-        else result = recruitService.getSlicedRecruitSummaryForSearch(searchDto, pageable);
+        CustomPageDto<RecruitSummaryDto> result =
+                recruitService.getRecruitSummaryForSearch(searchDto, pageable);
 
         return ResponseEntity
                 .ok()
@@ -83,17 +76,24 @@ public class RecruitController {
     }
 
     @GetMapping("/summary/topics")
-    public ResponseEntity<Result<CustomPageDto<RecruitSummaryDto>>> recruitSummarySearch(
-            @RequestParam(value = "topic", required = false) String topic,
+    public ResponseEntity<Result<CustomPageDto<RecruitSummaryDto>>> recruitSummarySearchByTopic(
+            @RequestParam String topic,
+            @RequestParam(required = false) RecruitState state,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate recruitPeriod,
             Pageable pageable
     ) {
-        if (!SearchForm.DEADLINE.getValue().equals(topic) && !SearchForm.ISNEW.getValue().equals(topic)) {
+        List<String> supportTopicList = List.of(SearchForm.DEADLINE.getValue(), SearchForm.ISNEW.getValue());
+        if (!supportTopicList.contains(topic)) {
             throw new IllegalArgumentException("잘못된 검색 조건입니다.");
         }
 
-        CustomPageDto<RecruitSummaryDto> result;
-        if (pageable.isPaged()) result = recruitService.getPagedRecruitSummaryForTopic(topic, pageable);
-        else result = recruitService.getSlicedRecruitSummaryForTopic(topic, pageable);
+        RecruitTopicDto topicDto = new RecruitTopicDto();
+        topicDto.setState(state);
+        topicDto.setRecruitPeriod(recruitPeriod);
+        topicDto.setTopic(topic);
+
+        CustomPageDto<RecruitSummaryDto> result =
+                recruitService.getRecruitSummaryForTopic(topicDto, pageable);
 
         return ResponseEntity
                 .ok()

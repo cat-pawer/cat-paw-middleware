@@ -1,10 +1,9 @@
 package com.catpaw.catpawmiddleware.service.dto.recruit;
 
-import com.catpaw.catpawmiddleware.domain.entity.Category;
-import com.catpaw.catpawmiddleware.domain.entity.Tag;
 import com.catpaw.catpawmiddleware.domain.eumns.GroupType;
 import com.catpaw.catpawmiddleware.domain.eumns.OnlineType;
 import com.catpaw.catpawmiddleware.domain.eumns.RecruitState;
+import com.catpaw.catpawmiddleware.service.dto.category.CategorySummaryDto;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,7 +30,7 @@ public class RecruitSummaryDto {
 
     private RecruitState state;
 
-    private List<Tag> tagList = new ArrayList<>();
+    private List<CategorySummaryDto> hashList = new ArrayList<>();
 
-    private List<Category> categoryList = new ArrayList<>();
+    private List<CategorySummaryDto> techList = new ArrayList<>();
 }

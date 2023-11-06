@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.1.2'
 	id 'io.spring.dependency-management' version '1.1.2'
+	id 'jacoco'
 }
 
 group = 'com.cat-paw'
@@ -80,5 +81,80 @@ tasks.register('copyPrivate', Copy) {
 tasks.copyPrivate.dependsOn tasks.deleteSetting
 tasks.processResources.dependsOn tasks.copyPrivate
 
+jacoco {
+	toolVersion = '0.8.7'
+}
+
+jacocoTestReport {
+	reports {
+		csv.required.set(true)
+		xml.required.set(true)
+		html.required.set(true)
+
+		xml.destination file(layout.buildDirectory.dir("jacoco/index.xml"))
+		csv.destination file(layout.buildDirectory.dir("jacoco/index.csv"))
+		html.destination file(layout.buildDirectory.dir("jacoco/index.html"))
+	}
+
+	finalizedBy 'jacocoTestCoverageVerification'
+
+	afterEvaluate {
+		classDirectories.setFrom(
+				files(classDirectories.files.collect {
+					fileTree(dir: it, excludes: [
+							'**/*Application*',
+							'**/*Exception*',
+							'**/domain/**',
+							'**/repository/**',
+							'**/common/**',
+							'**/config/**',
+							'**/filter/**',
+							'**/utils/**',
+							'**/controller/**',
+							'**/service/dto/**'
+					])
+				})
+		)
+	}
+}
+
+jacocoTestReport.dependsOn compileJava
+jacocoTestReport.dependsOn processResources
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			enabled = true
+			element = 'CLASS'
+
+			limit {
+				counter = 'LINE'
+				value = 'COVEREDRATIO'
+				minimum = 0.75
+			}
+		}
+
+		// ...
+
+		rule {
+			excludes = [
+					'*.*Application',
+					'*.*Exception',
+					'**/domain/**',
+					'**/repository/**',
+					'**/common/**',
+					'**/config/**',
+					'**/filter/**',
+					'**/utils/**',
+					'**/controller/**',
+					'**/service/dto/**'
+			]
+			includes = [
+			        '*.*Service'
+			]
+		}
+	}
+
+}
 
 

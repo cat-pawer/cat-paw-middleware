@@ -9,20 +9,11 @@ import org.springframework.data.domain.Slice;
 
 public interface RecruitQueryRepository {
 
-    Page<Recruit> findPagedRecruitList(RecruitSearchCond searchCond, Pageable pageable);
+    Page<Recruit> findPagedRecruitListWithCategory(RecruitSearchCond searchCond, Pageable pageable);
 
-    Slice<Recruit> findSlicedRecruitList(RecruitSearchCond searchCond, Pageable pageable);
+    Slice<Recruit> findSlicedRecruitListWithCategory(RecruitSearchCond searchCond, Pageable pageable);
 
-    Page<Recruit> findPagedRecruitListForTag(RecruitSearchCond searchCond, Pageable pageable);
+    Page<Recruit> findPagedRecruitForTopic(RecruitTopicCond topicCond, Pageable pageable);
 
-    Slice<Recruit> findSlicedRecruitListForTag(RecruitSearchCond searchCond, Pageable pageable);
-
-    Page<Recruit> findPagedRecruitListForCategory(RecruitSearchCond searchCond, Pageable pageable);
-
-    Slice<Recruit> findSlicedRecruitListForCategory(RecruitSearchCond searchCond, Pageable pageable);
-
-    Page<Recruit> findPagedRecruitForTopic(RecruitTopicCond searchCond, Pageable pageable);
-
-    Slice<Recruit> findSlicedRecruitForTopic(RecruitTopicCond searchCond, Pageable pageable);
-
+    Slice<Recruit> findSlicedRecruitForTopic(RecruitTopicCond topicCond, Pageable pageable);
 }
