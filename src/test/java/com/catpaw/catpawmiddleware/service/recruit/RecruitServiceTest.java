@@ -6,6 +6,7 @@ import com.catpaw.catpawmiddleware.domain.eumns.TargetType;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitSearchCond;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitTopicCond;
 import com.catpaw.catpawmiddleware.repository.recruit.RecruitRepository;
+import com.catpaw.catpawmiddleware.service.MockBaseTest;
 import com.catpaw.catpawmiddleware.service.category.CategoryService;
 import com.catpaw.catpawmiddleware.service.dto.recruit.RecruitSearchDto;
 import com.catpaw.catpawmiddleware.service.dto.recruit.RecruitTopicDto;
@@ -26,7 +27,7 @@ import static org.mockito.Mockito.*;
 
 
 @Slf4j
-class RecruitServiceTest {
+class RecruitServiceTest extends MockBaseTest {
 
 
     @InjectMocks
@@ -37,18 +38,6 @@ class RecruitServiceTest {
 
     @Mock
     private CategoryService categoryService;
-
-    private AutoCloseable closeable;
-
-    @BeforeEach
-    void beforeEach() {
-        closeable = MockitoAnnotations.openMocks(this);
-    }
-
-    @AfterEach
-    void afterEach() throws Exception {
-        closeable.close();
-    }
 
     @Test
     @DisplayName("getRecruitSummaryForSearch 페이지 조회")
