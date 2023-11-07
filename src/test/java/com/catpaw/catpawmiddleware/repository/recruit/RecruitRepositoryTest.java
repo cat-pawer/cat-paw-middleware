@@ -1,7 +1,8 @@
 package com.catpaw.catpawmiddleware.repository.recruit;
 
-import com.catpaw.catpawmiddleware.controller.request.search.SearchForm;
+import com.catpaw.catpawmiddleware.controller.request.search.SearchTopic;
 import com.catpaw.catpawmiddleware.domain.entity.Category;
+import com.catpaw.catpawmiddleware.domain.entity.CategoryMapper;
 import com.catpaw.catpawmiddleware.domain.entity.Member;
 import com.catpaw.catpawmiddleware.domain.entity.Recruit;
 import com.catpaw.catpawmiddleware.domain.eumns.*;
@@ -9,35 +10,31 @@ import com.catpaw.catpawmiddleware.repository.category.CategoryRepository;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitSearchCond;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitTopicCond;
 import com.catpaw.catpawmiddleware.repository.member.MemberRepository;
-import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
-import com.catpaw.catpawmiddleware.service.dto.recruit.RecruitSearchDto;
-import com.catpaw.catpawmiddleware.service.dto.recruit.RecruitSummaryDto;
-import com.catpaw.catpawmiddleware.service.recruit.RecruitService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@Transactional
-@SpringBootTest
+@ActiveProfiles("test")
+@DataJpaTest
+@TestPropertySource(locations = "classpath:application-test.yml")
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class RecruitRepositoryTest {
-
-    @Autowired
-    RecruitService recruitService;
 
     @Autowired
     RecruitRepository recruitRepository;
@@ -52,94 +49,94 @@ class RecruitRepositoryTest {
 
     @BeforeAll
     void beforeAll() {
-//        List<Member> members = new ArrayList<>();
-//        List<Category> techList = new ArrayList<>();
-//        List<Category> hashList = new ArrayList<>();
-//
-//        for (int i = 0; i < 10; i++) {
-//            members.add(createTestMember(i));
-//        }
-//        this.testMember = members.get(0);
-//
-//        for (int i = 0; i < 10; i++) {
-//            createTechCategory(techList, i);
-//        }
-//
-//        for (int i = 0; i < 30; i++) {
-//            createHashCategory(hashList, i);
-//        }
-//
-//        for (int i = 0; i < 100; i++) {
-//            Recruit saveRecruit = createRecruit(i);
-//
-//            List<CategoryMapper> categoryMappers = new ArrayList<>();
-//
-//            if (i % 3 == 0) {
-//                CategoryMapper categoryMapper = new CategoryMapper();
-//                categoryMapper.addType(TargetType.RECRUIT);
-//                categoryMapper.addTargetId(saveRecruit.getId());
-//                categoryMapper.addCategory(techList.get(0));
-//                categoryMappers.add(categoryMapper);
-//            };
-//
-//            if (i % 5 == 0) {
-//                CategoryMapper categoryMapper = new CategoryMapper();
-//                categoryMapper.addType(TargetType.RECRUIT);
-//                categoryMapper.addTargetId(saveRecruit.getId());
-//                categoryMapper.addCategory(techList.get(1));
-//                categoryMappers.add(categoryMapper);
-//            }
-//
-//            if (i % 7 == 0) {
-//                CategoryMapper categoryMapper = new CategoryMapper();
-//                categoryMapper.addType(TargetType.RECRUIT);
-//                categoryMapper.addTargetId(saveRecruit.getId());
-//                categoryMapper.addCategory(techList.get(2));
-//                categoryMappers.add(categoryMapper);
-//            }
-//
-//            if (i % 99 == 0) {
-//                CategoryMapper categoryMapper = new CategoryMapper();
-//                categoryMapper.addType(TargetType.RECRUIT);
-//                categoryMapper.addTargetId(saveRecruit.getId());
-//                categoryMapper.addCategory(techList.get(3));
-//                categoryMappers.add(categoryMapper);
-//            }
-//
-//            if (i % 2 == 0) {
-//                CategoryMapper categoryMapper = new CategoryMapper();
-//                categoryMapper.addType(TargetType.RECRUIT);
-//                categoryMapper.addTargetId(saveRecruit.getId());
-//                categoryMapper.addCategory(hashList.get(0));
-//                categoryMappers.add(categoryMapper);
-//            }
-//
-//            if (i % 3 == 0) {
-//                CategoryMapper categoryMapper = new CategoryMapper();
-//                categoryMapper.addType(TargetType.RECRUIT);
-//                categoryMapper.addTargetId(saveRecruit.getId());
-//                categoryMapper.addCategory(hashList.get(1));
-//                categoryMappers.add(categoryMapper);
-//            }
-//
-//            if (i % 5 == 0) {
-//                CategoryMapper categoryMapper = new CategoryMapper();
-//                categoryMapper.addType(TargetType.RECRUIT);
-//                categoryMapper.addTargetId(saveRecruit.getId());
-//                categoryMapper.addCategory(hashList.get(2));
-//                categoryMappers.add(categoryMapper);
-//            }
-//
-//            if (i % 99 == 0) {
-//                CategoryMapper categoryMapper = new CategoryMapper();
-//                categoryMapper.addType(TargetType.RECRUIT);
-//                categoryMapper.addTargetId(saveRecruit.getId());
-//                categoryMapper.addCategory(hashList.get(3));
-//                categoryMappers.add(categoryMapper);
-//            }
-//
-//            categoryMappers.forEach(cm -> categoryRepository.save(cm));
-//        }
+        List<Member> members = new ArrayList<>();
+        List<Category> techList = new ArrayList<>();
+        List<Category> hashList = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++) {
+            members.add(createTestMember(i));
+        }
+        this.testMember = members.get(0);
+
+        for (int i = 0; i < 10; i++) {
+            createTechCategory(techList, i);
+        }
+
+        for (int i = 0; i < 30; i++) {
+            createHashCategory(hashList, i);
+        }
+
+        for (int i = 0; i < 30; i++) {
+            Recruit saveRecruit = createRecruit(i);
+
+            List<CategoryMapper> categoryMappers = new ArrayList<>();
+
+            if (i % 3 == 0) {
+                CategoryMapper categoryMapper = new CategoryMapper();
+                categoryMapper.addType(TargetType.RECRUIT);
+                categoryMapper.addTargetId(saveRecruit.getId());
+                categoryMapper.addCategory(techList.get(0));
+                categoryMappers.add(categoryMapper);
+            };
+
+            if (i % 5 == 0) {
+                CategoryMapper categoryMapper = new CategoryMapper();
+                categoryMapper.addType(TargetType.RECRUIT);
+                categoryMapper.addTargetId(saveRecruit.getId());
+                categoryMapper.addCategory(techList.get(1));
+                categoryMappers.add(categoryMapper);
+            }
+
+            if (i % 7 == 0) {
+                CategoryMapper categoryMapper = new CategoryMapper();
+                categoryMapper.addType(TargetType.RECRUIT);
+                categoryMapper.addTargetId(saveRecruit.getId());
+                categoryMapper.addCategory(techList.get(2));
+                categoryMappers.add(categoryMapper);
+            }
+
+            if (i % 99 == 0) {
+                CategoryMapper categoryMapper = new CategoryMapper();
+                categoryMapper.addType(TargetType.RECRUIT);
+                categoryMapper.addTargetId(saveRecruit.getId());
+                categoryMapper.addCategory(techList.get(3));
+                categoryMappers.add(categoryMapper);
+            }
+
+            if (i % 2 == 0) {
+                CategoryMapper categoryMapper = new CategoryMapper();
+                categoryMapper.addType(TargetType.RECRUIT);
+                categoryMapper.addTargetId(saveRecruit.getId());
+                categoryMapper.addCategory(hashList.get(0));
+                categoryMappers.add(categoryMapper);
+            }
+
+            if (i % 3 == 0) {
+                CategoryMapper categoryMapper = new CategoryMapper();
+                categoryMapper.addType(TargetType.RECRUIT);
+                categoryMapper.addTargetId(saveRecruit.getId());
+                categoryMapper.addCategory(hashList.get(1));
+                categoryMappers.add(categoryMapper);
+            }
+
+            if (i % 5 == 0) {
+                CategoryMapper categoryMapper = new CategoryMapper();
+                categoryMapper.addType(TargetType.RECRUIT);
+                categoryMapper.addTargetId(saveRecruit.getId());
+                categoryMapper.addCategory(hashList.get(2));
+                categoryMappers.add(categoryMapper);
+            }
+
+            if (i % 99 == 0) {
+                CategoryMapper categoryMapper = new CategoryMapper();
+                categoryMapper.addType(TargetType.RECRUIT);
+                categoryMapper.addTargetId(saveRecruit.getId());
+                categoryMapper.addCategory(hashList.get(3));
+                categoryMappers.add(categoryMapper);
+            }
+
+            categoryMappers.forEach(cm -> categoryRepository.save(cm));
+        }
     }
 
     private Recruit createRecruit(int i) {
@@ -223,7 +220,7 @@ class RecruitRepositoryTest {
         PageRequest pageable = PageRequest.of(0, 20, Sort.by(new Sort.Order(Sort.Direction.DESC, "created")));
 
         RecruitTopicCond topicCond = new RecruitTopicCond();
-        topicCond.setTopic(SearchForm.DEADLINE.getValue());
+        topicCond.setTopic(SearchTopic.DEADLINE.getValue());
         topicCond.setState(RecruitState.ACTIVE);
         topicCond.setRecruitPeriod(LocalDate.now());
         topicCond.setLimitPeriod(LocalDate.now().atTime(LocalTime.MAX));
@@ -241,7 +238,7 @@ class RecruitRepositoryTest {
         PageRequest pageable = PageRequest.of(0, 20, Sort.by(new Sort.Order(Sort.Direction.DESC, "created")));
 
         RecruitTopicCond topicCond = new RecruitTopicCond();
-        topicCond.setTopic(SearchForm.DEADLINE.getValue());
+        topicCond.setTopic(SearchTopic.DEADLINE.getValue());
         topicCond.setState(RecruitState.ACTIVE);
         topicCond.setRecruitPeriod(LocalDate.now());
         topicCond.setLimitPeriod(LocalDate.now().atTime(LocalTime.MAX));

@@ -1,6 +1,6 @@
 package com.catpaw.catpawmiddleware.controller.recruit;
 
-import com.catpaw.catpawmiddleware.controller.request.search.SearchForm;
+import com.catpaw.catpawmiddleware.controller.request.search.SearchTopic;
 import com.catpaw.catpawmiddleware.controller.response.Result;
 import com.catpaw.catpawmiddleware.domain.eumns.GroupType;
 import com.catpaw.catpawmiddleware.domain.eumns.OnlineType;
@@ -36,19 +36,6 @@ public class RecruitController {
         return ResponseEntity.ok().build();
     }
 
-//    @GetMapping("/summary")
-//    public ResponseEntity<Result<CustomPageDto<RecruitSummaryDto>>> recruitSummary(
-//            @PageableDefault(sort = "created", direction = Sort.Direction.DESC) Pageable pageable
-//    ) {
-//        CustomPageDto<RecruitSummaryDto> result;
-//        if (pageable.isPaged()) result = recruitService.getPagedRecruitSummary(pageable);
-//        else result = recruitService.getSlicedRecruitSummary(pageable);
-//
-//        return ResponseEntity
-//                .ok()
-//                .body(Result.createPageResult(ResponseCode.SUCCESS.getCode(), null, result));
-//    }
-
     @GetMapping("/summary/search")
     public ResponseEntity<Result<CustomPageDto<RecruitSummaryDto>>> recruitSummarySearch(
             @RequestParam(required = false) String searchValue,
@@ -57,6 +44,7 @@ public class RecruitController {
             @RequestParam(required = false) RecruitState recruitState,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate recruitPeriod,
             @RequestParam(required = false) List<Long> categoryIdList,
+            @RequestParam(required = false, defaultValue = "false") Boolean isPage,
             @PageableDefault(sort = "created", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         RecruitSearchDto searchDto = new RecruitSearchDto();
@@ -68,7 +56,7 @@ public class RecruitController {
         searchDto.setCategoryIdList(categoryIdList);
 
         CustomPageDto<RecruitSummaryDto> result =
-                recruitService.getRecruitSummaryForSearch(searchDto, pageable);
+                recruitService.getRecruitSummaryForSearch(searchDto, pageable, isPage);
 
         return ResponseEntity
                 .ok()
@@ -80,9 +68,10 @@ public class RecruitController {
             @RequestParam String topic,
             @RequestParam(required = false) RecruitState state,
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate recruitPeriod,
+            @RequestParam(required = false, defaultValue = "false") Boolean isPage,
             Pageable pageable
     ) {
-        List<String> supportTopicList = List.of(SearchForm.DEADLINE.getValue(), SearchForm.ISNEW.getValue());
+        List<String> supportTopicList = List.of(SearchTopic.DEADLINE.getValue(), SearchTopic.ISNEW.getValue());
         if (!supportTopicList.contains(topic)) {
             throw new IllegalArgumentException("잘못된 검색 조건입니다.");
         }
@@ -93,7 +82,7 @@ public class RecruitController {
         topicDto.setTopic(topic);
 
         CustomPageDto<RecruitSummaryDto> result =
-                recruitService.getRecruitSummaryForTopic(topicDto, pageable);
+                recruitService.getRecruitSummaryForTopic(topicDto, pageable, isPage);
 
         return ResponseEntity
                 .ok()

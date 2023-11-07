@@ -28,7 +28,7 @@ public class RecruitDtoFactory {
         List<CategoryMapper> categoryMapperList = categoryMapperMap.get(recruit.getId());
         ArrayList<CategorySummaryDto> hashList = new ArrayList<>();
         ArrayList<CategorySummaryDto> techList = new ArrayList<>();
-        if (!categoryMapperList.isEmpty()) {
+        if (categoryMapperList != null && !categoryMapperList.isEmpty()) {
             for (CategoryMapper categoryMapper : categoryMapperList) {
                 CategorySummaryDto categorySummaryDto = CategoryDtoFactory.toCategorySummary(categoryMapper);
                 if (CategoryType.HASH.equals(categoryMapper.getCategory().getType())) hashList.add(categorySummaryDto);

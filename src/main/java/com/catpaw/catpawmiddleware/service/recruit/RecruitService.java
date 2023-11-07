@@ -1,14 +1,12 @@
 package com.catpaw.catpawmiddleware.service.recruit;
 
 import com.catpaw.catpawmiddleware.common.factory.dto.RecruitDtoFactory;
-import com.catpaw.catpawmiddleware.controller.request.search.SearchForm;
+import com.catpaw.catpawmiddleware.controller.request.search.SearchTopic;
 import com.catpaw.catpawmiddleware.domain.entity.CategoryMapper;
 import com.catpaw.catpawmiddleware.domain.entity.Recruit;
 import com.catpaw.catpawmiddleware.domain.eumns.CategoryType;
 import com.catpaw.catpawmiddleware.domain.eumns.RecruitState;
 import com.catpaw.catpawmiddleware.domain.eumns.TargetType;
-import com.catpaw.catpawmiddleware.repository.category.CategoryMapperRepository;
-import com.catpaw.catpawmiddleware.repository.category.CategoryRepository;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitSearchCond;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitTopicCond;
 import com.catpaw.catpawmiddleware.repository.recruit.RecruitRepository;
@@ -39,7 +37,7 @@ public class RecruitService {
     private final CategoryService categoryService;
 
 
-    public CustomPageDto<RecruitSummaryDto> getRecruitSummaryForSearch(RecruitSearchDto searchDto, Pageable pageable) {
+    public CustomPageDto<RecruitSummaryDto> getRecruitSummaryForSearch(RecruitSearchDto searchDto, Pageable pageable, boolean isPage) {
         RecruitSearchCond searchCond = new RecruitSearchCond();
         searchCond.setSearchValue(searchCond.getSearchValue());
         searchCond.setRecruitType(searchCond.getRecruitType());
@@ -48,7 +46,7 @@ public class RecruitService {
         searchCond.setRecruitPeriod(searchDto.getRecruitPeriod() == null ? LocalDate.now() : searchDto.getRecruitPeriod());
         searchCond.setState(searchDto.getState() == null ? RecruitState.ACTIVE : searchDto.getState());
 
-        if (pageable.isPaged()) {
+        if (isPage) {
             Page<Recruit> pagedRecruitList = recruitRepository.findPagedRecruitListWithCategory(searchCond, pageable);
             Map<Long, List<CategoryMapper>> categoryMapperMap =
                     this.getCategoryMapByIdList(
@@ -70,9 +68,9 @@ public class RecruitService {
         }
     }
 
-    public CustomPageDto<RecruitSummaryDto> getRecruitSummaryForTopic(RecruitTopicDto topicDto, Pageable pageable) {
-        List<String> supportTopicList = List.of(SearchForm.DEADLINE.getValue(), SearchForm.ISNEW.getValue());
-        if (!supportTopicList.contains(topicDto.getTopic())) {
+    public CustomPageDto<RecruitSummaryDto> getRecruitSummaryForTopic(RecruitTopicDto topicDto, Pageable pageable, boolean isPage) {
+        List<String> supportTopicList = List.of(SearchTopic.DEADLINE.getValue(), SearchTopic.ISNEW.getValue());
+        if (!supportTopicList.contains(topicDto.getTopic() == null ? "" : topicDto.getTopic())) {
             throw new IllegalArgumentException("잘못된 검색 조건입니다.");
         }
 
@@ -81,7 +79,7 @@ public class RecruitService {
         topicCond.setLimitPeriod(LocalDate.now().plusDays(7).atTime(LocalTime.MAX));
         topicCond.setState(topicDto.getState() == null ? RecruitState.ACTIVE : topicDto.getState());
 
-        if (pageable.isPaged()) {
+        if (isPage) {
             Page<Recruit> pagedRecruitList = recruitRepository.findPagedRecruitForTopic(topicCond, pageable);
             Map<Long, List<CategoryMapper>> categoryMapperMap =
                     this.getCategoryMapByIdList(

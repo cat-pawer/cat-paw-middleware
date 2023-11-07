@@ -1,6 +1,6 @@
 package com.catpaw.catpawmiddleware.repository.recruit.query;
 
-import com.catpaw.catpawmiddleware.controller.request.search.SearchForm;
+import com.catpaw.catpawmiddleware.controller.request.search.SearchTopic;
 import com.catpaw.catpawmiddleware.domain.entity.Recruit;
 import com.catpaw.catpawmiddleware.domain.eumns.*;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitSearchCond;
@@ -122,10 +122,10 @@ public class RecruitQueryRepositoryImpl implements RecruitQueryRepository {
         Assert.notNull(topicCond.getLimitPeriod(), "조회 범위 기간은 필수입니다.");
         Assert.notNull(topicCond.getState(), "모집 상태는 필수입니다.");
 
-        if (topicCond.getTopic().equals(SearchForm.DEADLINE.getValue())) {
+        if (topicCond.getTopic().equals(SearchTopic.DEADLINE.getValue())) {
             return findPagedRecruitForDeadLine(topicCond, pageable);
         }
-        else if (topicCond.getTopic().equals(SearchForm.ISNEW.getValue())) {
+        else if (topicCond.getTopic().equals(SearchTopic.ISNEW.getValue())) {
             return findPagedRecruitForIsNew(topicCond, pageable);
         }
         else {
@@ -189,10 +189,10 @@ public class RecruitQueryRepositoryImpl implements RecruitQueryRepository {
         Assert.notNull(topicCond.getLimitPeriod(), "조회 범위 기간은 필수입니다.");
         Assert.notNull(topicCond.getState(), "모집 상태는 필수입니다.");
 
-        if (topicCond.getTopic().equals(SearchForm.DEADLINE.getValue())) {
+        if (topicCond.getTopic().equals(SearchTopic.DEADLINE.getValue())) {
             return findSlicedRecruitForDeadLine(topicCond, pageable);
         }
-        else if (topicCond.getTopic().equals(SearchForm.ISNEW.getValue())) {
+        else if (topicCond.getTopic().equals(SearchTopic.ISNEW.getValue())) {
             return findSlicedRecruitForIsNew(topicCond, pageable);
         }
         else {
