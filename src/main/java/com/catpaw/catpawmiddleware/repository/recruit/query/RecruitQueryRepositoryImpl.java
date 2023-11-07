@@ -1,12 +1,16 @@
 package com.catpaw.catpawmiddleware.repository.recruit.query;
 
-import com.catpaw.catpawmiddleware.controller.request.search.SearchTopic;
+import com.catpaw.catpawmiddleware.common.factory.dto.CategoryDtoFactory;
+import com.catpaw.catpawmiddleware.domain.entity.Category;
+import com.catpaw.catpawmiddleware.domain.entity.CategoryMapper;
 import com.catpaw.catpawmiddleware.domain.entity.Recruit;
 import com.catpaw.catpawmiddleware.domain.eumns.*;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitSearchCond;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitTopicCond;
+import com.catpaw.catpawmiddleware.repository.dto.RecruitDetailDto;
 import com.catpaw.catpawmiddleware.utils.PageUtils;
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -21,6 +25,7 @@ import org.springframework.util.StringUtils;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static com.catpaw.catpawmiddleware.domain.entity.QCategoryMapper.categoryMapper;
 import static com.catpaw.catpawmiddleware.domain.entity.QRecruit.recruit;
@@ -34,6 +39,54 @@ public class RecruitQueryRepositoryImpl implements RecruitQueryRepository {
     public RecruitQueryRepositoryImpl(EntityManager em) {
         this.em = em;
         this.queryFactory = new JPAQueryFactory(em);
+    }
+
+    @Override
+    public Optional<RecruitDetailDto> findRecruitDetailDto(Long recruitId) {
+        Assert.notNull(recruitId, "검색 id는 필수입니다.");
+
+        List<Tuple> contents = queryFactory
+                .select(recruit, category)
+                .from(recruit)
+                .where(
+                        recruit.id.eq(recruitId),
+                        recruit.state.in(RecruitState.ACTIVE, RecruitState.COMPLETE)
+                )
+                .leftJoin(categoryMapper)
+                .on(
+                        categoryMapper.targetId.eq(recruitId),
+                        categoryMapper.type.eq(TargetType.RECRUIT),
+                        categoryMapper.isDelete.eq(IsDelete.NO.getValue())
+                )
+                .leftJoin(category)
+                .on(
+                        category.id.eq(categoryMapper.category.id),
+                        category.isDelete.eq(IsDelete.NO.getValue())
+                )
+                .fetch();
+
+        if (contents.size() == 0) return Optional.empty();
+
+        return Optional.of(this.createRecruitDetailDto(contents));
+    }
+
+    private RecruitDetailDto createRecruitDetailDto(List<Tuple> contents) {
+        RecruitDetailDto recruitDetailDto = new RecruitDetailDto();
+        for (Tuple content : contents) {
+            Recruit findRecruit = content.get(recruit);
+            if (recruitDetailDto.getId() == null) recruitDetailDto.setRecruit(findRecruit);
+
+            Category findCategory = content.get(category);
+            if (findCategory == null) continue;
+
+            if (CategoryType.TECH_STACK.equals(findCategory.getType()))
+                recruitDetailDto.getTechList().add(CategoryDtoFactory.toCategorySummary(findCategory));
+            else if (CategoryType.POSITION.equals(findCategory.getType()))
+                recruitDetailDto.getPositionList().add(CategoryDtoFactory.toCategorySummary(findCategory));
+            else if (CategoryType.HASH.equals(findCategory.getType()))
+                recruitDetailDto.getTagList().add(CategoryDtoFactory.toCategorySummary(findCategory));
+        }
+        return recruitDetailDto;
     }
 
     @Override
@@ -58,6 +111,7 @@ public class RecruitQueryRepositoryImpl implements RecruitQueryRepository {
                                         .and(recruitTypeEq(searchCond.getRecruitType()))
                                         .and(stateEq(searchCond.getState())))
                 )
+                .distinct()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(recruitSort(pageable))
@@ -66,7 +120,7 @@ public class RecruitQueryRepositoryImpl implements RecruitQueryRepository {
         JPAQuery<Long> count = queryFactory
                 .select(recruit.count())
                 .from(categoryMapper)
-                .join(recruit)
+                .innerJoin(recruit)
                 .on(
                         categoryMapper.targetId.eq(recruit.id)
                                 .and(categoryMapper.type.eq(TargetType.RECRUIT))
@@ -106,6 +160,7 @@ public class RecruitQueryRepositoryImpl implements RecruitQueryRepository {
                                         .and(recruitTypeEq(searchCond.getRecruitType()))
                                         .and(stateEq(searchCond.getState())))
                 )
+                .distinct()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
                 .orderBy(recruitSort(pageable))
@@ -122,15 +177,11 @@ public class RecruitQueryRepositoryImpl implements RecruitQueryRepository {
         Assert.notNull(topicCond.getLimitPeriod(), "조회 범위 기간은 필수입니다.");
         Assert.notNull(topicCond.getState(), "모집 상태는 필수입니다.");
 
-        if (topicCond.getTopic().equals(SearchTopic.DEADLINE.getValue())) {
-            return findPagedRecruitForDeadLine(topicCond, pageable);
-        }
-        else if (topicCond.getTopic().equals(SearchTopic.ISNEW.getValue())) {
-            return findPagedRecruitForIsNew(topicCond, pageable);
-        }
-        else {
-            throw new IllegalArgumentException("검색 토픽이 올바르지 않습니다.");
-        }
+        if (RecruitTopic.DEADLINE.name().equals(topicCond.getTopic().name()))
+            return this.findPagedRecruitForDeadLine(topicCond, pageable);
+        else if (RecruitTopic.IS_NEW.name().equals(topicCond.getTopic().name()))
+            return this.findPagedRecruitForIsNew(topicCond, pageable);
+        else throw new IllegalArgumentException("검색 토픽이 올바르지 않습니다.");
     }
 
     private Page<Recruit> findPagedRecruitForIsNew(RecruitTopicCond topicCond, Pageable pageable) {
@@ -189,15 +240,11 @@ public class RecruitQueryRepositoryImpl implements RecruitQueryRepository {
         Assert.notNull(topicCond.getLimitPeriod(), "조회 범위 기간은 필수입니다.");
         Assert.notNull(topicCond.getState(), "모집 상태는 필수입니다.");
 
-        if (topicCond.getTopic().equals(SearchTopic.DEADLINE.getValue())) {
-            return findSlicedRecruitForDeadLine(topicCond, pageable);
-        }
-        else if (topicCond.getTopic().equals(SearchTopic.ISNEW.getValue())) {
-            return findSlicedRecruitForIsNew(topicCond, pageable);
-        }
-        else {
-            throw new IllegalArgumentException("검색 토픽이 올바르지 않습니다.");
-        }
+        if (RecruitTopic.DEADLINE.name().equals(topicCond.getTopic().name()))
+            return this.findSlicedRecruitForDeadLine(topicCond, pageable);
+        else if (RecruitTopic.IS_NEW.name().equals(topicCond.getTopic().name()))
+            return this.findSlicedRecruitForIsNew(topicCond, pageable);
+        else throw new IllegalArgumentException("검색 토픽이 올바르지 않습니다.");
     }
 
     private SliceImpl<Recruit> findSlicedRecruitForIsNew(RecruitTopicCond topicCond, Pageable pageable) {
@@ -314,9 +361,9 @@ public class RecruitQueryRepositoryImpl implements RecruitQueryRepository {
                     case "viewCount" -> {
                         return new OrderSpecifier<>(direction, recruit.viewCount);
                     }
-//                    case "commentCount" -> {
-//                        return new OrderSpecifier<>(direction, recruit.commentCount);
-//                    }
+                    case "commentCount" -> {
+                        return new OrderSpecifier<>(direction, recruit.commentCount);
+                    }
                 }
             }
         }

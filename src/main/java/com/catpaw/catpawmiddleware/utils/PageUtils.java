@@ -6,9 +6,7 @@ import org.springframework.util.Assert;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class PageUtils {
 
@@ -26,13 +24,15 @@ public class PageUtils {
         return hasNext;
     }
 
-    public static boolean checkSortValid(Pageable pageable, String... properties) {
+    public static boolean checkInvalidSort(Pageable pageable, String... properties) {
+        if (pageable.getSort().stream().count() != properties.length) return true;
+
         for (Sort.Order order : pageable.getSort()) {
             if (Arrays.stream(properties).noneMatch(property -> property.equals(order.getProperty()))) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     @Deprecated

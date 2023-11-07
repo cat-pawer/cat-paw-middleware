@@ -1,6 +1,6 @@
 package com.catpaw.catpawmiddleware.service.recruit;
 
-import com.catpaw.catpawmiddleware.controller.request.search.SearchTopic;
+import com.catpaw.catpawmiddleware.controller.request.enums.RecruitTopicRequest;
 import com.catpaw.catpawmiddleware.domain.entity.Recruit;
 import com.catpaw.catpawmiddleware.domain.eumns.TargetType;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitSearchCond;
@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.*;
 
 import java.util.HashMap;
@@ -89,7 +88,7 @@ class RecruitServiceTest extends MockBaseTest {
         given(categoryService.getMapByCategoryTypeList(anyList(), any(TargetType.class), anyList()))
                 .willReturn(new HashMap<>());
         RecruitTopicDto topicDto = new RecruitTopicDto();
-        topicDto.setTopic(SearchTopic.DEADLINE.getValue());
+        topicDto.setTopic(RecruitTopicRequest.DEADLINE.getValue());
 
         // when
         recruitService.getRecruitSummaryForTopic(topicDto, pageable, true);
@@ -110,7 +109,7 @@ class RecruitServiceTest extends MockBaseTest {
         given(categoryService.getMapByCategoryTypeList(anyList(), any(TargetType.class), anyList()))
                 .willReturn(new HashMap<>());
         RecruitTopicDto topicDto = new RecruitTopicDto();
-        topicDto.setTopic(SearchTopic.DEADLINE.getValue());
+        topicDto.setTopic(RecruitTopicRequest.DEADLINE.getValue());
 
         // when
         recruitService.getRecruitSummaryForTopic(topicDto, pageable, true);

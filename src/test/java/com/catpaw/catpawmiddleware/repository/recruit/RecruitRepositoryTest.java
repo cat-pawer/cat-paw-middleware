@@ -1,6 +1,6 @@
 package com.catpaw.catpawmiddleware.repository.recruit;
 
-import com.catpaw.catpawmiddleware.controller.request.search.SearchTopic;
+import com.catpaw.catpawmiddleware.controller.request.enums.RecruitTopicRequest;
 import com.catpaw.catpawmiddleware.domain.entity.Category;
 import com.catpaw.catpawmiddleware.domain.entity.CategoryMapper;
 import com.catpaw.catpawmiddleware.domain.entity.Member;
@@ -220,7 +220,7 @@ class RecruitRepositoryTest {
         PageRequest pageable = PageRequest.of(0, 20, Sort.by(new Sort.Order(Sort.Direction.DESC, "created")));
 
         RecruitTopicCond topicCond = new RecruitTopicCond();
-        topicCond.setTopic(SearchTopic.DEADLINE.getValue());
+        topicCond.setTopic(RecruitTopicRequest.DEADLINE.getValue());
         topicCond.setState(RecruitState.ACTIVE);
         topicCond.setRecruitPeriod(LocalDate.now());
         topicCond.setLimitPeriod(LocalDate.now().atTime(LocalTime.MAX));
@@ -238,7 +238,7 @@ class RecruitRepositoryTest {
         PageRequest pageable = PageRequest.of(0, 20, Sort.by(new Sort.Order(Sort.Direction.DESC, "created")));
 
         RecruitTopicCond topicCond = new RecruitTopicCond();
-        topicCond.setTopic(SearchTopic.DEADLINE.getValue());
+        topicCond.setTopic(RecruitTopicRequest.DEADLINE.getValue());
         topicCond.setState(RecruitState.ACTIVE);
         topicCond.setRecruitPeriod(LocalDate.now());
         topicCond.setLimitPeriod(LocalDate.now().atTime(LocalTime.MAX));

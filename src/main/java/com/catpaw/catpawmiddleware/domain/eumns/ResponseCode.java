@@ -10,6 +10,9 @@ public enum ResponseCode {
     INVALID_ARGUMENT(5),
     ILLEGAL_STATE(6),
     NO_SUPPORT_METHOD(7),
+    UNAUTHORIZED(8),
+    FORBIDDEN(9),
+    NOT_FOUND(10),
     EXCEPTION(99);
 
     private final int code;

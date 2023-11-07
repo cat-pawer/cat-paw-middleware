@@ -1,12 +1,12 @@
 package com.catpaw.catpawmiddleware.controller.friend;
 
 import com.catpaw.catpawmiddleware.exception.custom.DuplicateFriendException;
-import com.catpaw.catpawmiddleware.exception.custom.UserNotFoundException;
 import com.catpaw.catpawmiddleware.common.resolver.annotation.LoginId;
 import com.catpaw.catpawmiddleware.controller.request.AddFriendForm;
 import com.catpaw.catpawmiddleware.controller.response.Result;
 import com.catpaw.catpawmiddleware.domain.eumns.FriendState;
 import com.catpaw.catpawmiddleware.domain.eumns.ResponseCode;
+import com.catpaw.catpawmiddleware.exception.custom.UnauthorizedException;
 import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
 import com.catpaw.catpawmiddleware.service.dto.friend.FriendSearchDto;
 import com.catpaw.catpawmiddleware.service.friend.FriendService;
@@ -53,11 +53,11 @@ public class FriendController {
             @RequestParam(value = "name", required = false) String name,
             @PageableDefault(sort = "updated", direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        if (!PageUtils.checkSortValid(pageable, PageUtils.UPDATED))
+        if (PageUtils.checkInvalidSort(pageable, PageUtils.UPDATED))
             throw new IllegalArgumentException("정렬 값이 올바르지 않습니다.");
 
         Long memberId = idHolder.orElseThrow(() -> {
-            throw new UserNotFoundException("로그인하지 않은 사용자입니다.");
+            throw new UnauthorizedException("로그인하지 않은 사용자입니다.");
         });
 
         FriendSearchDto friendSearchDto = new FriendSearchDto();

@@ -1,5 +1,6 @@
 package com.catpaw.catpawmiddleware.service.dto.category;
 
+import com.catpaw.catpawmiddleware.domain.eumns.CategoryType;
 import com.catpaw.catpawmiddleware.domain.eumns.TargetType;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +17,8 @@ public class CategorySummaryDto {
     private Long targetId;
 
     private TargetType targetType;
+
+    private CategoryType categoryType;
 
     private String name;
 

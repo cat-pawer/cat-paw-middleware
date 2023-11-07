@@ -1,6 +1,7 @@
 package com.catpaw.catpawmiddleware.domain.eumns;
 
-public enum GroupType {
+public enum RecruitTopic {
 
-    PROJECT, STUDY;
+    DEADLINE,
+    IS_NEW;
 }

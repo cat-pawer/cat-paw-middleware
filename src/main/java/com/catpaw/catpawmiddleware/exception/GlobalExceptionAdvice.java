@@ -1,17 +1,21 @@
 package com.catpaw.catpawmiddleware.exception;
 
 
-import com.catpaw.catpawmiddleware.exception.custom.UserNotFoundException;
+import com.catpaw.catpawmiddleware.exception.custom.DataNotFoundException;
+import com.catpaw.catpawmiddleware.exception.custom.ForbiddenException;
+import com.catpaw.catpawmiddleware.exception.custom.MemberNotFoundException;
 import com.catpaw.catpawmiddleware.controller.response.Result;
 import com.catpaw.catpawmiddleware.domain.eumns.ResponseCode;
+import com.catpaw.catpawmiddleware.exception.custom.UnauthorizedException;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -22,86 +26,93 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @RestControllerAdvice
 public class GlobalExceptionAdvice {
 
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<Result<Void>> badCredentialsExceptionHandler(BadCredentialsException e) {
+    @Hidden
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<Result<Void>> unauthorizedExceptionHandler(UnauthorizedException e) {
         log.error("[ex handler] ex", e);
         return new ResponseEntity<>(
-                Result.createSingleResult(ResponseCode.NO_MATCH_PASSWORD.getCode(), e.getMessage(), null),
-                HttpStatus.OK
+                Result.createSingleResult(ResponseCode.UNAUTHORIZED.getCode(), e.getMessage(), null),
+                HttpStatus.UNAUTHORIZED
         );
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<Result<Void>> usernameNotFoundExceptionHandler(UserNotFoundException e) {
+    @Hidden
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<Result<Void>> forbiddenExceptionHandler(ForbiddenException e) {
+        log.error("[ex handler] ex", e);
+        return new ResponseEntity<>(
+                Result.createSingleResult(ResponseCode.FORBIDDEN.getCode(), e.getMessage(), null),
+                HttpStatus.FORBIDDEN
+        );
+    }
+
+    @Hidden
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({
+            MissingServletRequestParameterException.class,
+            MethodArgumentTypeMismatchException.class,
+            MethodArgumentNotValidException.class,
+            IllegalArgumentException.class
+    })
+    public ResponseEntity<Result<Void>> invalidArgumentExceptionHandler(Exception e) {
+        log.error("[ex handler] ex", e);
+        return new ResponseEntity<>(
+                Result.createSingleResult(ResponseCode.INVALID_ARGUMENT.getCode(), e.getMessage(), null),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @Hidden
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<Result<Void>> illegalStateExceptionHandler(Exception e) {
+        log.error("[ex handler] ex", e);
+        return new ResponseEntity<>(
+                Result.createSingleResult(ResponseCode.ILLEGAL_STATE.getCode(), e.getMessage(), null),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @Hidden
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MemberNotFoundException.class)
+    public ResponseEntity<Result<Void>> notMemberFoundExceptionHandler(Exception e) {
         log.error("[ex handler] ex", e);
         return new ResponseEntity<>(
                 Result.createSingleResult(ResponseCode.NOT_FOUND_MEMBER.getCode(), e.getMessage(), null),
-                HttpStatus.OK
+                HttpStatus.BAD_REQUEST
         );
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Result<Void>> illegalArgumentExceptionHandler(IllegalArgumentException e) {
-        log.error("[ex handler] ex", e);
+    @Hidden
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(DataNotFoundException.class)
+    public ResponseEntity<Result<Void>> dataNotFoundExceptionHandler(DataNotFoundException e) {
         return new ResponseEntity<>(
-                Result.createSingleResult(ResponseCode.INVALID_ARGUMENT.getCode(), e.getMessage(), null),
-                HttpStatus.OK
+                Result.createSingleResult(ResponseCode.NOT_FOUND.getCode(), e.getMessage(), null),
+                HttpStatus.NOT_FOUND
         );
     }
 
-    @ResponseStatus(HttpStatus.OK)
-    @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<Result<Void>> illegalStateExceptionHandler(IllegalStateException e) {
-        log.error("[ex handler] ex", e);
-        return new ResponseEntity<>(
-                Result.createSingleResult(ResponseCode.ILLEGAL_STATE.getCode(), e.getMessage(), null),
-                HttpStatus.OK
-        );
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Result<Void>> methodArgumentNotValidException(MethodArgumentNotValidException e) {
-        log.error("[ex handler] ex", e);
-        return new ResponseEntity<>(
-                Result.createSingleResult(ResponseCode.INVALID_ARGUMENT.getCode(), e.getMessage(), null),
-                HttpStatus.OK
-        );
-    }
-
-    @ExceptionHandler(value = { ConstraintViolationException.class, DataIntegrityViolationException.class})
-    public ResponseEntity<Result<Void>> databaseException(Exception e) {
-        log.error("[ex handler] ex", e);
-        return new ResponseEntity<>(
-                Result.createSingleResult(ResponseCode.ILLEGAL_STATE.getCode(), e.getMessage(), null),
-                HttpStatus.OK
-        );
-    }
-
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<Result<Void>> methodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
-        return new ResponseEntity<>(
-                Result.createSingleResult(ResponseCode.INVALID_ARGUMENT.getCode(), e.getMessage(), null),
-                HttpStatus.OK
-        );
-    }
-
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<Result<Void>> httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+    @Hidden
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    @ExceptionHandler({ HttpRequestMethodNotSupportedException.class, UnsupportedOperationException.class })
+    public ResponseEntity<Result<Void>> noSupportedExceptionHandler(Exception e) {
         return new ResponseEntity<>(
                 Result.createSingleResult(ResponseCode.NO_SUPPORT_METHOD.getCode(), e.getMessage(), null),
-                HttpStatus.OK
+                HttpStatus.METHOD_NOT_ALLOWED
         );
     }
 
+    @Hidden
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler
-    public ResponseEntity<Result<Void>> exHandler(Exception e) {
+    @ExceptionHandler(value = { ConstraintViolationException.class, DataIntegrityViolationException.class , Exception.class })
+    public ResponseEntity<Result<Void>> serverExceptionHandler(Exception e) {
         log.error("[ex handler] ex", e);
         return new ResponseEntity<>(
-                Result.createSingleResult(ResponseCode.EXCEPTION.getCode(), "잘못된 요청입니다", null),
+                Result.createSingleResult(ResponseCode.ILLEGAL_STATE.getCode(), e.getMessage(), null),
                 HttpStatus.INTERNAL_SERVER_ERROR
         );
     }

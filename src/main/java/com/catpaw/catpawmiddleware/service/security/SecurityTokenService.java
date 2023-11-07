@@ -1,7 +1,7 @@
 package com.catpaw.catpawmiddleware.service.security;
 
 
-import com.catpaw.catpawmiddleware.common.converter.DelegatingMemberContextConverter;
+import com.catpaw.catpawmiddleware.common.converter.security.DelegatingMemberContextConverter;
 import com.catpaw.catpawmiddleware.common.factory.authentication.MemberAuthenticationFactory;
 import com.catpaw.catpawmiddleware.common.factory.authentication.MemberAuthenticationFormFactory;
 import com.catpaw.catpawmiddleware.domain.entity.Member;

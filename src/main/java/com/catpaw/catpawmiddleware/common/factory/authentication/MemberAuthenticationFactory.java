@@ -1,6 +1,6 @@
 package com.catpaw.catpawmiddleware.common.factory.authentication;
 
-import com.catpaw.catpawmiddleware.common.converter.DelegatingMemberContextConverter;
+import com.catpaw.catpawmiddleware.common.converter.security.DelegatingMemberContextConverter;
 import com.catpaw.catpawmiddleware.domain.model.MemberContext;
 import com.catpaw.catpawmiddleware.domain.member.GoogleMember;
 import com.catpaw.catpawmiddleware.domain.member.LocalMember;

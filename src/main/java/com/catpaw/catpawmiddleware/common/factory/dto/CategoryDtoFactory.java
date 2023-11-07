@@ -1,5 +1,6 @@
 package com.catpaw.catpawmiddleware.common.factory.dto;
 
+import com.catpaw.catpawmiddleware.domain.entity.Category;
 import com.catpaw.catpawmiddleware.domain.entity.CategoryMapper;
 import com.catpaw.catpawmiddleware.domain.entity.Recruit;
 import com.catpaw.catpawmiddleware.domain.eumns.CategoryType;
@@ -20,7 +21,19 @@ public class CategoryDtoFactory {
         dto.setTargetType(categoryMapper.getType());
         dto.setName(categoryMapper.getCategory().getName());
         dto.setValue(categoryMapper.getCategory().getValue());
+        dto.setCategoryType(categoryMapper.getCategory().getType());
         dto.setCreated(categoryMapper.getCreated());
+
+        return dto;
+    }
+
+    public static CategorySummaryDto toCategorySummary(Category category) {
+        CategorySummaryDto dto = new CategorySummaryDto();
+        dto.setCategoryId(category.getId());
+        dto.setName(category.getName());
+        dto.setValue(category.getValue());
+        dto.setCategoryType(category.getType());
+        dto.setCreated(category.getCreated());
 
         return dto;
     }

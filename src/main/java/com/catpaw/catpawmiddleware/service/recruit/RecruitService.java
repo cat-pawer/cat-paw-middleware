@@ -1,14 +1,16 @@
 package com.catpaw.catpawmiddleware.service.recruit;
 
 import com.catpaw.catpawmiddleware.common.factory.dto.RecruitDtoFactory;
-import com.catpaw.catpawmiddleware.controller.request.search.SearchTopic;
+import com.catpaw.catpawmiddleware.controller.request.enums.RecruitTopicRequest;
 import com.catpaw.catpawmiddleware.domain.entity.CategoryMapper;
 import com.catpaw.catpawmiddleware.domain.entity.Recruit;
 import com.catpaw.catpawmiddleware.domain.eumns.CategoryType;
 import com.catpaw.catpawmiddleware.domain.eumns.RecruitState;
 import com.catpaw.catpawmiddleware.domain.eumns.TargetType;
+import com.catpaw.catpawmiddleware.exception.custom.DataNotFoundException;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitSearchCond;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitTopicCond;
+import com.catpaw.catpawmiddleware.repository.dto.RecruitDetailDto;
 import com.catpaw.catpawmiddleware.repository.recruit.RecruitRepository;
 import com.catpaw.catpawmiddleware.service.category.CategoryService;
 import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
@@ -27,6 +29,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -37,11 +40,20 @@ public class RecruitService {
     private final CategoryService categoryService;
 
 
+    public RecruitDetailDto getRecruitDetail(Long recruitId, Long memberId) {
+        // TODO 자기 모집글 확인
+        Optional<RecruitDetailDto> findRecruitDetailDto = recruitRepository.findRecruitDetailDto(recruitId);
+
+        return findRecruitDetailDto.orElseThrow(() -> {
+            throw new DataNotFoundException("존재하지 않는 모집글입니다.");
+        });
+    }
+
     public CustomPageDto<RecruitSummaryDto> getRecruitSummaryForSearch(RecruitSearchDto searchDto, Pageable pageable, boolean isPage) {
         RecruitSearchCond searchCond = new RecruitSearchCond();
-        searchCond.setSearchValue(searchCond.getSearchValue());
-        searchCond.setRecruitType(searchCond.getRecruitType());
-        searchCond.setOnlineType(searchCond.getOnlineType());
+        searchCond.setSearchValue(searchDto.getSearchValue());
+        searchCond.setRecruitType(searchDto.getRecruitType());
+        searchCond.setOnlineType(searchDto.getOnlineType());
         searchCond.setCategoryIdList(searchDto.getCategoryIdList());
         searchCond.setRecruitPeriod(searchDto.getRecruitPeriod() == null ? LocalDate.now() : searchDto.getRecruitPeriod());
         searchCond.setState(searchDto.getState() == null ? RecruitState.ACTIVE : searchDto.getState());
@@ -69,12 +81,8 @@ public class RecruitService {
     }
 
     public CustomPageDto<RecruitSummaryDto> getRecruitSummaryForTopic(RecruitTopicDto topicDto, Pageable pageable, boolean isPage) {
-        List<String> supportTopicList = List.of(SearchTopic.DEADLINE.getValue(), SearchTopic.ISNEW.getValue());
-        if (!supportTopicList.contains(topicDto.getTopic() == null ? "" : topicDto.getTopic())) {
-            throw new IllegalArgumentException("잘못된 검색 조건입니다.");
-        }
-
         RecruitTopicCond topicCond = new RecruitTopicCond();
+        topicCond.setTopic(topicDto.getTopic());
         topicCond.setRecruitPeriod(topicDto.getRecruitPeriod() == null ? LocalDate.now() : topicDto.getRecruitPeriod());
         topicCond.setLimitPeriod(LocalDate.now().plusDays(7).atTime(LocalTime.MAX));
         topicCond.setState(topicDto.getState() == null ? RecruitState.ACTIVE : topicDto.getState());
