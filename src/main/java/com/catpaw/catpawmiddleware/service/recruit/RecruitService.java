@@ -25,6 +25,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -88,6 +89,9 @@ public class RecruitService {
     }
 
     public CustomPageDto<RecruitSummaryDto> getRecruitSummaryForTopic(RecruitTopicDto topicDto, Pageable pageable, boolean isPage) {
+        Assert.notNull(topicDto, "topicDto는 null일 수 없습니다.");
+        Assert.notNull(topicDto.getTopic(), "topic은 null일 수 없습니다.");
+
         RecruitTopicCond topicCond = new RecruitTopicCond();
         topicCond.setTopic(topicDto.getTopic());
         topicCond.setRecruitPeriod(topicDto.getRecruitPeriod() == null ? LocalDate.now() : topicDto.getRecruitPeriod());

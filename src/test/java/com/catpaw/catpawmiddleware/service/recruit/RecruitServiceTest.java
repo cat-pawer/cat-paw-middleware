@@ -2,10 +2,14 @@ package com.catpaw.catpawmiddleware.service.recruit;
 
 import com.catpaw.catpawmiddleware.controller.request.enums.RecruitTopicRequest;
 import com.catpaw.catpawmiddleware.domain.entity.Recruit;
+import com.catpaw.catpawmiddleware.domain.eumns.RecruitState;
 import com.catpaw.catpawmiddleware.domain.eumns.RecruitTopic;
 import com.catpaw.catpawmiddleware.domain.eumns.TargetType;
+import com.catpaw.catpawmiddleware.exception.custom.DataNotFoundException;
+import com.catpaw.catpawmiddleware.exception.custom.ForbiddenException;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitSearchCond;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitTopicCond;
+import com.catpaw.catpawmiddleware.repository.dto.RecruitDetailDto;
 import com.catpaw.catpawmiddleware.repository.recruit.RecruitRepository;
 import com.catpaw.catpawmiddleware.service.MockBaseTest;
 import com.catpaw.catpawmiddleware.service.category.CategoryService;
@@ -19,7 +23,9 @@ import org.springframework.data.domain.*;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
@@ -138,19 +144,80 @@ class RecruitServiceTest extends MockBaseTest {
     }
 
     @Test
-    @DisplayName("getRecruitSummaryForTopic 토픽 검증")
-    void getRecruitSummaryForTopicValid() {
+    @DisplayName("getRecruitDetail 모집글 없을 경우")
+    void getRecruitDetailNotFound() {
         // given
-        PageRequest pageable = PageRequest.of(0, 20, Sort.by(new Sort.Order(Sort.Direction.DESC, "created")));
-        given(recruitRepository.findPagedRecruitForTopic(any(RecruitTopicCond.class), any(Pageable.class)))
-                .willReturn(new PageImpl<>(List.of(), pageable, 0));
-        given(categoryService.getMapByCategoryTypeList(anyList(), any(TargetType.class), anyList()))
-                .willReturn(new HashMap<>());
-        RecruitTopicDto topicDto = new RecruitTopicDto();
-        topicDto.setTopic(RecruitTopic.DEADLINE);
+        Long memberId = 1L;
+        Long recruitId = 1L;
+        given(recruitRepository.findRecruitDetailDto(anyLong()))
+                .willReturn(Optional.empty());
 
         // when
         // then
-        Assertions.assertThrows(IllegalArgumentException.class, () -> recruitService.getRecruitSummaryForTopic(topicDto, pageable, true));
+        Assertions.assertThrows(DataNotFoundException.class, () -> recruitService.getRecruitDetail(recruitId, memberId));
     }
+
+    @Test
+    @DisplayName("getRecruitDetail 본인외의 숨긴 글 접근")
+    void getRecruitDetailForbidden() {
+        // given
+        Long memberId = 1L;
+        Long recruitId = 1L;
+        Long creatorId = 2L;
+        RecruitDetailDto recruitDetailDto = new RecruitDetailDto();
+        recruitDetailDto.setId(recruitId);
+        recruitDetailDto.setCreatedBy(creatorId);
+        recruitDetailDto.setState(RecruitState.DISABLE);
+
+        given(recruitRepository.findRecruitDetailDto(anyLong()))
+                .willReturn(Optional.of(recruitDetailDto));
+
+        // when
+        // then
+        Assertions.assertThrows(ForbiddenException.class, () -> recruitService.getRecruitDetail(recruitId, memberId));
+    }
+
+    @Test
+    @DisplayName("getRecruitDetail 익명 사용자 숨긴 글 접근")
+    void getRecruitDetailAnonymousForbidden() {
+        // given
+        Long memberId = null;
+        Long recruitId = 1L;
+        Long creatorId = 2L;
+        RecruitDetailDto recruitDetailDto = new RecruitDetailDto();
+        recruitDetailDto.setId(recruitId);
+        recruitDetailDto.setCreatedBy(creatorId);
+        recruitDetailDto.setState(RecruitState.DISABLE);
+
+        given(recruitRepository.findRecruitDetailDto(anyLong()))
+                .willReturn(Optional.of(recruitDetailDto));
+
+        // when
+        // then
+        Assertions.assertThrows(ForbiddenException.class, () -> recruitService.getRecruitDetail(recruitId, memberId));
+    }
+
+    @Test
+    @DisplayName("getRecruitDetail 본인의 숨긴 글 접근")
+    void getRecruitDetailAcceptMember() {
+        // given
+        Long memberId = 1L;
+        Long recruitId = 1L;
+        Long creatorId = 1L;
+        RecruitDetailDto recruitDetailDto = new RecruitDetailDto();
+        recruitDetailDto.setId(recruitId);
+        recruitDetailDto.setCreatedBy(creatorId);
+        recruitDetailDto.setState(RecruitState.DISABLE);
+
+        given(recruitRepository.findRecruitDetailDto(anyLong()))
+                .willReturn(Optional.of(recruitDetailDto));
+
+        // when
+        RecruitDetailDto recruitDetail = recruitService.getRecruitDetail(recruitId, memberId);
+
+        // then
+        assertThat(recruitDetail.getId()).isEqualTo(recruitId);
+        assertThat(recruitDetail.getCreatedBy()).isEqualTo(creatorId);
+    }
+
 }

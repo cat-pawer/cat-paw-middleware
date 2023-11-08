@@ -51,6 +51,11 @@ public class Recruit extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private RecruitState state;
 
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setGroups(Groups groups) {
         this.groups = groups;
     }
