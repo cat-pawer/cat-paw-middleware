@@ -1,8 +1,8 @@
 # 코드 컨벤션
 ## 1. Controller
 - 단건 조회: ##Detail, ##DetailSearch -> /domain/detail/id, /domain/detail/search?
-- 리스트 조회: ##Summary, ##SummarySearch -> /domain/summary, /domain/summary/search?
-- 추가: ##Save -> /domain
+- 리스트 조회: ##Summary, ##SummarySearch, ##SummaryTopic -> /domain/summary, /domain/summary/search?, /domain/summary/topic?
+- 추가: ##Save -> /domain/save
 - 수정: ##Modify -> /domain/id
 - 삭제: ##Remove -> /domain/id
 
