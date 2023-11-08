@@ -49,8 +49,7 @@ public class RecruitQueryRepositoryImpl implements RecruitQueryRepository {
                 .select(recruit, category)
                 .from(recruit)
                 .where(
-                        recruit.id.eq(recruitId),
-                        recruit.state.in(RecruitState.ACTIVE, RecruitState.COMPLETE)
+                        recruit.id.eq(recruitId)
                 )
                 .leftJoin(categoryMapper)
                 .on(

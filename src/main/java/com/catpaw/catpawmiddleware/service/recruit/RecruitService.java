@@ -8,6 +8,7 @@ import com.catpaw.catpawmiddleware.domain.eumns.CategoryType;
 import com.catpaw.catpawmiddleware.domain.eumns.RecruitState;
 import com.catpaw.catpawmiddleware.domain.eumns.TargetType;
 import com.catpaw.catpawmiddleware.exception.custom.DataNotFoundException;
+import com.catpaw.catpawmiddleware.exception.custom.ForbiddenException;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitSearchCond;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitTopicCond;
 import com.catpaw.catpawmiddleware.repository.dto.RecruitDetailDto;
@@ -41,12 +42,18 @@ public class RecruitService {
 
 
     public RecruitDetailDto getRecruitDetail(Long recruitId, Long memberId) {
-        // TODO 자기 모집글 확인
         Optional<RecruitDetailDto> findRecruitDetailDto = recruitRepository.findRecruitDetailDto(recruitId);
-
-        return findRecruitDetailDto.orElseThrow(() -> {
+        RecruitDetailDto recruitDetailDto = findRecruitDetailDto.orElseThrow(() -> {
             throw new DataNotFoundException("존재하지 않는 모집글입니다.");
         });
+
+        if (RecruitState.DISABLE.equals(recruitDetailDto.getState())) {
+            if (!recruitDetailDto.getCreatedBy().equals(memberId)) {
+                throw new ForbiddenException("접근할 수 없는 모집글입니다.");
+            }
+        }
+
+        return recruitDetailDto;
     }
 
     public CustomPageDto<RecruitSummaryDto> getRecruitSummaryForSearch(RecruitSearchDto searchDto, Pageable pageable, boolean isPage) {

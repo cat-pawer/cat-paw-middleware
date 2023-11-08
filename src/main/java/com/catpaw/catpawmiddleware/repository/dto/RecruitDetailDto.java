@@ -47,6 +47,10 @@ public class RecruitDetailDto {
 
     private LocalDateTime updated;
 
+    private Long createdBy;
+
+    private Long updatedBy;
+
     private List<CategorySummaryDto> tagList;
 
     private List<CategorySummaryDto> positionList;
@@ -74,5 +78,7 @@ public class RecruitDetailDto {
         this.state = recruit.getState();
         this.created = recruit.getCreated();
         this.updated = recruit.getUpdated();
+        this.createdBy = recruit.getCreatedBy();
+        this.updatedBy = recruit.getUpdatedBy();
     }
 }

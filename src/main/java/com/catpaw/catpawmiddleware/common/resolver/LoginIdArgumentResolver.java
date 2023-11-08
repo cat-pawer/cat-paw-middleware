@@ -2,6 +2,7 @@ package com.catpaw.catpawmiddleware.common.resolver;
 
 import com.catpaw.catpawmiddleware.common.resolver.annotation.LoginId;
 import com.catpaw.catpawmiddleware.domain.member.MemberContextsImpl;
+import com.catpaw.catpawmiddleware.exception.custom.MemberNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;
@@ -41,7 +42,7 @@ public final class LoginIdArgumentResolver implements HandlerMethodArgumentResol
 
             return Optional.ofNullable(context.getMemberContext().getId());
         } catch (Exception e) {
-            throw new UsernameNotFoundException("로그인 되지 않은 사용자입니다.");
+            throw new MemberNotFoundException("로그인 되지 않은 사용자입니다.");
         }
     }
 }

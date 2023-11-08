@@ -2,6 +2,7 @@ package com.catpaw.catpawmiddleware.service.recruit;
 
 import com.catpaw.catpawmiddleware.controller.request.enums.RecruitTopicRequest;
 import com.catpaw.catpawmiddleware.domain.entity.Recruit;
+import com.catpaw.catpawmiddleware.domain.eumns.RecruitTopic;
 import com.catpaw.catpawmiddleware.domain.eumns.TargetType;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitSearchCond;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitTopicCond;
@@ -88,7 +89,7 @@ class RecruitServiceTest extends MockBaseTest {
         given(categoryService.getMapByCategoryTypeList(anyList(), any(TargetType.class), anyList()))
                 .willReturn(new HashMap<>());
         RecruitTopicDto topicDto = new RecruitTopicDto();
-        topicDto.setTopic(RecruitTopicRequest.DEADLINE.getValue());
+        topicDto.setTopic(RecruitTopicRequest.DEADLINE.toEnum());
 
         // when
         recruitService.getRecruitSummaryForTopic(topicDto, pageable, true);
@@ -109,7 +110,7 @@ class RecruitServiceTest extends MockBaseTest {
         given(categoryService.getMapByCategoryTypeList(anyList(), any(TargetType.class), anyList()))
                 .willReturn(new HashMap<>());
         RecruitTopicDto topicDto = new RecruitTopicDto();
-        topicDto.setTopic(RecruitTopicRequest.DEADLINE.getValue());
+        topicDto.setTopic(RecruitTopicRequest.DEADLINE.toEnum());
 
         // when
         recruitService.getRecruitSummaryForTopic(topicDto, pageable, true);
@@ -146,7 +147,7 @@ class RecruitServiceTest extends MockBaseTest {
         given(categoryService.getMapByCategoryTypeList(anyList(), any(TargetType.class), anyList()))
                 .willReturn(new HashMap<>());
         RecruitTopicDto topicDto = new RecruitTopicDto();
-        topicDto.setTopic("hello");
+        topicDto.setTopic(RecruitTopic.DEADLINE);
 
         // when
         // then

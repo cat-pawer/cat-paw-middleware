@@ -1,5 +1,6 @@
 package com.catpaw.catpawmiddleware.controller.recruit;
 
+import com.catpaw.catpawmiddleware.common.resolver.annotation.LoginId;
 import com.catpaw.catpawmiddleware.controller.request.enums.GroupTypeRequest;
 import com.catpaw.catpawmiddleware.controller.request.enums.OnlineTypeRequest;
 import com.catpaw.catpawmiddleware.controller.request.enums.RecruitStateRequest;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Tag(name = "모집", description = "모집 도메인 API")
 @RestController
@@ -41,16 +43,19 @@ public class RecruitController {
 
     @Operation(
             summary = "프로젝트 상세 조회",
+            description = "본인 게시글은 전부 접근 가능 / 숨김 상태 시 본인 외 접근 불가",
             tags = { "Get" })
     @ApiResponses({
             @ApiResponse(responseCode = "200",  description = "정상", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "403",  description = "권한 없는 모집글", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")}),
             @ApiResponse(responseCode = "404",  description = "존재하지 않는 모집글", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")}),
             @ApiResponse(responseCode = "500", description = "서버 오류", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")})})
     @GetMapping("/detail/{id}")
     public ResponseEntity<Result<RecruitDetailDto>> recruitDetail(
-            @Parameter(description = "조회글 id") @PathVariable("id") Long recruitId) {
-
-        RecruitDetailDto recruitDetailDto = recruitService.getRecruitDetail(recruitId, null);
+            @Parameter(description = "조회글 id") @PathVariable("id") Long recruitId,
+            @Parameter(hidden = true) @LoginId Optional<Long> idHolder
+    ) {
+        RecruitDetailDto recruitDetailDto = recruitService.getRecruitDetail(recruitId, idHolder.orElse(null));
 
         return ResponseEntity
                 .ok()
