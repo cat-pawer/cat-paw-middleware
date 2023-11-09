@@ -7,4 +7,5 @@ import java.util.Optional;
 public interface MemberRepositoryCustom {
 
 
+    Member getReferenceById(Long id);
 }

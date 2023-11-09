@@ -55,7 +55,8 @@ public class RecruitController {
             @Parameter(description = "조회글 id") @PathVariable("id") Long recruitId,
             @Parameter(hidden = true) @LoginId Optional<Long> idHolder
     ) {
-        RecruitDetailDto recruitDetailDto = recruitService.getRecruitDetail(recruitId, idHolder.orElse(null));
+        RecruitDetailDto recruitDetailDto =
+                recruitService.getAccessibleRecruitDetail(recruitId, idHolder.orElse(null));
 
         return ResponseEntity
                 .ok()
@@ -134,7 +135,7 @@ public class RecruitController {
                 .body(Result.createPageResult(ResponseCode.SUCCESS.getCode(), null, result));
     }
 
-    @PostMapping("/")
+    @PostMapping("/save")
     public ResponseEntity<Result<Void>> recruitSave() {
         return ResponseEntity.ok().build();
     }

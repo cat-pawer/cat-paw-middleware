@@ -1,5 +1,6 @@
 package com.catpaw.catpawmiddleware.domain.entity;
 
+import com.catpaw.catpawmiddleware.domain.entity.base.BaseEntity;
 import com.catpaw.catpawmiddleware.domain.eumns.FriendState;
 import jakarta.persistence.*;
 import lombok.Getter;

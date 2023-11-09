@@ -1,9 +1,8 @@
-package com.catpaw.catpawmiddleware.domain.entity;
+package com.catpaw.catpawmiddleware.domain.entity.base;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.PrePersist;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.data.annotation.CreatedBy;
@@ -23,4 +22,12 @@ public abstract class BaseEntity extends BaseTimeEntity {
 
     @LastModifiedBy
     private Long updatedBy;
+
+    public void changeCreatedBy(Long createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public void changeUpdatedBy(Long updatedBy) {
+        this.updatedBy = updatedBy;
+    }
 }

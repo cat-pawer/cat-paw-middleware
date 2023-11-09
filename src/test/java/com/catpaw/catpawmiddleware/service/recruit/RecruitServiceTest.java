@@ -3,7 +3,6 @@ package com.catpaw.catpawmiddleware.service.recruit;
 import com.catpaw.catpawmiddleware.controller.request.enums.RecruitTopicRequest;
 import com.catpaw.catpawmiddleware.domain.entity.Recruit;
 import com.catpaw.catpawmiddleware.domain.eumns.RecruitState;
-import com.catpaw.catpawmiddleware.domain.eumns.RecruitTopic;
 import com.catpaw.catpawmiddleware.domain.eumns.TargetType;
 import com.catpaw.catpawmiddleware.exception.custom.DataNotFoundException;
 import com.catpaw.catpawmiddleware.exception.custom.ForbiddenException;
@@ -154,7 +153,7 @@ class RecruitServiceTest extends MockBaseTest {
 
         // when
         // then
-        Assertions.assertThrows(DataNotFoundException.class, () -> recruitService.getRecruitDetail(recruitId, memberId));
+        Assertions.assertThrows(DataNotFoundException.class, () -> recruitService.getAccessibleRecruitDetail(recruitId, memberId));
     }
 
     @Test
@@ -174,7 +173,7 @@ class RecruitServiceTest extends MockBaseTest {
 
         // when
         // then
-        Assertions.assertThrows(ForbiddenException.class, () -> recruitService.getRecruitDetail(recruitId, memberId));
+        Assertions.assertThrows(ForbiddenException.class, () -> recruitService.getAccessibleRecruitDetail(recruitId, memberId));
     }
 
     @Test
@@ -194,7 +193,7 @@ class RecruitServiceTest extends MockBaseTest {
 
         // when
         // then
-        Assertions.assertThrows(ForbiddenException.class, () -> recruitService.getRecruitDetail(recruitId, memberId));
+        Assertions.assertThrows(ForbiddenException.class, () -> recruitService.getAccessibleRecruitDetail(recruitId, memberId));
     }
 
     @Test
@@ -213,11 +212,10 @@ class RecruitServiceTest extends MockBaseTest {
                 .willReturn(Optional.of(recruitDetailDto));
 
         // when
-        RecruitDetailDto recruitDetail = recruitService.getRecruitDetail(recruitId, memberId);
+        RecruitDetailDto recruitDetail = recruitService.getAccessibleRecruitDetail(recruitId, memberId);
 
         // then
         assertThat(recruitDetail.getId()).isEqualTo(recruitId);
         assertThat(recruitDetail.getCreatedBy()).isEqualTo(creatorId);
     }
-
 }

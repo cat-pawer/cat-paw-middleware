@@ -1,7 +1,6 @@
 package com.catpaw.catpawmiddleware.service.recruit;
 
 import com.catpaw.catpawmiddleware.common.factory.dto.RecruitDtoFactory;
-import com.catpaw.catpawmiddleware.controller.request.enums.RecruitTopicRequest;
 import com.catpaw.catpawmiddleware.domain.entity.CategoryMapper;
 import com.catpaw.catpawmiddleware.domain.entity.Recruit;
 import com.catpaw.catpawmiddleware.domain.eumns.CategoryType;
@@ -18,6 +17,7 @@ import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
 import com.catpaw.catpawmiddleware.service.dto.recruit.RecruitSearchDto;
 import com.catpaw.catpawmiddleware.service.dto.recruit.RecruitSummaryDto;
 import com.catpaw.catpawmiddleware.service.dto.recruit.RecruitTopicDto;
+import com.catpaw.catpawmiddleware.utils.LogUtils;
 import com.catpaw.catpawmiddleware.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -42,7 +42,9 @@ public class RecruitService {
     private final CategoryService categoryService;
 
 
-    public RecruitDetailDto getRecruitDetail(Long recruitId, Long memberId) {
+    public RecruitDetailDto getAccessibleRecruitDetail(Long recruitId, Long memberId) {
+        Assert.notNull(recruitId, LogUtils.notNullFormat("recruitId"));
+
         Optional<RecruitDetailDto> findRecruitDetailDto = recruitRepository.findRecruitDetailDto(recruitId);
         RecruitDetailDto recruitDetailDto = findRecruitDetailDto.orElseThrow(() -> {
             throw new DataNotFoundException("존재하지 않는 모집글입니다.");
@@ -58,6 +60,9 @@ public class RecruitService {
     }
 
     public CustomPageDto<RecruitSummaryDto> getRecruitSummaryForSearch(RecruitSearchDto searchDto, Pageable pageable, boolean isPage) {
+        Assert.notNull(searchDto, LogUtils.notNullFormat("searchDto"));
+        Assert.notNull(pageable, LogUtils.notNullFormat("pageable"));
+
         RecruitSearchCond searchCond = new RecruitSearchCond();
         searchCond.setSearchValue(searchDto.getSearchValue());
         searchCond.setRecruitType(searchDto.getRecruitType());
@@ -89,8 +94,8 @@ public class RecruitService {
     }
 
     public CustomPageDto<RecruitSummaryDto> getRecruitSummaryForTopic(RecruitTopicDto topicDto, Pageable pageable, boolean isPage) {
-        Assert.notNull(topicDto, "topicDto는 null일 수 없습니다.");
-        Assert.notNull(topicDto.getTopic(), "topic은 null일 수 없습니다.");
+        Assert.notNull(topicDto, LogUtils.notNullFormat("topicDto"));
+        Assert.notNull(topicDto.getTopic(), LogUtils.notNullFormat("topic"));
 
         RecruitTopicCond topicCond = new RecruitTopicCond();
         topicCond.setTopic(topicDto.getTopic());
@@ -118,6 +123,12 @@ public class RecruitService {
             return PageUtils.createCustomPageDto(
                     slicedRecruitList.map(recruit -> RecruitDtoFactory.toRecruitSummary(recruit, categoryMapperMap)));
         }
+    }
+
+    public Recruit getReferenceRecruit(Long recruitId) {
+        Assert.notNull(recruitId, LogUtils.notNullFormat("recruitId"));
+
+        return recruitRepository.getReferenceById(recruitId);
     }
 
     private Map<Long, List<CategoryMapper>> getCategoryMapByIdList(List<Long> idList, List<CategoryType> categoryTypeList) {

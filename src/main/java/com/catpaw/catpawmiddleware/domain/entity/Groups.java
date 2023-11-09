@@ -1,13 +1,18 @@
 package com.catpaw.catpawmiddleware.domain.entity;
 
+import com.catpaw.catpawmiddleware.domain.entity.base.BaseEntity;
 import com.catpaw.catpawmiddleware.domain.eumns.GroupState;
 import com.catpaw.catpawmiddleware.domain.eumns.GroupType;
 import com.catpaw.catpawmiddleware.domain.eumns.Scope;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Getter
 @Entity
+@Where(clause = "is_delete = 'N'")
+@SQLDelete(sql = "UPDATE groups SET is_delete = 'Y' WHERE group_id = ?")
 public class Groups extends BaseEntity {
 
     @Id @GeneratedValue

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class FriendRepositoryImpl implements FriendCustomRepository {
+public class FriendRepositoryImpl implements FriendRepositoryCustom {
 
     private final EntityManager em;
 }

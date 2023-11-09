@@ -1,12 +1,17 @@
 package com.catpaw.catpawmiddleware.domain.entity;
 
+import com.catpaw.catpawmiddleware.domain.entity.base.BaseEntity;
 import com.catpaw.catpawmiddleware.domain.eumns.Auth;
 import com.catpaw.catpawmiddleware.domain.eumns.GroupMemberState;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Getter
 @Entity
+@Where(clause = "is_delete = 'N'")
+@SQLDelete(sql = "UPDATE group_member SET is_delete = 'Y' WHERE group_member_id = ?")
 public class GroupMember extends BaseEntity {
 
     @Id @GeneratedValue

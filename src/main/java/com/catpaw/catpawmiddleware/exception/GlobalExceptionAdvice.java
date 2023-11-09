@@ -13,8 +13,10 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingPathVariableException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -51,12 +53,24 @@ public class GlobalExceptionAdvice {
     @Hidden
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
+            HttpMessageConversionException.class,
             MissingServletRequestParameterException.class,
+            MissingPathVariableException.class,
             MethodArgumentTypeMismatchException.class,
             MethodArgumentNotValidException.class,
-            IllegalArgumentException.class
     })
     public ResponseEntity<Result<Void>> invalidArgumentExceptionHandler(Exception e) {
+        log.error("[ex handler] ex", e);
+        return new ResponseEntity<>(
+                Result.createSingleResult(ResponseCode.INVALID_ARGUMENT.getCode(), e.getMessage(), null),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @Hidden
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Result<Void>> illegalArgumentExceptionHandler(IllegalArgumentException e) {
         log.error("[ex handler] ex", e);
         return new ResponseEntity<>(
                 Result.createSingleResult(ResponseCode.INVALID_ARGUMENT.getCode(), e.getMessage(), null),

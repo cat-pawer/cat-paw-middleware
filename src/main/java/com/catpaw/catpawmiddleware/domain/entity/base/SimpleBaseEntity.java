@@ -1,4 +1,4 @@
-package com.catpaw.catpawmiddleware.domain.entity;
+package com.catpaw.catpawmiddleware.domain.entity.base;
 
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface FriendRepository extends CrudRepository<Friend, Long>, FriendCustomRepository, FriendQueryRepository {
+public interface FriendRepository extends CrudRepository<Friend, Long>, FriendRepositoryCustom, FriendQueryRepository {
 
 
     @Query("SELECT friend FROM Friend friend " +

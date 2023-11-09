@@ -2,7 +2,6 @@ package com.catpaw.catpawmiddleware.repository.recruit.query;
 
 import com.catpaw.catpawmiddleware.common.factory.dto.CategoryDtoFactory;
 import com.catpaw.catpawmiddleware.domain.entity.Category;
-import com.catpaw.catpawmiddleware.domain.entity.CategoryMapper;
 import com.catpaw.catpawmiddleware.domain.entity.Recruit;
 import com.catpaw.catpawmiddleware.domain.eumns.*;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitSearchCond;
