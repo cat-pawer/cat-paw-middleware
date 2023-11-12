@@ -22,7 +22,8 @@ public class RequestToEnumConverterFactory implements ConverterFactory<String, E
 
         public StringToEnumsConverter(Class<T> enumType) {
             this.enumType = enumType;
-            this.baseEnum = Arrays.stream(enumType.getInterfaces()).anyMatch(inter -> inter == BaseEnumRequest.class);
+            this.baseEnum = Arrays.stream(enumType.getInterfaces())
+                    .anyMatch(inter -> inter == BaseEnumRequest.class);
         }
 
         @Override
