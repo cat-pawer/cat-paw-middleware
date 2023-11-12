@@ -1,6 +1,5 @@
 package com.catpaw.catpawmiddleware.service.dto.comment;
 
-import com.catpaw.catpawmiddleware.domain.eumns.Scope;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,6 +1,5 @@
 package com.catpaw.catpawmiddleware.repository.dto;
 
-import com.catpaw.catpawmiddleware.domain.entity.Groups;
 import com.catpaw.catpawmiddleware.domain.entity.Recruit;
 import com.catpaw.catpawmiddleware.domain.eumns.GroupType;
 import com.catpaw.catpawmiddleware.domain.eumns.OnlineType;
@@ -18,8 +17,6 @@ import java.util.List;
 public class RecruitDetailDto {
 
     private Long id;
-
-    private Groups groups;
 
     private String title;
 
@@ -51,19 +48,13 @@ public class RecruitDetailDto {
 
     private Long updatedBy;
 
-    private List<CategorySummaryDto> tagList;
+    private List<CategorySummaryDto> tagList = new ArrayList<>();
 
-    private List<CategorySummaryDto> positionList;
+    private List<CategorySummaryDto> positionList = new ArrayList<>();
 
-    private List<CategorySummaryDto> techList;
+    private List<CategorySummaryDto> techList = new ArrayList<>();
 
-    public RecruitDetailDto() {
-        this.tagList = new ArrayList<>();
-        this.positionList = new ArrayList<>();
-        this.techList = new ArrayList<>();
-    }
-
-    public void setRecruit(Recruit recruit) {
+    public void copyRecruit(Recruit recruit) {
         this.id = recruit.getId();
         this.title = recruit.getTitle();
         this.content = recruit.getContent();

@@ -31,5 +31,5 @@ public class Result<T> {
         return result;
     }
 
-    private Result() {};
+    public Result() {};
 }

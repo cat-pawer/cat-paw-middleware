@@ -72,7 +72,7 @@ public class RecruitQueryRepositoryImpl implements RecruitQueryRepository {
         RecruitDetailDto recruitDetailDto = new RecruitDetailDto();
         for (Tuple content : contents) {
             Recruit findRecruit = content.get(recruit);
-            if (recruitDetailDto.getId() == null) recruitDetailDto.setRecruit(findRecruit);
+            if (recruitDetailDto.getId() == null) recruitDetailDto.copyRecruit(findRecruit);
 
             Category findCategory = content.get(category);
             if (findCategory == null) continue;

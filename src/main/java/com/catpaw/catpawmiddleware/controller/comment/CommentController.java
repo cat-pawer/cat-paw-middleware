@@ -3,8 +3,8 @@ package com.catpaw.catpawmiddleware.controller.comment;
 import com.catpaw.catpawmiddleware.common.resolver.annotation.LoginId;
 import com.catpaw.catpawmiddleware.controller.request.comment.AddCommentForm;
 import com.catpaw.catpawmiddleware.controller.response.Result;
+import com.catpaw.catpawmiddleware.controller.response.comment.CommentSummarySchema;
 import com.catpaw.catpawmiddleware.domain.eumns.ResponseCode;
-import com.catpaw.catpawmiddleware.exception.custom.UnauthorizedException;
 import com.catpaw.catpawmiddleware.service.comment.CommentRecruitService;
 import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
 import com.catpaw.catpawmiddleware.service.dto.comment.CommentDetailDto;
@@ -41,7 +41,7 @@ public class CommentController {
             summary = "모집글 댓글 조회",
             tags = { "Get" })
     @ApiResponses({
-            @ApiResponse(responseCode = "200",  description = "정상", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "200",  description = "정상", content = { @Content(schema = @Schema(implementation = CommentSummarySchema.class), mediaType = "application/json")}),
             @ApiResponse(responseCode = "400",  description = "잘못된 검색조건", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")}),
             @ApiResponse(responseCode = "500", description = "서버 오류", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")})})
     @GetMapping("/summary/{recruitId}")

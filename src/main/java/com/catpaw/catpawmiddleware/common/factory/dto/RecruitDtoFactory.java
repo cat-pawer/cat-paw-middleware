@@ -1,6 +1,5 @@
 package com.catpaw.catpawmiddleware.common.factory.dto;
 
-import com.catpaw.catpawmiddleware.domain.entity.Category;
 import com.catpaw.catpawmiddleware.domain.entity.CategoryMapper;
 import com.catpaw.catpawmiddleware.domain.entity.Recruit;
 import com.catpaw.catpawmiddleware.domain.eumns.CategoryType;

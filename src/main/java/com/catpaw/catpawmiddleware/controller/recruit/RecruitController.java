@@ -6,6 +6,8 @@ import com.catpaw.catpawmiddleware.controller.request.enums.OnlineTypeRequest;
 import com.catpaw.catpawmiddleware.controller.request.enums.RecruitStateRequest;
 import com.catpaw.catpawmiddleware.controller.request.enums.RecruitTopicRequest;
 import com.catpaw.catpawmiddleware.controller.response.Result;
+import com.catpaw.catpawmiddleware.controller.response.recruit.RecruitDetailSchema;
+import com.catpaw.catpawmiddleware.controller.response.recruit.RecruitSummarySchema;
 import com.catpaw.catpawmiddleware.domain.eumns.ResponseCode;
 import com.catpaw.catpawmiddleware.repository.dto.RecruitDetailDto;
 import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
@@ -46,7 +48,7 @@ public class RecruitController {
             description = "본인 게시글은 전부 접근 가능 / 숨김 상태 시 본인 외 접근 불가",
             tags = { "Get" })
     @ApiResponses({
-            @ApiResponse(responseCode = "200",  description = "정상", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "200",  description = "정상", content = { @Content(schema = @Schema(implementation = RecruitDetailSchema.class), mediaType = "application/json")}),
             @ApiResponse(responseCode = "403",  description = "권한 없는 모집글", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")}),
             @ApiResponse(responseCode = "404",  description = "존재하지 않는 모집글", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")}),
             @ApiResponse(responseCode = "500", description = "서버 오류", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")})})
@@ -68,7 +70,7 @@ public class RecruitController {
             description = "전체 프로젝트 필터 페이지 또는 스크롤 조회",
             tags = { "Get" })
     @ApiResponses({
-            @ApiResponse(responseCode = "200",  description = "정상", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "200",  description = "정상", content = { @Content(schema = @Schema(implementation = RecruitSummarySchema.class), mediaType = "application/json")}),
             @ApiResponse(responseCode = "400",  description = "잘못된 검색조건", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")}),
             @ApiResponse(responseCode = "500", description = "서버 오류", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")})})
     @GetMapping("/summary/search")
@@ -107,7 +109,7 @@ public class RecruitController {
             description = "신상 또는 마감임박 프로젝트 페이지 또는 스크롤 조회",
             tags = { "Get" })
     @ApiResponses({
-            @ApiResponse(responseCode = "200",  description = "정상", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")}),
+            @ApiResponse(responseCode = "200",  description = "정상", content = { @Content(schema = @Schema(implementation = RecruitSummarySchema.class), mediaType = "application/json")}),
             @ApiResponse(responseCode = "400",  description = "잘못된 검색조건", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")}),
             @ApiResponse(responseCode = "500", description = "서버 오류", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")})})
     @GetMapping("/summary/topics")
