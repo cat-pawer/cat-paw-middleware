@@ -1,4 +1,4 @@
-package com.catpaw.catpawmiddleware.controller.comment;
+package com.catpaw.catpawmiddleware.controller.v1.comment;
 
 import com.catpaw.catpawmiddleware.common.resolver.annotation.LoginId;
 import com.catpaw.catpawmiddleware.controller.request.comment.AddCommentForm;
@@ -31,7 +31,7 @@ import java.util.Optional;
 @Tag(name = "댓글", description = "댓글 도메인 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/comment")
+@RequestMapping("/api/v1/comment")
 public class CommentController {
 
     private final CommentRecruitService commentRecruitService;

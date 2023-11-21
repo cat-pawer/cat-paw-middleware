@@ -1,4 +1,4 @@
-package com.catpaw.catpawmiddleware.controller.friend;
+package com.catpaw.catpawmiddleware.controller.v1.friend;
 
 import com.catpaw.catpawmiddleware.exception.custom.DuplicateFriendException;
 import com.catpaw.catpawmiddleware.common.resolver.annotation.LoginId;
@@ -31,7 +31,7 @@ import java.util.Optional;
 @Tag(name = "친구", description = "친구 도메인 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/friend")
+@RequestMapping("/api/v1/friend")
 public class FriendController {
 
     private final FriendService friendService;

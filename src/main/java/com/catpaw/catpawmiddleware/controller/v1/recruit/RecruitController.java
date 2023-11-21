@@ -1,4 +1,4 @@
-package com.catpaw.catpawmiddleware.controller.recruit;
+package com.catpaw.catpawmiddleware.controller.v1.recruit;
 
 import com.catpaw.catpawmiddleware.common.resolver.annotation.LoginId;
 import com.catpaw.catpawmiddleware.controller.request.enums.GroupTypeRequest;
@@ -38,7 +38,7 @@ import java.util.Optional;
 @Tag(name = "모집", description = "모집 도메인 API")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/recruit")
+@RequestMapping("/api/v1/recruit")
 public class RecruitController {
 
     private final RecruitService recruitService;

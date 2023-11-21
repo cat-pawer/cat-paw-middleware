@@ -1,4 +1,4 @@
-package com.catpaw.catpawmiddleware.controller.file;
+package com.catpaw.catpawmiddleware.controller.v1.file;
 
 import com.catpaw.catpawmiddleware.service.file.FileService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping("/upload")
+@RequestMapping("/api/v1/upload")
 @RequiredArgsConstructor
 public class FileController {
 
