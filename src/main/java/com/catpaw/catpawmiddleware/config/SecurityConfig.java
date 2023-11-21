@@ -54,7 +54,7 @@ public class SecurityConfig {
                             userConf ->
                                     userConf.userService(securityLoginService)
                     )
-                    .loginProcessingUrl("/api/v1/oauth2/authorization/**")
+                    .loginPage("/api/v1/oauth2/authorization/**")
                     .successHandler(oAuthAuthenticationSuccessHandler());
         });
         http.addFilterBefore(
