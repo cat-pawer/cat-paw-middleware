@@ -49,7 +49,7 @@ public class SecurityConfig {
             conf
                     .redirectionEndpoint(
                             redirectConf ->
-                                    redirectConf.baseUri("/oauth/code/**"))
+                                    redirectConf.baseUri("/api/v1/oauth/code/**"))
                     .userInfoEndpoint(
                             userConf ->
                                     userConf.userService(securityLoginService)
