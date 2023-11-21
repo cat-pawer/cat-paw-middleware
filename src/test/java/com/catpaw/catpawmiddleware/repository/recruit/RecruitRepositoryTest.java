@@ -1,6 +1,6 @@
 package com.catpaw.catpawmiddleware.repository.recruit;
 
-import com.catpaw.catpawmiddleware.controller.request.enums.RecruitTopicRequest;
+import com.catpaw.catpawmiddleware.controller.v1.request.enums.RecruitTopicRequest;
 import com.catpaw.catpawmiddleware.domain.entity.Category;
 import com.catpaw.catpawmiddleware.domain.entity.CategoryMapper;
 import com.catpaw.catpawmiddleware.domain.entity.Member;

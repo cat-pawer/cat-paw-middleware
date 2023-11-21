@@ -1,4 +1,4 @@
-package com.catpaw.catpawmiddleware.controller.request.enums;
+package com.catpaw.catpawmiddleware.controller.v1.request.enums;
 
 
 import com.catpaw.catpawmiddleware.domain.eumns.RecruitTopic;

@@ -1,4 +1,4 @@
-package com.catpaw.catpawmiddleware.controller.response;
+package com.catpaw.catpawmiddleware.controller.v1.response;
 
 import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
 import jakarta.annotation.Nullable;

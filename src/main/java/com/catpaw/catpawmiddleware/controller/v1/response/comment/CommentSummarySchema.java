@@ -1,6 +1,6 @@
-package com.catpaw.catpawmiddleware.controller.response.comment;
+package com.catpaw.catpawmiddleware.controller.v1.response.comment;
 
-import com.catpaw.catpawmiddleware.controller.response.Result;
+import com.catpaw.catpawmiddleware.controller.v1.response.Result;
 import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
 import com.catpaw.catpawmiddleware.service.dto.comment.CommentSummaryDto;
 import io.swagger.v3.oas.annotations.media.Schema;

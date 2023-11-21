@@ -1,13 +1,13 @@
 package com.catpaw.catpawmiddleware.controller.v1.recruit;
 
 import com.catpaw.catpawmiddleware.common.resolver.annotation.LoginId;
-import com.catpaw.catpawmiddleware.controller.request.enums.GroupTypeRequest;
-import com.catpaw.catpawmiddleware.controller.request.enums.OnlineTypeRequest;
-import com.catpaw.catpawmiddleware.controller.request.enums.RecruitStateRequest;
-import com.catpaw.catpawmiddleware.controller.request.enums.RecruitTopicRequest;
-import com.catpaw.catpawmiddleware.controller.response.Result;
-import com.catpaw.catpawmiddleware.controller.response.recruit.RecruitDetailSchema;
-import com.catpaw.catpawmiddleware.controller.response.recruit.RecruitSummarySchema;
+import com.catpaw.catpawmiddleware.controller.v1.request.enums.GroupTypeRequest;
+import com.catpaw.catpawmiddleware.controller.v1.request.enums.OnlineTypeRequest;
+import com.catpaw.catpawmiddleware.controller.v1.request.enums.RecruitStateRequest;
+import com.catpaw.catpawmiddleware.controller.v1.request.enums.RecruitTopicRequest;
+import com.catpaw.catpawmiddleware.controller.v1.response.Result;
+import com.catpaw.catpawmiddleware.controller.v1.response.recruit.RecruitDetailSchema;
+import com.catpaw.catpawmiddleware.controller.v1.response.recruit.RecruitSummarySchema;
 import com.catpaw.catpawmiddleware.domain.eumns.ResponseCode;
 import com.catpaw.catpawmiddleware.repository.dto.RecruitDetailDto;
 import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;

@@ -1,6 +1,6 @@
-package com.catpaw.catpawmiddleware.controller.response.recruit;
+package com.catpaw.catpawmiddleware.controller.v1.response.recruit;
 
-import com.catpaw.catpawmiddleware.controller.response.Result;
+import com.catpaw.catpawmiddleware.controller.v1.response.Result;
 import com.catpaw.catpawmiddleware.repository.dto.RecruitDetailDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 

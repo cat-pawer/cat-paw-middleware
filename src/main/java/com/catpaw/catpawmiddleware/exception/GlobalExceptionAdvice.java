@@ -4,7 +4,7 @@ package com.catpaw.catpawmiddleware.exception;
 import com.catpaw.catpawmiddleware.exception.custom.DataNotFoundException;
 import com.catpaw.catpawmiddleware.exception.custom.ForbiddenException;
 import com.catpaw.catpawmiddleware.exception.custom.MemberNotFoundException;
-import com.catpaw.catpawmiddleware.controller.response.Result;
+import com.catpaw.catpawmiddleware.controller.v1.response.Result;
 import com.catpaw.catpawmiddleware.domain.eumns.ResponseCode;
 import com.catpaw.catpawmiddleware.exception.custom.UnauthorizedException;
 import io.swagger.v3.oas.annotations.Hidden;

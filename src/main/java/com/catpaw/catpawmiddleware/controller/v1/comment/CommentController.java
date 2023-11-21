@@ -1,9 +1,9 @@
 package com.catpaw.catpawmiddleware.controller.v1.comment;
 
 import com.catpaw.catpawmiddleware.common.resolver.annotation.LoginId;
-import com.catpaw.catpawmiddleware.controller.request.comment.AddCommentForm;
-import com.catpaw.catpawmiddleware.controller.response.Result;
-import com.catpaw.catpawmiddleware.controller.response.comment.CommentSummarySchema;
+import com.catpaw.catpawmiddleware.controller.v1.request.comment.AddCommentForm;
+import com.catpaw.catpawmiddleware.controller.v1.response.Result;
+import com.catpaw.catpawmiddleware.controller.v1.response.comment.CommentSummarySchema;
 import com.catpaw.catpawmiddleware.domain.eumns.ResponseCode;
 import com.catpaw.catpawmiddleware.service.comment.CommentRecruitService;
 import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;

@@ -1,6 +1,6 @@
 package com.catpaw.catpawmiddleware.common.converter;
 
-import com.catpaw.catpawmiddleware.controller.request.enums.BaseEnumRequest;
+import com.catpaw.catpawmiddleware.controller.v1.request.enums.BaseEnumRequest;
 import lombok.NonNull;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;

@@ -1,4 +1,4 @@
-package com.catpaw.catpawmiddleware.controller.request.comment;
+package com.catpaw.catpawmiddleware.controller.v1.request.comment;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -1,6 +1,6 @@
 package com.catpaw.catpawmiddleware.service.recruit;
 
-import com.catpaw.catpawmiddleware.controller.request.enums.RecruitTopicRequest;
+import com.catpaw.catpawmiddleware.controller.v1.request.enums.RecruitTopicRequest;
 import com.catpaw.catpawmiddleware.domain.entity.Recruit;
 import com.catpaw.catpawmiddleware.domain.eumns.RecruitState;
 import com.catpaw.catpawmiddleware.domain.eumns.TargetType;

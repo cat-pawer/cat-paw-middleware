@@ -42,7 +42,8 @@ public class SecurityTokenService implements UserDetailsService {
                             .createMemberContexts(MemberAuthenticationFormFactory.createLocalMemberForm(member));
 
             return new MemberContextsImpl(memberContexts);
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
             throw new IllegalArgumentException("잘못된 토근 정보입니다.");
         }
     }

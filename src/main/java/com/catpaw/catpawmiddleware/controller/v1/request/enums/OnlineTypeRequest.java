@@ -1,6 +1,5 @@
-package com.catpaw.catpawmiddleware.controller.request.enums;
+package com.catpaw.catpawmiddleware.controller.v1.request.enums;
 
-import com.catpaw.catpawmiddleware.domain.eumns.GroupType;
 import com.catpaw.catpawmiddleware.domain.eumns.OnlineType;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;

@@ -46,17 +46,16 @@ public class SecurityConfig {
                 .sessionManagement(conf ->
                         conf.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.oauth2Login(conf -> {
-            conf.redirectionEndpoint(redirectConf -> redirectConf.baseUri("/oauth/code/**"));
-            conf.userInfoEndpoint(
-                    userConf -> {
-                        userConf
-//                                .oidcUserService(customOidcUserService)
-                                .userService(securityLoginService);
-                    }
-            );
-//            conf.failureHandler();
-            conf.successHandler(oAuthAuthenticationSuccessHandler());
-
+            conf
+                    .redirectionEndpoint(
+                            redirectConf ->
+                                    redirectConf.baseUri("/oauth/code/**"))
+                    .userInfoEndpoint(
+                            userConf ->
+                                    userConf.userService(securityLoginService)
+                    )
+                    .loginProcessingUrl("/api/v1/oauth2/authorization/**")
+                    .successHandler(oAuthAuthenticationSuccessHandler());
         });
         http.addFilterBefore(
                 new JwtAuthenticationFilter(jwtTokenManager, userDetailsService),
