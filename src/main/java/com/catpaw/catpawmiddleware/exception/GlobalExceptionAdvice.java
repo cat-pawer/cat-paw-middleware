@@ -1,12 +1,9 @@
 package com.catpaw.catpawmiddleware.exception;
 
 
-import com.catpaw.catpawmiddleware.exception.custom.DataNotFoundException;
-import com.catpaw.catpawmiddleware.exception.custom.ForbiddenException;
-import com.catpaw.catpawmiddleware.exception.custom.MemberNotFoundException;
+import com.catpaw.catpawmiddleware.exception.custom.*;
 import com.catpaw.catpawmiddleware.controller.v1.response.Result;
 import com.catpaw.catpawmiddleware.domain.eumns.ResponseCode;
-import com.catpaw.catpawmiddleware.exception.custom.UnauthorizedException;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
@@ -80,7 +77,18 @@ public class GlobalExceptionAdvice {
 
     @Hidden
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(IllegalStateException.class)
+    @ExceptionHandler(NoSupportContentTypeException.class)
+    public ResponseEntity<Result<Void>> noSupportContentTypeExceptionHandler(NoSupportContentTypeException e) {
+        log.error("[ex handler] ex", e);
+        return new ResponseEntity<>(
+                Result.createSingleResult(ResponseCode.NO_SUPPORT_CONTENT_TYPE.getCode(), e.getMessage(), null),
+                HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @Hidden
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({ IllegalStateException.class, FileConvertException.class })
     public ResponseEntity<Result<Void>> illegalStateExceptionHandler(Exception e) {
         log.error("[ex handler] ex", e);
         return new ResponseEntity<>(

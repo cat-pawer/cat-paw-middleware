@@ -2,11 +2,11 @@ package com.catpaw.catpawmiddleware.service.security;
 
 import com.catpaw.catpawmiddleware.common.converter.security.DelegatingMemberContextConverter;
 import com.catpaw.catpawmiddleware.domain.eumns.Auth;
-import com.catpaw.catpawmiddleware.domain.model.MemberContext;
+import com.catpaw.catpawmiddleware.domain.security.MemberContext;
 import com.catpaw.catpawmiddleware.common.factory.authentication.MemberAuthenticationFactory;
 import com.catpaw.catpawmiddleware.common.factory.authentication.MemberAuthenticationFormFactory;
 import com.catpaw.catpawmiddleware.domain.entity.Member;
-import com.catpaw.catpawmiddleware.domain.member.MemberContexts;
+import com.catpaw.catpawmiddleware.domain.security.MemberContexts;
 import com.catpaw.catpawmiddleware.repository.member.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

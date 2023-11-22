@@ -1,6 +1,6 @@
 package com.catpaw.catpawmiddleware.common.converter.security;
 
-import com.catpaw.catpawmiddleware.domain.model.MemberContext;
+import com.catpaw.catpawmiddleware.domain.security.MemberContext;
 import com.catpaw.catpawmiddleware.common.factory.authentication.MemberAuthenticationFormFactory;
 import com.catpaw.catpawmiddleware.domain.eumns.Auth;
 import com.catpaw.catpawmiddleware.domain.eumns.SocialType;

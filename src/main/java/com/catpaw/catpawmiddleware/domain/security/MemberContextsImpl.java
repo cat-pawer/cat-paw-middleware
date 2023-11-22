@@ -1,6 +1,5 @@
-package com.catpaw.catpawmiddleware.domain.member;
+package com.catpaw.catpawmiddleware.domain.security;
 
-import com.catpaw.catpawmiddleware.domain.model.MemberContext;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;

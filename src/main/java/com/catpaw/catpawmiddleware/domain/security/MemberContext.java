@@ -1,4 +1,4 @@
-package com.catpaw.catpawmiddleware.domain.model;
+package com.catpaw.catpawmiddleware.domain.security;
 
 import com.catpaw.catpawmiddleware.domain.entity.Member;
 import com.catpaw.catpawmiddleware.domain.eumns.Auth;

@@ -1,7 +1,7 @@
 package com.catpaw.catpawmiddleware.common.handler.security;
 
-import com.catpaw.catpawmiddleware.domain.member.MemberContextsImpl;
-import com.catpaw.catpawmiddleware.domain.model.MemberContext;
+import com.catpaw.catpawmiddleware.domain.security.MemberContextsImpl;
+import com.catpaw.catpawmiddleware.domain.security.MemberContext;
 import com.catpaw.catpawmiddleware.utils.URLUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,12 +18,14 @@ import java.util.Map;
 @Slf4j
 public class OAuthAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private static final String DEFAULT_REDIRECT_URL = "http://localhost:4000/oauth/redirect";
 
+    private static final String REDIRECT_URI = "/oauth/success";
     private final JwtTokenManager jwtTokenManager;
+    private final String redirectUrl;
 
-    public OAuthAuthenticationSuccessHandler(JwtTokenManager jwtTokenManager) {
+    public OAuthAuthenticationSuccessHandler(JwtTokenManager jwtTokenManager, String frontUrl) {
         this.jwtTokenManager = jwtTokenManager;
+        this.redirectUrl = frontUrl + REDIRECT_URI;
     }
 
     @Override
@@ -33,7 +35,7 @@ public class OAuthAuthenticationSuccessHandler extends SimpleUrlAuthenticationSu
 
         String token = jwtTokenManager.createToken(member.getId(), member.getEmail(), authentication.getAuthorities());
 
-        String targetUrl = getTargetUrl(token);
+        String targetUrl = this.getTargetUrl(token);
 
         if (response.isCommitted()) {
             this.logger.debug(LogMessage.format("Did not redirect to %s since response already committed.", targetUrl));
@@ -46,7 +48,7 @@ public class OAuthAuthenticationSuccessHandler extends SimpleUrlAuthenticationSu
     private String getTargetUrl(String token) {
         Map<String, String> queryParams = new HashMap<>();
         queryParams.put("token", token);
-        return URLUtils.createUrl(DEFAULT_REDIRECT_URL, queryParams);
+        return URLUtils.createUrl(this.redirectUrl, queryParams);
     }
 
 }

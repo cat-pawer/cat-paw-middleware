@@ -2,16 +2,16 @@ package com.catpaw.catpawmiddleware.service.aws;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import lombok.RequiredArgsConstructor;
+import com.catpaw.catpawmiddleware.exception.custom.FileConvertException;
+import com.catpaw.catpawmiddleware.utils.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 @Slf4j
 @Service
@@ -25,22 +25,21 @@ public class AwsS3Service {
         this.bucketName = bucketName;
     }
 
-    public String uploadFile(MultipartFile multipartFile, String fileName) throws IOException {
-        if (multipartFile.isEmpty()) {
-            throw new RuntimeException("file is empty");
+    public String uploadFile(MultipartFile multipartFile, String absoluteDestination) {
+        try {
+            File tempFile = File.createTempFile("temp", FileUtils.getFileExtension(multipartFile));
+            multipartFile.transferTo(tempFile);
+            return this.uploadFile(tempFile, absoluteDestination);
         }
-
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentType(multipartFile.getContentType());
-        try (InputStream inputStream = multipartFile.getInputStream()) {
-
-            awsClient.putObject(new PutObjectRequest(bucketName, fileName, inputStream, objectMetadata)
-                    .withCannedAcl(CannedAccessControlList.PublicRead));
-        } catch (Exception e) {
-            log.error("Can not upload image, ", e);
-            throw new RuntimeException("cannot upload image");
+        catch (IOException e) {
+            throw new FileConvertException();
         }
+    }
 
-        return awsClient.getUrl(bucketName, fileName).toString();
+    public String uploadFile(File file, String absoluteDestination) {
+        awsClient.putObject(new PutObjectRequest(bucketName, absoluteDestination, file)
+                .withCannedAcl(CannedAccessControlList.PublicRead));
+
+        return awsClient.getUrl(bucketName, absoluteDestination).toString();
     }
 }

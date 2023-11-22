@@ -1,11 +1,11 @@
 package com.catpaw.catpawmiddleware.common.factory.authentication;
 
 import com.catpaw.catpawmiddleware.common.converter.security.DelegatingMemberContextConverter;
-import com.catpaw.catpawmiddleware.domain.model.MemberContext;
-import com.catpaw.catpawmiddleware.domain.member.GoogleMember;
-import com.catpaw.catpawmiddleware.domain.member.LocalMember;
-import com.catpaw.catpawmiddleware.domain.member.MemberContexts;
-import com.catpaw.catpawmiddleware.domain.member.NaverMember;
+import com.catpaw.catpawmiddleware.domain.security.MemberContext;
+import com.catpaw.catpawmiddleware.domain.security.GoogleMember;
+import com.catpaw.catpawmiddleware.domain.security.LocalMember;
+import com.catpaw.catpawmiddleware.domain.security.MemberContexts;
+import com.catpaw.catpawmiddleware.domain.security.NaverMember;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.List;

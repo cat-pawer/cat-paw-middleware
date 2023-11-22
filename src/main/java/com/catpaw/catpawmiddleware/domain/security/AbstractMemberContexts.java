@@ -1,6 +1,5 @@
-package com.catpaw.catpawmiddleware.domain.member;
+package com.catpaw.catpawmiddleware.domain.security;
 
-import com.catpaw.catpawmiddleware.domain.model.MemberContext;
 import com.catpaw.catpawmiddleware.domain.eumns.SocialType;
 import com.catpaw.catpawmiddleware.utils.UuidUtils;
 import jakarta.annotation.Nullable;

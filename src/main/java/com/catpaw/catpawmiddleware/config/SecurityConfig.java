@@ -7,6 +7,7 @@ import com.catpaw.catpawmiddleware.filter.JwtAuthenticationFilter;
 import com.catpaw.catpawmiddleware.common.handler.security.JwtTokenManager;
 import com.catpaw.catpawmiddleware.service.security.SecurityLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,6 +34,9 @@ public class SecurityConfig {
     @Autowired
     JwtTokenManager jwtTokenManager;
 
+    @Value("${front-url}")
+    private String frontUrl;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
@@ -54,7 +58,10 @@ public class SecurityConfig {
                             userConf ->
                                     userConf.userService(securityLoginService)
                     )
-                    .loginPage("/api/v1/oauth2/authorization/**")
+                    .authorizationEndpoint(
+                            authConf ->
+                                    authConf.baseUri("/api/v1/oauth/authorization")
+                    )
                     .successHandler(oAuthAuthenticationSuccessHandler());
         });
         http.addFilterBefore(
@@ -70,7 +77,7 @@ public class SecurityConfig {
 
     @Bean
     public OAuthAuthenticationSuccessHandler oAuthAuthenticationSuccessHandler() {
-        return new OAuthAuthenticationSuccessHandler(jwtTokenManager);
+        return new OAuthAuthenticationSuccessHandler(jwtTokenManager, this.frontUrl);
     }
 
     @Bean

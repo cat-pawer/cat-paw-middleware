@@ -1,7 +1,7 @@
 package com.catpaw.catpawmiddleware.common.resolver;
 
 import com.catpaw.catpawmiddleware.common.resolver.annotation.LoginId;
-import com.catpaw.catpawmiddleware.domain.member.MemberContextsImpl;
+import com.catpaw.catpawmiddleware.domain.security.MemberContextsImpl;
 import com.catpaw.catpawmiddleware.exception.custom.MemberNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;

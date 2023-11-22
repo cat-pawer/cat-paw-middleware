@@ -5,11 +5,10 @@ import com.catpaw.catpawmiddleware.common.converter.security.DelegatingMemberCon
 import com.catpaw.catpawmiddleware.common.factory.authentication.MemberAuthenticationFactory;
 import com.catpaw.catpawmiddleware.common.factory.authentication.MemberAuthenticationFormFactory;
 import com.catpaw.catpawmiddleware.domain.entity.Member;
-import com.catpaw.catpawmiddleware.domain.member.MemberContexts;
-import com.catpaw.catpawmiddleware.domain.member.MemberContextsImpl;
+import com.catpaw.catpawmiddleware.domain.security.MemberContexts;
+import com.catpaw.catpawmiddleware.domain.security.MemberContextsImpl;
 import com.catpaw.catpawmiddleware.exception.custom.MemberNotFoundException;
 import com.catpaw.catpawmiddleware.repository.member.MemberRepository;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
