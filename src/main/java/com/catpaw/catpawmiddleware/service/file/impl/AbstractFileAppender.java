@@ -37,7 +37,7 @@ public abstract class AbstractFileAppender implements FileAppenderState {
         String fileName = originalFilename.substring(0, fileExtensionIndex);
         String now = String.valueOf(System.currentTimeMillis());
 
-        return this.fileDestinationResolver(targetType) + fileName + "_" + now + fileExtension;
+        return this.fileDestinationKeyResolver(targetType) + fileName + "_" + now + fileExtension;
     }
 
     protected void fileValidator(MultipartFile multipartFile) {
@@ -51,7 +51,7 @@ public abstract class AbstractFileAppender implements FileAppenderState {
         }
     }
 
-    protected String fileDestinationResolver(TargetType targetType) {
+    protected String fileDestinationKeyResolver(TargetType targetType) {
         Assert.notNull(targetType, LogUtils.notNullFormat("targetType"));
         StringBuilder sb = new StringBuilder();
 

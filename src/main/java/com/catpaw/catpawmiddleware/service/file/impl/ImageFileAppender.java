@@ -30,9 +30,9 @@ public class ImageFileAppender extends AbstractFileAppender implements FileAppen
     public String append(MultipartFile multipartFile, String absoluteFileDestination) {
         this.fileValidator(multipartFile);
 
-        File convertedImage = translateStrategy.translate(multipartFile);
+        File translatedImage = translateStrategy.translate(multipartFile);
 
-        return awsS3Service.uploadFile(convertedImage, absoluteFileDestination);
+        return awsS3Service.uploadFile(translatedImage, absoluteFileDestination);
     }
 
     @Override
@@ -41,6 +41,11 @@ public class ImageFileAppender extends AbstractFileAppender implements FileAppen
         String fileName = originalFilename.substring(0, fileExtensionIndex);
         String now = String.valueOf(System.currentTimeMillis());
 
-        return this.fileDestinationResolver(targetType) + fileName + "_" + now + ".webp";
+        return this.fileDestinationKeyResolver(targetType) +
+                fileName +
+                "_" +
+                now +
+                "." +
+                SupportExtension.WEBP.name().toLowerCase();
     }
 }

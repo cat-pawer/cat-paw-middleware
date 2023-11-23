@@ -56,10 +56,6 @@ public class AwsS3Service {
         awsClient.deleteObject(new DeleteObjectRequest(bucketName, absoluteDestination));
     }
 
-    private String getS3Endpoint() {
-        return "https://cat-paw-storage.s3.ap-northeast-2.amazonaws.com/";
-    }
-
     private void clearTempFile(File tempFile) {
         boolean delete = tempFile.delete();
         if (!delete) log.error("{}을/를 삭제하지 못했습니다.", tempFile.getName());
