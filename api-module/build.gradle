@@ -1,0 +1,132 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+}
+
+group 'com.cat-paw'
+version '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.4.4'
+
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
+    implementation 'com.sksamuel.scrimage:scrimage-core:4.1.1'
+    implementation 'com.sksamuel.scrimage:scrimage-webp:4.0.38'
+
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.0'
+
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.register('deleteSetting', Delete) {
+    delete 'src/main/resources/*.yml'
+}
+
+tasks.register('copyPrivate', Copy) {
+    from project(':config').fileTree('backend/api')
+    into 'src/main/resources'
+}
+
+tasks.copyPrivate.dependsOn tasks.deleteSetting
+tasks.processResources.dependsOn tasks.copyPrivate
+
+jacoco {
+    toolVersion = '0.8.7'
+}
+
+jacocoTestReport {
+    reports {
+        csv.required.set(true)
+        xml.required.set(true)
+        html.required.set(true)
+
+        xml.destination file(layout.buildDirectory.dir("jacoco/index.xml"))
+        csv.destination file(layout.buildDirectory.dir("jacoco/index.csv"))
+        html.destination file(layout.buildDirectory.dir("jacoco/index.html"))
+    }
+
+    finalizedBy 'jacocoTestCoverageVerification'
+
+    afterEvaluate {
+        classDirectories.setFrom(
+                files(classDirectories.files.collect {
+                    fileTree(dir: it, excludes: [
+                            '**/*Application*',
+                            '**/*Exception*',
+                            '**/domain/**',
+                            '**/repository/**',
+                            '**/common/**',
+                            '**/config/**',
+                            '**/filter/**',
+                            '**/utils/**',
+                            '**/controller/**',
+                            '**/service/dto/**'
+                    ])
+                })
+        )
+    }
+}
+
+jacocoTestReport.dependsOn compileJava
+jacocoTestReport.dependsOn processResources
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            enabled = true
+            element = 'CLASS'
+
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.75
+            }
+        }
+
+        // ...
+
+        rule {
+            excludes = [
+                    '*.*Application',
+                    '*.*Exception',
+                    '**/domain/**',
+                    '**/repository/**',
+                    '**/common/**',
+                    '**/config/**',
+                    '**/filter/**',
+                    '**/utils/**',
+                    '**/controller/**',
+                    '**/service/dto/**'
+            ]
+            includes = [
+                    '*.*Service'
+            ]
+        }
+    }
+
+}
+
+
+
+

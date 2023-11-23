@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+}
+
+group 'com.cat-paw'
+version '0.0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+tasks.register('deleteSetting', Delete) {
+    delete 'src/main/resources/*.yml'
+}
+
+tasks.register('copyPrivate', Copy) {
+    from project(':config').fileTree('backend/chat')
+    into 'src/main/resources'
+}
+
+tasks.copyPrivate.dependsOn tasks.deleteSetting
+tasks.processResources.dependsOn tasks.copyPrivate

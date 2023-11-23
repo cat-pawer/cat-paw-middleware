@@ -1,2 +1,6 @@
 rootProject.name = 'cat-paw-middleware'
 include 'cat-paw-middleware', 'config'
+include 'api-module'
+include 'chat-module'
+include 'core-module'
+
