@@ -9,5 +9,5 @@ public interface FileAppenderState {
 
     String append(MultipartFile multipartFile, String absoluteFileDestination);
 
-    String createAbsoluteFileDestination(String originalFilename, TargetType targetType);
+    String createFileKey(String originalFilename, TargetType targetType);
 }

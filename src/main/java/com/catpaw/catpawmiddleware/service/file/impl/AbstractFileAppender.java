@@ -28,7 +28,10 @@ public abstract class AbstractFileAppender implements FileAppenderState {
                 .anyMatch(contentType::contains);
     }
 
-    public String createAbsoluteFileDestination(String originalFilename, TargetType targetType) {
+    public String createFileKey(String originalFilename, TargetType targetType) {
+        Assert.hasText(originalFilename, LogUtils.notEmptyFormat("originalFilename"));
+        Assert.notNull(targetType, LogUtils.notNullFormat("targetType"));
+
         int fileExtensionIndex = originalFilename.lastIndexOf(".");
         String fileExtension = originalFilename.substring(fileExtensionIndex);
         String fileName = originalFilename.substring(0, fileExtensionIndex);
@@ -39,6 +42,7 @@ public abstract class AbstractFileAppender implements FileAppenderState {
 
     protected void fileValidator(MultipartFile multipartFile) {
         Assert.notNull(multipartFile, LogUtils.notNullFormat("multipartFile"));
+
         if (multipartFile.isEmpty()) {
             throw new IllegalArgumentException(LogUtils.notEmptyFormat("multipartFile"));
         }

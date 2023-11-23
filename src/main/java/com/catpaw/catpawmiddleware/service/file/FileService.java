@@ -1,7 +1,10 @@
 package com.catpaw.catpawmiddleware.service.file;
 
+import com.catpaw.catpawmiddleware.common.factory.dto.FileDtoFactory;
 import com.catpaw.catpawmiddleware.domain.entity.FileMaster;
-import com.catpaw.catpawmiddleware.domain.model.file.FileTarget;
+import com.catpaw.catpawmiddleware.exception.custom.DataNotFoundException;
+import com.catpaw.catpawmiddleware.service.dto.file.FileSummaryDto;
+import com.catpaw.catpawmiddleware.service.dto.file.FileTarget;
 import com.catpaw.catpawmiddleware.exception.custom.NoSupportContentTypeException;
 import com.catpaw.catpawmiddleware.repository.file.FileRepository;
 import com.catpaw.catpawmiddleware.service.aws.AwsS3Service;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -31,19 +35,45 @@ public class FileService {
         );
     }
 
-    public String upload(MultipartFile multipartFile, FileTarget fileTarget) {
-        FileAppenderState fileAppender = this.getFileAppender(multipartFile.getContentType());
-        String absoluteFileDestination =
-                fileAppender.createAbsoluteFileDestination(multipartFile.getOriginalFilename(), fileTarget.getTargetType());
+    public List<FileSummaryDto> getFileSummaryList(FileTarget fileTarget) {
+        Assert.notNull(fileTarget, LogUtils.notNullFormat("fileTarget"));
 
-        String destination = fileAppender.append(multipartFile, absoluteFileDestination);
+        List<FileMaster> fileMasterList = fileRepository.findFileMasterByFileTarget(fileTarget);
+
+        return fileMasterList.stream()
+                .map(FileDtoFactory::toFileSummary)
+                .toList();
+    }
+
+    public String upload(MultipartFile multipartFile, FileTarget fileTarget) {
+        Assert.notNull(multipartFile, LogUtils.notNullFormat("multipartFile"));
+        Assert.notNull(fileTarget, LogUtils.notNullFormat("fileTarget"));
+
+        FileAppenderState fileAppender = this.getFileAppender(multipartFile.getContentType());
+        final String fileKey =
+                fileAppender.createFileKey(multipartFile.getOriginalFilename(), fileTarget.targetType());
+
+        final String destination = fileAppender.append(multipartFile, fileKey);
 
         FileMaster fileMaster = new FileMaster(
-                        fileTarget.getTargetId(), fileTarget.getTargetType(), destination, multipartFile.getOriginalFilename());
+                fileTarget.targetId(),
+                fileTarget.targetType(),
+                destination,
+                multipartFile.getOriginalFilename(),
+                fileKey
+        );
 
         fileRepository.save(fileMaster);
 
         return destination;
+    }
+
+    public void remove(long fileId) {
+        FileMaster fileMaster = fileRepository.findById(fileId)
+                .orElseThrow(() -> { throw new DataNotFoundException(); });
+
+        awsS3Service.removeFile(fileMaster.getFileKey());
+        fileRepository.delete(fileMaster);
     }
 
     private FileAppenderState getFileAppender(String contentType) {

@@ -36,7 +36,7 @@ public class ImageFileAppender extends AbstractFileAppender implements FileAppen
     }
 
     @Override
-    public String createAbsoluteFileDestination(String originalFilename, TargetType targetType) {
+    public String createFileKey(String originalFilename, TargetType targetType) {
         int fileExtensionIndex = originalFilename.lastIndexOf(".");
         String fileName = originalFilename.substring(0, fileExtensionIndex);
         String now = String.valueOf(System.currentTimeMillis());

@@ -1,4 +1,4 @@
-package com.catpaw.catpawmiddleware.controller.v1.request;
+package com.catpaw.catpawmiddleware.controller.v1.request.friend;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;

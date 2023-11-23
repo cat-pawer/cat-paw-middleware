@@ -2,7 +2,7 @@ package com.catpaw.catpawmiddleware.controller.v1.friend;
 
 import com.catpaw.catpawmiddleware.exception.custom.DuplicateFriendException;
 import com.catpaw.catpawmiddleware.common.resolver.annotation.LoginId;
-import com.catpaw.catpawmiddleware.controller.v1.request.AddFriendForm;
+import com.catpaw.catpawmiddleware.controller.v1.request.friend.AddFriendForm;
 import com.catpaw.catpawmiddleware.controller.v1.response.Result;
 import com.catpaw.catpawmiddleware.domain.eumns.FriendState;
 import com.catpaw.catpawmiddleware.domain.eumns.ResponseCode;

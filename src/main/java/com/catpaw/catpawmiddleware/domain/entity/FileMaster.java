@@ -10,7 +10,7 @@ import org.hibernate.annotations.Where;
 @Getter
 @Entity
 @Where(clause = "is_delete = 'N'")
-@SQLDelete(sql = "UPDATE file SET is_delete = 'Y' WHERE file_id = ?")
+@SQLDelete(sql = "UPDATE file_master SET is_delete = 'Y' WHERE file_master_id = ?")
 public class FileMaster extends BaseEntity {
 
     @Id @GeneratedValue
@@ -29,19 +29,23 @@ public class FileMaster extends BaseEntity {
 
     private String fileOriginalName;
 
+    private String fileKey;
+
     public FileMaster() {}
 
-    public FileMaster(Long targetId, TargetType type, String absoluteDestination, String fileOriginalName) {
+    public FileMaster(Long targetId, TargetType type, String absoluteDestination, String fileOriginalName, String fileKey) {
         this.targetId = targetId;
         this.type = type;
         this.absoluteDestination = absoluteDestination;
         this.fileOriginalName = fileOriginalName;
+        this.fileKey = fileKey;
     }
 
-    public FileMaster(String targetUUID, TargetType type, String absoluteDestination, String fileOriginalName) {
+    public FileMaster(String targetUUID, TargetType type, String absoluteDestination, String fileOriginalName, String fileKey) {
         this.targetUUID = targetUUID;
         this.type = type;
         this.absoluteDestination = absoluteDestination;
         this.fileOriginalName = fileOriginalName;
+        this.fileKey = fileKey;
     }
 }
