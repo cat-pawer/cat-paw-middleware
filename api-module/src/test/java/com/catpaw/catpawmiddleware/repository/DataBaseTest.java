@@ -12,7 +12,7 @@ import org.springframework.test.context.TestPropertySource;
 @ActiveProfiles("test")
 @DataJpaTest
 @EntityScan(basePackages = "com.catpaw.catpawcore.domain.entity")
-@TestPropertySource(locations = "classpath:application-test.yml")
+//@TestPropertySource(locations = "classpath:application-test.yml")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public abstract class DataBaseTest {
 }
