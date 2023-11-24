@@ -1,12 +1,12 @@
 package com.catpaw.catpawmiddleware.repository.recruit.query;
 
 import com.catpaw.catpawcore.domain.eumns.*;
-import com.catpaw.catpawmiddleware.common.factory.dto.CategoryDtoFactory;
+import com.catpaw.catpawcore.common.factory.dto.CategoryDtoFactory;
 import com.catpaw.catpawcore.domain.entity.Category;
 import com.catpaw.catpawcore.domain.entity.Recruit;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitSearchCond;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitTopicCond;
-import com.catpaw.catpawmiddleware.repository.dto.RecruitDetailDto;
+import com.catpaw.catpawcore.domain.dto.repository.RecruitDetailDto;
 import com.catpaw.catpawcore.utils.PageUtils;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;

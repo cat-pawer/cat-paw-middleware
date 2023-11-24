@@ -1,6 +1,6 @@
 package com.catpaw.catpawmiddleware.controller.v1.recruit;
 
-import com.catpaw.catpawmiddleware.common.resolver.annotation.LoginId;
+import com.catpaw.catpawcore.common.resolver.annotation.LoginId;
 import com.catpaw.catpawmiddleware.controller.v1.request.enums.GroupTypeRequest;
 import com.catpaw.catpawmiddleware.controller.v1.request.enums.OnlineTypeRequest;
 import com.catpaw.catpawmiddleware.controller.v1.request.enums.RecruitStateRequest;
@@ -9,11 +9,11 @@ import com.catpaw.catpawmiddleware.controller.v1.response.Result;
 import com.catpaw.catpawmiddleware.controller.v1.response.recruit.RecruitDetailSchema;
 import com.catpaw.catpawmiddleware.controller.v1.response.recruit.RecruitSummarySchema;
 import com.catpaw.catpawcore.domain.eumns.ResponseCode;
-import com.catpaw.catpawmiddleware.repository.dto.RecruitDetailDto;
-import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
-import com.catpaw.catpawmiddleware.service.dto.recruit.RecruitSearchDto;
-import com.catpaw.catpawmiddleware.service.dto.recruit.RecruitSummaryDto;
-import com.catpaw.catpawmiddleware.service.dto.recruit.RecruitTopicDto;
+import com.catpaw.catpawcore.domain.dto.repository.RecruitDetailDto;
+import com.catpaw.catpawcore.domain.dto.service.CustomPageDto;
+import com.catpaw.catpawcore.domain.dto.service.recruit.RecruitSearchDto;
+import com.catpaw.catpawcore.domain.dto.service.recruit.RecruitSummaryDto;
+import com.catpaw.catpawcore.domain.dto.service.recruit.RecruitTopicDto;
 import com.catpaw.catpawmiddleware.service.recruit.RecruitService;
 import com.catpaw.catpawcore.utils.PageUtils;
 import io.swagger.v3.oas.annotations.Operation;

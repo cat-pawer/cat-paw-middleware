@@ -1,14 +1,14 @@
 package com.catpaw.catpawmiddleware.controller.v1.comment;
 
-import com.catpaw.catpawmiddleware.common.resolver.annotation.LoginId;
+import com.catpaw.catpawcore.common.resolver.annotation.LoginId;
 import com.catpaw.catpawmiddleware.controller.v1.request.comment.AddCommentForm;
 import com.catpaw.catpawmiddleware.controller.v1.response.Result;
 import com.catpaw.catpawmiddleware.controller.v1.response.comment.CommentSummarySchema;
 import com.catpaw.catpawcore.domain.eumns.ResponseCode;
 import com.catpaw.catpawmiddleware.service.comment.CommentRecruitService;
-import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
-import com.catpaw.catpawmiddleware.service.dto.comment.CommentDetailDto;
-import com.catpaw.catpawmiddleware.service.dto.comment.CommentSummaryDto;
+import com.catpaw.catpawcore.domain.dto.service.CustomPageDto;
+import com.catpaw.catpawcore.domain.dto.service.comment.CommentDetailDto;
+import com.catpaw.catpawcore.domain.dto.service.comment.CommentSummaryDto;
 import com.catpaw.catpawmiddleware.service.member.MemberService;
 import com.catpaw.catpawcore.utils.PageUtils;
 import io.swagger.v3.oas.annotations.Operation;

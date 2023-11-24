@@ -1,7 +1,7 @@
 package com.catpaw.catpawmiddleware.service.friend;
 
-import com.catpaw.catpawmiddleware.common.factory.dto.CustomPageDtoFactory;
-import com.catpaw.catpawmiddleware.common.factory.dto.FriendDtoFactory;
+import com.catpaw.catpawcore.common.factory.dto.CustomPageDtoFactory;
+import com.catpaw.catpawcore.common.factory.dto.FriendDtoFactory;
 import com.catpaw.catpawcore.exception.custom.DuplicateFriendException;
 import com.catpaw.catpawcore.domain.entity.Friend;
 import com.catpaw.catpawcore.domain.entity.Member;
@@ -9,10 +9,9 @@ import com.catpaw.catpawcore.domain.eumns.Auth;
 import com.catpaw.catpawmiddleware.repository.condition.FriendSearchCond;
 import com.catpaw.catpawmiddleware.repository.friend.FriendRepository;
 import com.catpaw.catpawmiddleware.repository.member.MemberRepository;
-import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
-import com.catpaw.catpawmiddleware.service.dto.friend.FriendSearchDto;
-import com.catpaw.catpawmiddleware.service.dto.friend.FriendSummaryDto;
-import com.catpaw.catpawcore.utils.PageUtils;
+import com.catpaw.catpawcore.domain.dto.service.CustomPageDto;
+import com.catpaw.catpawcore.domain.dto.service.friend.FriendSearchDto;
+import com.catpaw.catpawcore.domain.dto.service.friend.FriendSummaryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

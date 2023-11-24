@@ -3,7 +3,7 @@ package com.catpaw.catpawmiddleware.repository.recruit.query;
 import com.catpaw.catpawcore.domain.entity.Recruit;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitSearchCond;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitTopicCond;
-import com.catpaw.catpawmiddleware.repository.dto.RecruitDetailDto;
+import com.catpaw.catpawcore.domain.dto.repository.RecruitDetailDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

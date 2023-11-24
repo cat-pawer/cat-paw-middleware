@@ -1,7 +1,6 @@
 package com.catpaw.catpawchat.handler;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.stomp.StompCommand;
@@ -10,11 +9,9 @@ import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.stereotype.Component;
 
 
+@Slf4j
 @Component
 public class StompAuthenticationInterceptor implements ChannelInterceptor {
-
-
-    private final Logger logger = LoggerFactory.getLogger(StompAuthenticationInterceptor.class);
 
     public StompAuthenticationInterceptor() {}
 

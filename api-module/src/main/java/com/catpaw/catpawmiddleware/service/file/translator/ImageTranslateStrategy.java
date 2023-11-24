@@ -1,7 +1,7 @@
 package com.catpaw.catpawmiddleware.service.file.translator;
 
 import com.catpaw.catpawcore.exception.custom.FileConvertException;
-import com.catpaw.catpawmiddleware.service.dto.file.ResizeDto;
+import com.catpaw.catpawcore.domain.dto.service.file.ResizeDto;
 import com.catpaw.catpawcore.utils.LogUtils;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;

@@ -1,7 +1,7 @@
 package com.catpaw.catpawmiddleware.repository.file;
 
 import com.catpaw.catpawcore.domain.entity.FileMaster;
-import com.catpaw.catpawmiddleware.service.dto.file.FileTarget;
+import com.catpaw.catpawcore.domain.dto.service.file.FileTarget;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package com.catpaw.catpawchat.config;
 
 
+import com.catpaw.catpawcore.common.handler.security.JwtTokenManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -34,6 +35,11 @@ public class SecurityConfig {
                 .sessionManagement(conf ->
                         conf.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
+    }
+
+    @Bean
+    public JwtTokenManager jwtTokenManager() {
+        return new JwtTokenManager();
     }
 
 

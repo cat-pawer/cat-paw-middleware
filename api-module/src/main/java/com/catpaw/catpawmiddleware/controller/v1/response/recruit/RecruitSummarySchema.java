@@ -1,8 +1,8 @@
 package com.catpaw.catpawmiddleware.controller.v1.response.recruit;
 
 import com.catpaw.catpawmiddleware.controller.v1.response.Result;
-import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
-import com.catpaw.catpawmiddleware.service.dto.recruit.RecruitSummaryDto;
+import com.catpaw.catpawcore.domain.dto.service.CustomPageDto;
+import com.catpaw.catpawcore.domain.dto.service.recruit.RecruitSummaryDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 

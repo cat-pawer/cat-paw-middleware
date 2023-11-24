@@ -1,21 +1,20 @@
 package com.catpaw.catpawmiddleware.service.comment;
 
-import com.catpaw.catpawmiddleware.common.factory.dto.CommentDtoFactory;
+import com.catpaw.catpawcore.common.factory.dto.CommentDtoFactory;
 import com.catpaw.catpawcore.domain.entity.CommentRecruit;
 import com.catpaw.catpawcore.domain.entity.Member;
 import com.catpaw.catpawcore.domain.entity.Recruit;
 import com.catpaw.catpawcore.exception.custom.DataNotFoundException;
 import com.catpaw.catpawcore.exception.custom.ForbiddenException;
-import com.catpaw.catpawmiddleware.common.factory.dto.CustomPageDtoFactory;
+import com.catpaw.catpawcore.common.factory.dto.CustomPageDtoFactory;
 import com.catpaw.catpawmiddleware.repository.comment.CommentRecruitRepository;
-import com.catpaw.catpawmiddleware.repository.dto.RecruitDetailDto;
-import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
-import com.catpaw.catpawmiddleware.service.dto.comment.CommentDetailDto;
-import com.catpaw.catpawmiddleware.service.dto.comment.CommentSummaryDto;
+import com.catpaw.catpawcore.domain.dto.repository.RecruitDetailDto;
+import com.catpaw.catpawcore.domain.dto.service.CustomPageDto;
+import com.catpaw.catpawcore.domain.dto.service.comment.CommentDetailDto;
+import com.catpaw.catpawcore.domain.dto.service.comment.CommentSummaryDto;
 import com.catpaw.catpawmiddleware.service.member.MemberService;
 import com.catpaw.catpawmiddleware.service.recruit.RecruitService;
 import com.catpaw.catpawcore.utils.LogUtils;
-import com.catpaw.catpawcore.utils.PageUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

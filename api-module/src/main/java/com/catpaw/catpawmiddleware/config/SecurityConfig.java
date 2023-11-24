@@ -1,10 +1,10 @@
 package com.catpaw.catpawmiddleware.config;
 
 
-import com.catpaw.catpawmiddleware.common.handler.security.CustomAuthorityMapper;
-import com.catpaw.catpawmiddleware.common.handler.security.OAuthAuthenticationSuccessHandler;
+import com.catpaw.catpawcore.common.handler.security.CustomAuthorityMapper;
+import com.catpaw.catpawcore.common.handler.security.OAuthAuthenticationSuccessHandler;
 import com.catpaw.catpawmiddleware.filter.JwtAuthenticationFilter;
-import com.catpaw.catpawmiddleware.common.handler.security.JwtTokenManager;
+import com.catpaw.catpawcore.common.handler.security.JwtTokenManager;
 import com.catpaw.catpawmiddleware.service.security.SecurityLoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,9 +30,6 @@ public class SecurityConfig {
 
     @Autowired
     SecurityLoginService securityLoginService;
-
-    @Autowired
-    JwtTokenManager jwtTokenManager;
 
     @Value("${front-url}")
     private String frontUrl;
@@ -65,9 +62,14 @@ public class SecurityConfig {
                     .successHandler(oAuthAuthenticationSuccessHandler());
         });
         http.addFilterBefore(
-                new JwtAuthenticationFilter(jwtTokenManager, userDetailsService),
+                new JwtAuthenticationFilter(jwtTokenManager(), userDetailsService),
                 UsernamePasswordAuthenticationFilter.class);
         return http.build();
+    }
+
+    @Bean
+    public JwtTokenManager jwtTokenManager() {
+        return new JwtTokenManager();
     }
 
     @Bean
@@ -77,7 +79,7 @@ public class SecurityConfig {
 
     @Bean
     public OAuthAuthenticationSuccessHandler oAuthAuthenticationSuccessHandler() {
-        return new OAuthAuthenticationSuccessHandler(jwtTokenManager, this.frontUrl);
+        return new OAuthAuthenticationSuccessHandler(jwtTokenManager(), this.frontUrl);
     }
 
     @Bean

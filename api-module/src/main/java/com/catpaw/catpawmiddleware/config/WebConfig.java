@@ -1,7 +1,7 @@
 package com.catpaw.catpawmiddleware.config;
 
-import com.catpaw.catpawmiddleware.common.converter.RequestToEnumConverterFactory;
-import com.catpaw.catpawmiddleware.common.resolver.LoginIdArgumentResolver;
+import com.catpaw.catpawmiddleware.common.convertor.RequestToEnumConverterFactory;
+import com.catpaw.catpawcore.common.resolver.LoginIdArgumentResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;

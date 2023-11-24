@@ -12,7 +12,4 @@ public class ChatService {
         this.redisTemplate = redisTemplate;
     }
 
-    public void sendMessage(Topic topic, MessageDto messageDto) {
-        redisTemplate.convertAndSend(topic.getDestination(), messageDto);
-    }
 }

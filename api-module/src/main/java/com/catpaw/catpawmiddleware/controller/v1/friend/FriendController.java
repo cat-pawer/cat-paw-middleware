@@ -1,16 +1,16 @@
 package com.catpaw.catpawmiddleware.controller.v1.friend;
 
 import com.catpaw.catpawcore.exception.custom.DuplicateFriendException;
-import com.catpaw.catpawmiddleware.common.resolver.annotation.LoginId;
+import com.catpaw.catpawcore.common.resolver.annotation.LoginId;
 import com.catpaw.catpawmiddleware.controller.v1.request.friend.AddFriendForm;
 import com.catpaw.catpawmiddleware.controller.v1.response.Result;
 import com.catpaw.catpawcore.domain.eumns.FriendState;
 import com.catpaw.catpawcore.domain.eumns.ResponseCode;
 import com.catpaw.catpawcore.exception.custom.UnauthorizedException;
-import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
-import com.catpaw.catpawmiddleware.service.dto.friend.FriendSearchDto;
+import com.catpaw.catpawcore.domain.dto.service.CustomPageDto;
+import com.catpaw.catpawcore.domain.dto.service.friend.FriendSearchDto;
 import com.catpaw.catpawmiddleware.service.friend.FriendService;
-import com.catpaw.catpawmiddleware.service.dto.friend.FriendSummaryDto;
+import com.catpaw.catpawcore.domain.dto.service.friend.FriendSummaryDto;
 import com.catpaw.catpawcore.utils.PageUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

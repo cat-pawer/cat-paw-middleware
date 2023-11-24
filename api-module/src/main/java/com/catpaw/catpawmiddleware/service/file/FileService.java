@@ -1,10 +1,10 @@
 package com.catpaw.catpawmiddleware.service.file;
 
-import com.catpaw.catpawmiddleware.common.factory.dto.FileDtoFactory;
+import com.catpaw.catpawcore.common.factory.dto.FileDtoFactory;
 import com.catpaw.catpawcore.domain.entity.FileMaster;
 import com.catpaw.catpawcore.exception.custom.DataNotFoundException;
-import com.catpaw.catpawmiddleware.service.dto.file.FileSummaryDto;
-import com.catpaw.catpawmiddleware.service.dto.file.FileTarget;
+import com.catpaw.catpawcore.domain.dto.service.file.FileSummaryDto;
+import com.catpaw.catpawcore.domain.dto.service.file.FileTarget;
 import com.catpaw.catpawcore.exception.custom.NoSupportContentTypeException;
 import com.catpaw.catpawmiddleware.repository.file.FileRepository;
 import com.catpaw.catpawmiddleware.service.aws.AwsS3Service;

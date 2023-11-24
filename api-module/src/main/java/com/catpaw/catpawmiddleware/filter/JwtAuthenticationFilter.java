@@ -1,6 +1,6 @@
 package com.catpaw.catpawmiddleware.filter;
 
-import com.catpaw.catpawmiddleware.common.handler.security.JwtTokenManager;
+import com.catpaw.catpawcore.common.handler.security.JwtTokenManager;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

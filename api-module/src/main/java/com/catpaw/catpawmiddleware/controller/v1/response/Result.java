@@ -1,6 +1,6 @@
 package com.catpaw.catpawmiddleware.controller.v1.response;
 
-import com.catpaw.catpawmiddleware.service.dto.CustomPageDto;
+import com.catpaw.catpawcore.domain.dto.service.CustomPageDto;
 import jakarta.annotation.Nullable;
 import lombok.Getter;
 
