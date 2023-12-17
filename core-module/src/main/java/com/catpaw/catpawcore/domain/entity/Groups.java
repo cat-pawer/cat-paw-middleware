@@ -9,6 +9,9 @@ import lombok.Getter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @Getter
 @Entity
 @Where(clause = "is_delete = 'N'")
@@ -20,8 +23,10 @@ public class Groups extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "MEMBER_ID")
-    private Member member;
+    @JoinColumn(name = "CREATOR_ID",
+            referencedColumnName = "MEMBER_ID",
+            foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
+    private Member creator;
 
     private String name;
 
@@ -35,8 +40,29 @@ public class Groups extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private GroupType type;
 
-    @Column(length = 50)
-    @Enumerated(value = EnumType.STRING)
-    private Scope scope;
+    private LocalDate endDate;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void addCreator(Member creator) {
+        this.creator = creator;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
+    public void setState(GroupState state) {
+        this.state = state;
+    }
+
+    public void setType(GroupType type) {
+        this.type = type;
+    }
 }

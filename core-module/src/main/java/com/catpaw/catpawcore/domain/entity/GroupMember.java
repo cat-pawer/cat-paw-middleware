@@ -30,7 +30,7 @@ public class GroupMember extends BaseEntity {
     @JoinColumn(name = "POSITION_ID",
             referencedColumnName = "CATEGORY_ID",
             foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
-    private Category positionId;
+    private Category position;
 
     @Column(length = 50)
     @Enumerated(EnumType.STRING)

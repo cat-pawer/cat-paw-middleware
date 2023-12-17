@@ -57,7 +57,7 @@ public class Recruit extends BaseEntity {
         this.id = id;
     }
 
-    public void setGroups(Groups groups) {
+    public void addGroups(Groups groups) {
         this.groups = groups;
     }
 

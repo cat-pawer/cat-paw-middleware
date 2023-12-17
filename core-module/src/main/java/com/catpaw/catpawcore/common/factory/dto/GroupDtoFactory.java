@@ -1,20 +1,26 @@
 package com.catpaw.catpawcore.common.factory.dto;
 
-import com.catpaw.catpawcore.domain.dto.service.group.GroupDetailDto;
-import com.catpaw.catpawcore.domain.dto.service.group.GroupSummaryDto;
+import com.catpaw.catpawcore.domain.dto.service.group.GroupsDetailDto;
+import com.catpaw.catpawcore.domain.dto.service.group.GroupsSummaryDto;
 import com.catpaw.catpawcore.domain.entity.Groups;
 
 public class GroupDtoFactory {
 
-    public static GroupDetailDto toGroupDetail(Groups groups) {
-        GroupDetailDto groupDetailDto = new GroupDetailDto();
+    public static GroupsDetailDto toGroupDetail(Groups groups) {
+        GroupsDetailDto groupsDetailDto = new GroupsDetailDto();
 
-        return groupDetailDto;
+        return groupsDetailDto;
     }
 
-    public static GroupSummaryDto toGroupSummary(Groups groups) {
-        GroupSummaryDto groupSummaryDto = new GroupSummaryDto();
+    public static GroupsSummaryDto toGroupSummary(Groups groups) {
+        GroupsSummaryDto groupsSummaryDto = new GroupsSummaryDto();
+        groupsSummaryDto.setId(groups.getId());
+        groupsSummaryDto.setName(groups.getName());
+        groupsSummaryDto.setDetail(groups.getDetail());
+        groupsSummaryDto.setType(groups.getType());
+        groupsSummaryDto.setState(groups.getState());
+        groupsSummaryDto.setEndDate(groups.getEndDate());
 
-        return groupSummaryDto;
+        return groupsSummaryDto;
     }
 }

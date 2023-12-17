@@ -25,7 +25,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-class RecruitRepositoryTest extends DataBaseTest {
+class GroupsRepositoryTest extends DataBaseTest {
 
     @Autowired
     RecruitRepository recruitRepository;
