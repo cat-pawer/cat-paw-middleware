@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 @Schema(description = "사용자 프로젝트 및 스터디 조회")
-public class GroupsSummarySchema extends Result<GroupsSummaryDto> {
+public class GroupsSummarySchema extends Result<CustomPageDto<GroupsSummaryDto>> {
 
     @Schema(description = "응답 코드")
     private int code;

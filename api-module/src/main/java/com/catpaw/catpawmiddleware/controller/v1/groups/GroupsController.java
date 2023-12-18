@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Tag(name = "그룹", description = "그룹 도메인 API")
+@SecurityRequirement(name = "bearer-token")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/groups")
@@ -45,7 +47,7 @@ public class GroupsController {
     public ResponseEntity<Result<CustomPageDto<GroupsSummaryDto>>> myGroupSummary(
             @Parameter(hidden = true) @LoginId Optional<Long> idHolder,
             @Parameter(description = "참여한 프로젝트 혹은 내 프로젝트") @RequestParam(required = false, defaultValue = "true") boolean mine,
-            @Parameter(description = "페이지 값 (정렬기준 created 가능)") @PageableDefault(sort = "created", direction = Sort.Direction.DESC) Pageable pageable
+            @Parameter(description = "페이지 값") @PageableDefault(sort = "created", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         long memberId = memberService.checkAndGetMemberId(idHolder);
         CustomPageDto<GroupsSummaryDto> result = mine

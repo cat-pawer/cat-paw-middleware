@@ -17,6 +17,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @Tag(name = "친구", description = "친구 도메인 API")
+@SecurityRequirement(name = "bearer-token")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/friend")

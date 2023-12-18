@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Tag(name = "포토폴리오", description = "포토폴리오 도메인 API")
+@SecurityRequirement(name = "bearer-token")
 @RestController
 @RequestMapping("/api/v1/portfolio")
 public class PortfolioController {

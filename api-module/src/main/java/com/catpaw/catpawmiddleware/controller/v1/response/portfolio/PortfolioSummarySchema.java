@@ -8,7 +8,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 
 @Schema(description = "포트폴리오 조회")
-public class PortfolioSummarySchema extends Result<PortFolioDto> {
+public class PortfolioSummarySchema extends Result<CustomPageDto<PortFolioDto>> {
 
     @Schema(description = "응답 코드")
     private int code;

@@ -15,6 +15,7 @@ import org.springframework.security.core.GrantedAuthority;
 import java.security.Key;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Enumeration;
 
 @Slf4j
 public class JwtTokenManager {
@@ -26,6 +27,10 @@ public class JwtTokenManager {
     private String secretKey;
 
     private Key key;
+
+    private static final String BEARER = "Bearer ";
+
+    private static final String TOKEN_KEY = "Authorization";
 
     public JwtTokenManager() {}
 
@@ -60,7 +65,13 @@ public class JwtTokenManager {
     }
 
     public String resolveToken(HttpServletRequest request) {
-        return request.getHeader("X-AUTH-TOKEN");
+        Enumeration<String> headerNames = request.getHeaderNames();
+        String token = request.getHeader(TOKEN_KEY);
+        if (token != null && token.startsWith(BEARER)) {
+            return token.substring(token.lastIndexOf(BEARER) + BEARER.length());
+        }
+
+        return null;
     }
 
     public boolean validateToken(String token) {
@@ -70,8 +81,6 @@ public class JwtTokenManager {
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token);
-            log.info("expire = {}", claims.getBody().getExpiration());
-            log.info("now = {}", new Date());
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
             return false;

@@ -7,6 +7,7 @@ public enum FileDestination {
 
     RECRUIT("recruit"),
     PROFILE("profile"),
+    PORTFOLIO("portfolio"),
     GROUP_BOARD("group_board");
 
     private final String value;

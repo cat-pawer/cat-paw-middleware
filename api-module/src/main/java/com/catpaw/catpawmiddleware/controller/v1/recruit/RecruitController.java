@@ -18,10 +18,12 @@ import com.catpaw.catpawmiddleware.service.recruit.RecruitService;
 import com.catpaw.catpawcore.utils.PageUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -36,6 +38,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Tag(name = "모집", description = "모집 도메인 API")
+@SecurityRequirement(name = "bearer-token")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/recruit")

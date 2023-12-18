@@ -8,6 +8,8 @@ import com.catpaw.catpawmiddleware.controller.v1.response.Result;
 import com.catpaw.catpawmiddleware.repository.member.MemberRepository;
 import com.catpaw.catpawmiddleware.service.member.MemberService;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "회원", description = "회원 도메인 API")
+@SecurityRequirement(name = "bearer-token")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/member")

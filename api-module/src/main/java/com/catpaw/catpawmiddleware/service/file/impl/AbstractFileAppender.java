@@ -62,6 +62,9 @@ public abstract class AbstractFileAppender implements FileAppenderState {
             case RECRUIT -> {
                 sb.append(FileDestination.RECRUIT.getValue());
             }
+            case PORTFOLIO -> {
+                sb.append(FileDestination.PORTFOLIO.getValue());
+            }
             default -> {
                 throw new IllegalArgumentException("파일 경로가 옳바르지 않습니다.");
             }
