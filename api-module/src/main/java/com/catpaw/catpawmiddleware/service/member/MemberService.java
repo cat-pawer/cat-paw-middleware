@@ -28,4 +28,8 @@ public class MemberService {
 
         return memberRepository.getReferenceById(memberId);
     }
+
+    public Optional<Member> findById(long memberId) {
+        return memberRepository.findById(memberId);
+    }
 }

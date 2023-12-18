@@ -38,6 +38,10 @@ public class Member extends BaseEntity {
 
     private String birth;
 
+    private Integer reliability;
+
+    private Long mainPortfolioId;
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -72,5 +76,13 @@ public class Member extends BaseEntity {
 
     public void setBirth(String birth) {
         this.birth = birth;
+    }
+
+    public void setReliability(Integer reliability) {
+        this.reliability = reliability;
+    }
+
+    public void changeMainPortfolioId(Long mainPortfolioId) {
+        this.mainPortfolioId = mainPortfolioId;
     }
 }

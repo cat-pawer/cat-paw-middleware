@@ -1,14 +1,8 @@
 package com.catpaw.catpawcore.domain.dto.service.file;
 
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
-public class FileSummaryDto {
+import java.time.LocalDateTime;
 
-    private Long id;
-
-    private String absoluteDestination;
-
-    private String fileOriginalName;
+public record FileSummaryDto(Long id, Long fileId, String absoluteDestination, String fileOriginalName,
+                             LocalDateTime created, LocalDateTime updated) {
 }

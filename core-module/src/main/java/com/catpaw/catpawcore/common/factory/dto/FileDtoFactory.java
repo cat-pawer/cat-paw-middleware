@@ -8,12 +8,13 @@ import com.catpaw.catpawcore.domain.dto.service.file.FileSummaryDto;
 public class FileDtoFactory {
 
     public static FileSummaryDto toFileSummary(FileMaster fileMaster) {
-        FileSummaryDto fileSummaryDto = new FileSummaryDto();
-        fileSummaryDto.setId(fileMaster.getId());
-        fileSummaryDto.setFileOriginalName(fileMaster.getFileOriginalName());
-        fileSummaryDto.setAbsoluteDestination(fileMaster.getAbsoluteDestination());
-
-        return fileSummaryDto;
+        return new FileSummaryDto(
+                null,
+                fileMaster.getId(),
+                fileMaster.getAbsoluteDestination(),
+                fileMaster.getFileOriginalName(),
+                fileMaster.getCreated(),
+                fileMaster.getUpdated());
     }
 
     public static FileDetailDto toFileDetail(FileMaster fileMaster) {

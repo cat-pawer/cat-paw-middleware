@@ -1,22 +1,29 @@
 package com.catpaw.catpawmiddleware.service.file;
 
+import com.catpaw.catpawcore.common.factory.dto.CustomPageDtoFactory;
 import com.catpaw.catpawcore.common.factory.dto.FileDtoFactory;
+import com.catpaw.catpawcore.domain.dto.repository.PortFolioDto;
+import com.catpaw.catpawcore.domain.dto.service.CustomPageDto;
 import com.catpaw.catpawcore.domain.entity.FileMaster;
 import com.catpaw.catpawcore.exception.custom.DataNotFoundException;
 import com.catpaw.catpawcore.domain.dto.service.file.FileSummaryDto;
 import com.catpaw.catpawcore.domain.dto.service.file.FileTarget;
+import com.catpaw.catpawcore.exception.custom.MemberNotFoundException;
 import com.catpaw.catpawcore.exception.custom.NoSupportContentTypeException;
+import com.catpaw.catpawcore.utils.PageUtils;
 import com.catpaw.catpawmiddleware.repository.file.FileRepository;
 import com.catpaw.catpawmiddleware.service.aws.AwsS3Service;
 import com.catpaw.catpawmiddleware.service.file.impl.FileAppenderState;
 import com.catpaw.catpawmiddleware.service.file.impl.ImageFileAppender;
 import com.catpaw.catpawmiddleware.service.file.impl.NormalFileAppender;
 import com.catpaw.catpawcore.utils.LogUtils;
+import com.catpaw.catpawmiddleware.service.member.MemberService;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -24,10 +31,12 @@ public class FileService {
 
     private final FileRepository fileRepository;
     private final AwsS3Service awsS3Service;
+    private final MemberService memberService;
     private final Set<FileAppenderState> fileAppenderStateSet;
 
-    public FileService(FileRepository fileRepository, AwsS3Service awsS3Service) {
+    public FileService(FileRepository fileRepository, MemberService memberService, AwsS3Service awsS3Service) {
         this.fileRepository = fileRepository;
+        this.memberService = memberService;
         this.awsS3Service = awsS3Service;
         this.fileAppenderStateSet = Set.of(
                 new NormalFileAppender(awsS3Service),
@@ -64,8 +73,15 @@ public class FileService {
         );
 
         fileRepository.save(fileMaster);
-
         return destination;
+    }
+
+    public PortFolioDto getMainPortfolio(long memberId) {
+        return fileRepository.findMainPortFolio(memberId);
+    }
+
+    public Optional<FileMaster> findById(long fileId) {
+         return fileRepository.findById(fileId);
     }
 
     public void remove(long fileId) {

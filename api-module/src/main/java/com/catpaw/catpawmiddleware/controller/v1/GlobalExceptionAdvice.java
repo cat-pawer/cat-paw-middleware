@@ -100,7 +100,7 @@ public class GlobalExceptionAdvice {
     @Hidden
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MemberNotFoundException.class)
-    public ResponseEntity<Result<Void>> notMemberFoundExceptionHandler(Exception e) {
+    public ResponseEntity<Result<Void>> notMemberFoundExceptionHandler(MemberNotFoundException e) {
         log.error("[ex handler] ex", e);
         return new ResponseEntity<>(
                 Result.createSingleResult(ResponseCode.NOT_FOUND_MEMBER.getCode(), e.getMessage(), null),
