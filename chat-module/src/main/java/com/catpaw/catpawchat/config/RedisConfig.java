@@ -22,7 +22,9 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 @Configuration
 @EnableTransactionManagement
 @EnableWebSocketMessageBroker
-@EnableRedisRepositories(enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP)
+@EnableRedisRepositories(
+        enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP,
+        keyspaceNotificationsConfigParameter = "")
 public class RedisConfig {
 
     @Autowired
