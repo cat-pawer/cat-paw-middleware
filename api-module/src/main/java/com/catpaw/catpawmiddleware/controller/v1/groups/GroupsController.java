@@ -2,8 +2,10 @@ package com.catpaw.catpawmiddleware.controller.v1.groups;
 
 import com.catpaw.catpawcore.common.resolver.annotation.LoginId;
 import com.catpaw.catpawcore.domain.dto.service.CustomPageDto;
+import com.catpaw.catpawcore.domain.dto.service.group.GroupsDetailDto;
 import com.catpaw.catpawcore.domain.dto.service.group.GroupsSummaryDto;
 import com.catpaw.catpawcore.domain.eumns.ResponseCode;
+import com.catpaw.catpawcore.utils.LogUtils;
 import com.catpaw.catpawmiddleware.controller.v1.response.Result;
 import com.catpaw.catpawmiddleware.controller.v1.response.groups.GroupsSummarySchema;
 import com.catpaw.catpawmiddleware.service.groups.GroupsService;
@@ -21,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -57,5 +60,21 @@ public class GroupsController {
         return ResponseEntity
                 .ok()
                 .body(Result.createPageResult(ResponseCode.SUCCESS.getCode(), null, result));
+    }
+
+    @GetMapping("/detail/{groupId}")
+    public ResponseEntity<Result<GroupsDetailDto>> groupDetail(
+            @PathVariable Long groupId,
+            @Parameter(hidden = true) @LoginId Optional<Long> idHolder,
+            @Parameter(description = "참여한 프로젝트 혹은 내 프로젝트") @RequestParam(required = false, defaultValue = "true") boolean mine,
+            @Parameter(description = "페이지 값") @PageableDefault(sort = "created", direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        Assert.notNull(groupId, LogUtils.notNullFormat("groupId"));
+
+        GroupsDetailDto groupDetail = groupsService.getGroupDetail(groupId, memberService.checkAndGetMemberId(idHolder));
+
+        return ResponseEntity
+                .ok()
+                .body(Result.createSingleResult(ResponseCode.SUCCESS.getCode(), null, groupDetail));
     }
 }

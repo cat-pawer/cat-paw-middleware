@@ -10,7 +10,9 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Entity
@@ -27,6 +29,9 @@ public class Groups extends BaseEntity {
             referencedColumnName = "MEMBER_ID",
             foreignKey = @ForeignKey(ConstraintMode.CONSTRAINT))
     private Member creator;
+
+    @OneToMany(mappedBy = "groups")
+    private List<GroupMember> memberList = new ArrayList<>();
 
     private String name;
 
@@ -64,5 +69,13 @@ public class Groups extends BaseEntity {
 
     public void setType(GroupType type) {
         this.type = type;
+    }
+
+    public void setMemberList(List<GroupMember> memberList) {
+        this.memberList = memberList;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
     }
 }

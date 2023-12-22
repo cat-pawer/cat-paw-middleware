@@ -7,6 +7,8 @@ import com.catpaw.catpawcore.domain.eumns.GroupType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +25,15 @@ public class GroupsDetailDto {
 
     private GroupType type;
 
+    private LocalDate endDate;
+
     private MemberSummaryDto creator;
 
-    private List<MemberSummaryDto> memberList = new ArrayList<>();
+    private List<GroupMemberSummaryDto> memberList = new ArrayList<>();
 
     private List<RecruitSummaryDto> recruitList = new ArrayList<>();
+
+    private LocalDateTime created;
+
+    private LocalDateTime updated;
 }
