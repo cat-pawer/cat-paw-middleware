@@ -39,4 +39,28 @@ public class GroupMember extends BaseEntity {
     @Column(length = 50)
     @Enumerated(EnumType.STRING)
     private GroupMemberState state;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void addGroups(Groups groups) {
+        this.groups = groups;
+    }
+
+    public void addMember(Member member) {
+        this.member = member;
+    }
+
+    public void setPosition(Category position) {
+        this.position = position;
+    }
+
+    public void setAuth(Auth auth) {
+        this.auth = auth;
+    }
+
+    public void setState(GroupMemberState state) {
+        this.state = state;
+    }
 }

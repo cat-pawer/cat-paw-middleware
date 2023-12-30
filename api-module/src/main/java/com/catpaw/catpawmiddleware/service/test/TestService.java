@@ -2,8 +2,12 @@ package com.catpaw.catpawmiddleware.service.test;
 
 import com.catpaw.catpawcore.domain.entity.*;
 import com.catpaw.catpawcore.domain.eumns.*;
+import com.catpaw.catpawcore.exception.custom.DataNotFoundException;
 import com.catpaw.catpawmiddleware.repository.category.CategoryRepository;
 import com.catpaw.catpawmiddleware.repository.comment.CommentRecruitRepository;
+import com.catpaw.catpawmiddleware.repository.groups.GroupBoardRepository;
+import com.catpaw.catpawmiddleware.repository.groups.GroupMemberRepository;
+import com.catpaw.catpawmiddleware.repository.groups.GroupsRepository;
 import com.catpaw.catpawmiddleware.repository.member.MemberRepository;
 import com.catpaw.catpawmiddleware.repository.recruit.RecruitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 public class TestService {
@@ -24,6 +29,14 @@ public class TestService {
     MemberRepository memberRepository;
     @Autowired
     CommentRecruitRepository commentRecruitRepository;
+
+    @Autowired
+    GroupsRepository groupsRepository;
+    @Autowired
+    GroupMemberRepository groupMemberRepository;
+    @Autowired
+    GroupBoardRepository groupBoardRepository;
+
 
     @Transactional
     public void dataInit() {
@@ -51,6 +64,41 @@ public class TestService {
         for (int i = 0; i < 10; i++) {
             createRecruitComment(members, recruitList, i);
         }
+
+        Member member1 = members.stream().filter(member -> member.getId().equals(1L)).findAny().orElseThrow(() -> {
+            throw new DataNotFoundException();
+        });
+
+        Groups groups = new Groups();
+        groups.setName("test group1");
+        groups.setType(GroupType.PROJECT);
+        groups.setDetail("detail");
+        groups.setState(GroupState.ACTIVE);
+        groups.setEndDate(LocalDate.now().plusDays(10));
+        groups.addCreator(member1);
+
+        GroupMember groupMember1 = new GroupMember();
+        groupMember1.setAuth(Auth.MEMBER);
+        groupMember1.setState(GroupMemberState.JOIN);
+        groupMember1.addGroups(groups);
+        groupMember1.addMember(member1);
+
+        groups.setMemberList(List.of(groupMember1));
+
+        groupsRepository.save(groups);
+        groupMemberRepository.save(groupMember1);
+
+        GroupBoard groupBoard1 = new GroupBoard();
+        groupBoard1.setGroups(groups);
+        groupBoard1.setTitle("hello1");
+        groupBoard1.setContent("@2");
+        groupBoardRepository.save(groupBoard1);
+
+        GroupBoard groupBoard2 = new GroupBoard();
+        groupBoard2.setGroups(groups);
+        groupBoard2.setTitle("hello2");
+        groupBoard2.setContent("@3");
+        groupBoardRepository.save(groupBoard2);
     }
 
     private void createRecruitComment(List<Member> members, List<Recruit> recruitList, int i) {

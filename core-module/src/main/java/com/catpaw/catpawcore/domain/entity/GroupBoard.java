@@ -25,4 +25,24 @@ public class GroupBoard extends BaseEntity {
     private String content;
 
     private Long likeCount;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setGroups(Groups groups) {
+        this.groups = groups;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setLikeCount(Long likeCount) {
+        this.likeCount = likeCount;
+    }
 }

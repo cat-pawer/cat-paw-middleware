@@ -1,8 +1,10 @@
 package com.catpaw.catpawcore.common.factory.dto;
 
+import com.catpaw.catpawcore.domain.dto.service.group.GroupBoardSummaryDto;
 import com.catpaw.catpawcore.domain.dto.service.group.GroupMemberSummaryDto;
 import com.catpaw.catpawcore.domain.dto.service.group.GroupsDetailDto;
 import com.catpaw.catpawcore.domain.dto.service.group.GroupsSummaryDto;
+import com.catpaw.catpawcore.domain.entity.GroupBoard;
 import com.catpaw.catpawcore.domain.entity.GroupMember;
 import com.catpaw.catpawcore.domain.entity.Groups;
 import com.catpaw.catpawcore.domain.eumns.GroupState;
@@ -51,5 +53,20 @@ public class GroupDtoFactory {
         groupsSummaryDto.setEndDate(groups.getEndDate());
 
         return groupsSummaryDto;
+    }
+
+    public static GroupBoardSummaryDto toGroupBoardSummary(GroupBoard groupBoard) {
+        GroupBoardSummaryDto groupBoardSummaryDto = new GroupBoardSummaryDto();
+        groupBoardSummaryDto.setId(groupBoard.getId());
+        groupBoardSummaryDto.setGroupId(groupBoard.getGroups().getId());
+        groupBoardSummaryDto.setTitle(groupBoard.getTitle());
+        groupBoardSummaryDto.setContent(groupBoard.getContent());
+        groupBoardSummaryDto.setLikeCount(groupBoard.getLikeCount());
+        groupBoardSummaryDto.setCreated(groupBoard.getCreated());
+        groupBoardSummaryDto.setUpdated(groupBoard.getUpdated());
+        groupBoardSummaryDto.setCreatedBy(groupBoard.getCreatedBy());
+        groupBoardSummaryDto.setUpdatedBy(groupBoard.getUpdatedBy());
+
+        return groupBoardSummaryDto;
     }
 }

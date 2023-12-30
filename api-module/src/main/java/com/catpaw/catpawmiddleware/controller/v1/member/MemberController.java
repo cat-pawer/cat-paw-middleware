@@ -32,11 +32,14 @@ public class MemberController {
     private final JwtTokenManager jwtTokenManager;
 
     @GetMapping("/token")
-    public String testToken() {
+    public ResponseEntity<Result<String>> testToken() {
         Optional<Member> byId = memberRepository.findById(1L);
         Member testMember = byId.get();
-        return jwtTokenManager.createToken(testMember.getId(), testMember.getEmail(), List.of(new SimpleGrantedAuthority("member")));
+
+        String token = jwtTokenManager.createToken(testMember.getId(), testMember.getEmail(), List.of(new SimpleGrantedAuthority("member")));
+
+        return ResponseEntity
+                .ok()
+                .body(Result.createSingleResult(ResponseCode.SUCCESS.getCode(), null, token));
     }
-
-
 }

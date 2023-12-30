@@ -1,6 +1,6 @@
 package com.catpaw.catpawmiddleware.repository.groups;
 
-import com.catpaw.catpawcore.domain.entity.Recruit;
+import com.catpaw.catpawcore.domain.entity.Groups;
 import com.catpaw.catpawcore.utils.LogUtils;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -20,9 +20,9 @@ public class GroupsRepositoryImpl implements GroupsRepositoryCustom {
     }
 
     @Override
-    public Recruit getReferenceById(Long recruitId) {
-        Assert.notNull(recruitId, LogUtils.notNullFormat("recruitId"));
+    public Groups getReferenceById(Long groupsId) {
+        Assert.notNull(groupsId, LogUtils.notNullFormat("groupsId"));
 
-        return em.getReference(Recruit.class, recruitId);
+        return em.getReference(Groups.class, groupsId);
     }
 }
