@@ -8,8 +8,8 @@ import com.catpaw.catpawcore.domain.dto.service.group.GroupsSummaryDto;
 import com.catpaw.catpawcore.domain.eumns.ResponseCode;
 import com.catpaw.catpawcore.domain.object.group.GroupBoardContents;
 import com.catpaw.catpawcore.utils.LogUtils;
-import com.catpaw.catpawmiddleware.controller.v1.request.groups.AddBoardForm;
-import com.catpaw.catpawmiddleware.controller.v1.request.groups.UpdateBoardForm;
+import com.catpaw.catpawmiddleware.controller.v1.request.groups.AddBoardRequest;
+import com.catpaw.catpawmiddleware.controller.v1.request.groups.UpdateBoardRequest;
 import com.catpaw.catpawmiddleware.controller.v1.response.Result;
 import com.catpaw.catpawmiddleware.controller.v1.response.groups.GroupsBoardSummarySchema;
 import com.catpaw.catpawmiddleware.controller.v1.response.groups.GroupsDetailSchema;
@@ -126,7 +126,7 @@ public class GroupsController {
             @ApiResponse(responseCode = "500", description = "서버 오류", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")})})
     @PostMapping("/board")
     public ResponseEntity<Result<Void>> boardSave(
-            @Validated @RequestBody AddBoardForm form,
+            @Validated @RequestBody AddBoardRequest form,
             @Parameter(hidden = true) @LoginId Optional<Long> idHolder
     ) {
         GroupBoardContents groupBoardContents = form.toGroupBoardContents();
@@ -149,7 +149,7 @@ public class GroupsController {
             @ApiResponse(responseCode = "500", description = "서버 오류", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")})})
     @PatchMapping("/board")
     public ResponseEntity<Result<Void>> boardModify(
-            @Validated @RequestBody UpdateBoardForm form,
+            @Validated @RequestBody UpdateBoardRequest form,
             @Parameter(hidden = true) @LoginId Optional<Long> idHolder
     ) {
         GroupBoardContents groupBoardContents = form.toGroupBoardContents();

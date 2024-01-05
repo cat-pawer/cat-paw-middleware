@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @Schema(title = "친구 추가 폼")
-public class AddFriendForm {
+public class AddFriendRequest {
 
     @Schema(description = "친구 요청 대상 id")
     private Long targetId;

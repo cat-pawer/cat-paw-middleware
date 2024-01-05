@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @Schema(name = "댓글 추가 폼")
-public class AddCommentForm {
+public class AddCommentRequest {
 
     @NotNull
     @Schema(description = "대상 모집글 id")

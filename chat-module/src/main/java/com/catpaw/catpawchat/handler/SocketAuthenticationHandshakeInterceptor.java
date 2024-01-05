@@ -4,10 +4,7 @@ import com.catpaw.catpawcore.common.handler.security.JwtTokenManager;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.websocket.AuthenticationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -15,13 +12,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
-import java.io.InputStream;
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
 @Component
-public class SocketAuthenticationInterceptor implements HandshakeInterceptor {
+public class SocketAuthenticationHandshakeInterceptor implements HandshakeInterceptor {
 
     @Autowired
     JwtTokenManager jwtTokenManager;
@@ -36,8 +31,8 @@ public class SocketAuthenticationInterceptor implements HandshakeInterceptor {
         try {
             String[] tokenQuery = query.split("&");
             String tokenValue = (tokenQuery[0].split("="))[1];
-            boolean result = jwtTokenManager.validateToken(tokenValue);
-            return true;
+
+            return jwtTokenManager.validateToken(tokenValue);
         }
         catch (Exception e) {
             throw new AuthenticationException("잘못된 쿼리 파라미터 정보입니다");

@@ -5,19 +5,19 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 @Getter
-@Schema(title = "그룹 게시판 수정")
-public class UpdateBoardForm {
+@Schema(title = "그룹 게시물 폼")
+public class AddBoardRequest {
 
-    @Schema(description = "친구 요청 대상 id")
+    @Schema(description = "그룹 id")
     private Long groupId;
 
-    private Long boardId;
-
+    @Schema(description = "게시물 제목")
     private String title;
 
+    @Schema(description = "게시물 내용")
     private String content;
 
     public GroupBoardContents toGroupBoardContents() {
-        return new GroupBoardContents(this.boardId, this.title, this.content);
+        return new GroupBoardContents(null, this.title, this.content);
     }
 }

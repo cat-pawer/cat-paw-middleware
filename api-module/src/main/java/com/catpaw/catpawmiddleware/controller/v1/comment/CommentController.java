@@ -1,7 +1,7 @@
 package com.catpaw.catpawmiddleware.controller.v1.comment;
 
 import com.catpaw.catpawcore.common.resolver.annotation.LoginId;
-import com.catpaw.catpawmiddleware.controller.v1.request.comment.AddCommentForm;
+import com.catpaw.catpawmiddleware.controller.v1.request.comment.AddCommentRequest;
 import com.catpaw.catpawmiddleware.controller.v1.response.Result;
 import com.catpaw.catpawmiddleware.controller.v1.response.comment.CommentSummarySchema;
 import com.catpaw.catpawcore.domain.eumns.ResponseCode;
@@ -76,15 +76,15 @@ public class CommentController {
             @ApiResponse(responseCode = "500", description = "서버 오류", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")})})
     @PostMapping("/save")
     public ResponseEntity<Result<Void>> commentSave(
-            @Validated @RequestBody AddCommentForm addCommentForm,
+            @Validated @RequestBody AddCommentRequest addCommentRequest,
             @Parameter(hidden = true) @LoginId Optional<Long> idHolder
     ) {
         long memberId = memberService.checkAndGetMemberId(idHolder);
 
         CommentDetailDto commentDetailDto = new CommentDetailDto();
         commentDetailDto.setMemberId(memberId);
-        commentDetailDto.setRecruitId(addCommentForm.getRecruitId());
-        commentDetailDto.setContent(addCommentForm.getContent());
+        commentDetailDto.setRecruitId(addCommentRequest.getRecruitId());
+        commentDetailDto.setContent(addCommentRequest.getContent());
 
         commentRecruitService.addComment(commentDetailDto);
 

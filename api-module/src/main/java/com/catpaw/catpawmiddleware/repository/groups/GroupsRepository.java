@@ -1,7 +1,5 @@
 package com.catpaw.catpawmiddleware.repository.groups;
 
-import com.catpaw.catpawcore.domain.entity.GroupBoard;
-import com.catpaw.catpawcore.domain.entity.GroupMember;
 import com.catpaw.catpawcore.domain.entity.Groups;
 import com.catpaw.catpawmiddleware.repository.groups.query.GroupsQueryRepository;
 import org.springframework.data.jpa.repository.Query;

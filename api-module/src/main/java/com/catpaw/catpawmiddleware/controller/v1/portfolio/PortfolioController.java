@@ -3,7 +3,7 @@ package com.catpaw.catpawmiddleware.controller.v1.portfolio;
 import com.catpaw.catpawcore.common.resolver.annotation.LoginId;
 import com.catpaw.catpawcore.domain.dto.repository.PortFolioDto;
 import com.catpaw.catpawcore.domain.eumns.ResponseCode;
-import com.catpaw.catpawmiddleware.controller.v1.request.portfolio.ModifyPortfolioForm;
+import com.catpaw.catpawmiddleware.controller.v1.request.portfolio.ModifyPortfolioRequest;
 import com.catpaw.catpawmiddleware.controller.v1.response.Result;
 import com.catpaw.catpawmiddleware.controller.v1.response.portfolio.PortfolioDetailSchema;
 import com.catpaw.catpawmiddleware.controller.v1.response.portfolio.PortfolioSummarySchema;
@@ -89,7 +89,7 @@ public class PortfolioController {
     @PatchMapping("/main")
     public ResponseEntity<Result<PortFolioDto>> modifyMainPortFolio(
             @Parameter(hidden = true) @LoginId Optional<Long> idHolder,
-            @Validated @RequestBody ModifyPortfolioForm form
+            @Validated @RequestBody ModifyPortfolioRequest form
     ) {
         portfolioService.modifyMainPortfolio(memberService.checkAndGetMemberId(idHolder), form.portfolioId());
 

@@ -65,7 +65,6 @@ public class JwtTokenManager {
     }
 
     public String resolveToken(HttpServletRequest request) {
-        Enumeration<String> headerNames = request.getHeaderNames();
         String token = request.getHeader(TOKEN_KEY);
         if (token != null && token.startsWith(BEARER)) {
             return token.substring(token.lastIndexOf(BEARER) + BEARER.length());

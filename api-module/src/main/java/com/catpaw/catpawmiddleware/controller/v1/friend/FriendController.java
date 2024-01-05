@@ -2,7 +2,7 @@ package com.catpaw.catpawmiddleware.controller.v1.friend;
 
 import com.catpaw.catpawcore.exception.custom.DuplicateFriendException;
 import com.catpaw.catpawcore.common.resolver.annotation.LoginId;
-import com.catpaw.catpawmiddleware.controller.v1.request.friend.AddFriendForm;
+import com.catpaw.catpawmiddleware.controller.v1.request.friend.AddFriendRequest;
 import com.catpaw.catpawmiddleware.controller.v1.response.Result;
 import com.catpaw.catpawcore.domain.eumns.FriendState;
 import com.catpaw.catpawcore.domain.eumns.ResponseCode;
@@ -86,7 +86,7 @@ public class FriendController {
             @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema(implementation = Result.class), mediaType = "application/json")})})
     @PostMapping("/")
     public ResponseEntity<Result<Void>> friendSave(
-            @RequestBody AddFriendForm form,
+            @RequestBody AddFriendRequest form,
             @Schema(hidden = true) @LoginId Optional<Long> idHolder) {
         Long memberId = idHolder.orElseThrow(() -> {
             throw new UsernameNotFoundException("로그인하지 않은 사용자입니다.");

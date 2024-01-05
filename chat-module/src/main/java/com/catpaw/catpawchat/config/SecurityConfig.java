@@ -7,16 +7,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.session.Session;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfig {
+public class SecurityConfig<S extends Session> {
 
 
     @Value("${front-url}")
@@ -31,9 +32,7 @@ public class SecurityConfig {
                 })
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .formLogin(AbstractHttpConfigurer::disable)
-                .sessionManagement(conf ->
-                        conf.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .formLogin(AbstractHttpConfigurer::disable);
         return http.build();
     }
 
@@ -41,7 +40,6 @@ public class SecurityConfig {
     public JwtTokenManager jwtTokenManager() {
         return new JwtTokenManager();
     }
-
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {

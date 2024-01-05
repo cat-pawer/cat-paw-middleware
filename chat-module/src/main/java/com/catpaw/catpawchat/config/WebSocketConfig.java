@@ -1,6 +1,6 @@
 package com.catpaw.catpawchat.config;
 
-import com.catpaw.catpawchat.handler.StompHandshakeHandler;
+import com.catpaw.catpawchat.handler.PrincipalHandshakeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
@@ -16,10 +16,10 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Autowired
-    ChannelInterceptor stompAuthenticationInterceptor;
+    ChannelInterceptor customChannelInterceptor;
 
     @Autowired
-    HandshakeInterceptor socketAuthenticationInterceptor;
+    HandshakeInterceptor socketAuthenticationHandshakeInterceptor;
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
@@ -34,14 +34,14 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
-                .addInterceptors(socketAuthenticationInterceptor)
-                .setHandshakeHandler(new StompHandshakeHandler())
+                .addInterceptors(socketAuthenticationHandshakeInterceptor)
+                .setHandshakeHandler(new PrincipalHandshakeHandler())
                 .setAllowedOriginPatterns("*")
                 .withSockJS();
     }
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(stompAuthenticationInterceptor);
+        registration.interceptors(customChannelInterceptor);
     }
 }

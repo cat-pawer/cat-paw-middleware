@@ -16,11 +16,13 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 
 @Configuration
 @EnableTransactionManagement
+@EnableRedisHttpSession
 @EnableWebSocketMessageBroker
 @EnableRedisRepositories(
         enableKeyspaceEvents = RedisKeyValueAdapter.EnableKeyspaceEvents.ON_STARTUP,
@@ -35,7 +37,6 @@ public class RedisConfig {
 
     @Bean
     RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory) {
-
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         container.addMessageListener(actionSubscribe(), new ChannelTopic("/actions"));

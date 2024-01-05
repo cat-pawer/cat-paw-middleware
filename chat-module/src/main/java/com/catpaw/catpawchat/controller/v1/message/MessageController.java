@@ -1,6 +1,6 @@
 package com.catpaw.catpawchat.controller.v1.message;
 
-import com.catpaw.catpawchat.controller.v1.request.RequestDto;
+import com.catpaw.catpawchat.controller.v1.request.MessageDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -13,8 +13,8 @@ public class MessageController {
 
     @MessageMapping("/init")
     @SendTo("/init")
-    public void init(RequestDto requestDto) {
-        log.info("requestDto = {}", requestDto.toString());
+    public void init(MessageDto messageDto) {
+        log.info("requestDto = {}", messageDto.toString());
     }
 
 }
