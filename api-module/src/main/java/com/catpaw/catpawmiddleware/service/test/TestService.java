@@ -3,12 +3,12 @@ package com.catpaw.catpawmiddleware.service.test;
 import com.catpaw.catpawcore.domain.entity.*;
 import com.catpaw.catpawcore.domain.eumns.*;
 import com.catpaw.catpawcore.exception.custom.DataNotFoundException;
-import com.catpaw.catpawmiddleware.repository.category.CategoryRepository;
+import com.catpaw.catpawcore.repository.category.CategoryRepository;
 import com.catpaw.catpawmiddleware.repository.comment.CommentRecruitRepository;
 import com.catpaw.catpawmiddleware.repository.groups.GroupBoardRepository;
 import com.catpaw.catpawmiddleware.repository.groups.GroupMemberRepository;
 import com.catpaw.catpawmiddleware.repository.groups.GroupsRepository;
-import com.catpaw.catpawmiddleware.repository.member.MemberRepository;
+import com.catpaw.catpawcore.repository.member.MemberRepository;
 import com.catpaw.catpawmiddleware.repository.recruit.RecruitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 public class TestService {
@@ -69,6 +68,10 @@ public class TestService {
             throw new DataNotFoundException();
         });
 
+        Member member2 = members.stream().filter(member -> member.getId().equals(2L)).findAny().orElseThrow(() -> {
+            throw new DataNotFoundException();
+        });
+
         Groups groups = new Groups();
         groups.setName("test group1");
         groups.setType(GroupType.PROJECT);
@@ -83,10 +86,17 @@ public class TestService {
         groupMember1.addGroups(groups);
         groupMember1.addMember(member1);
 
-        groups.setMemberList(List.of(groupMember1));
+        GroupMember groupMember2 = new GroupMember();
+        groupMember2.setAuth(Auth.MEMBER);
+        groupMember2.setState(GroupMemberState.JOIN);
+        groupMember2.addGroups(groups);
+        groupMember2.addMember(member2);
+
+        groups.setMemberList(List.of(groupMember1, groupMember2));
 
         groupsRepository.save(groups);
         groupMemberRepository.save(groupMember1);
+        groupMemberRepository.save(groupMember2);
 
         GroupBoard groupBoard1 = new GroupBoard();
         groupBoard1.setGroups(groups);

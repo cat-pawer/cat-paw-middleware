@@ -8,7 +8,7 @@ import com.catpaw.catpawmiddleware.repository.comment.CommentRecruitRepository;
 import com.catpaw.catpawcore.domain.dto.repository.RecruitDetailDto;
 import com.catpaw.catpawmiddleware.service.MockBaseTest;
 import com.catpaw.catpawcore.domain.dto.service.comment.CommentDetailDto;
-import com.catpaw.catpawmiddleware.service.member.MemberService;
+import com.catpaw.catpawcore.service.member.MemberService;
 import com.catpaw.catpawmiddleware.service.recruit.RecruitService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;

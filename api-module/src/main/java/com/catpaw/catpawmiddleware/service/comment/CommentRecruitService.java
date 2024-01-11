@@ -12,7 +12,7 @@ import com.catpaw.catpawcore.domain.dto.repository.RecruitDetailDto;
 import com.catpaw.catpawcore.domain.dto.service.CustomPageDto;
 import com.catpaw.catpawcore.domain.dto.service.comment.CommentDetailDto;
 import com.catpaw.catpawcore.domain.dto.service.comment.CommentSummaryDto;
-import com.catpaw.catpawmiddleware.service.member.MemberService;
+import com.catpaw.catpawcore.service.member.MemberService;
 import com.catpaw.catpawmiddleware.service.recruit.RecruitService;
 import com.catpaw.catpawcore.utils.LogUtils;
 import lombok.RequiredArgsConstructor;

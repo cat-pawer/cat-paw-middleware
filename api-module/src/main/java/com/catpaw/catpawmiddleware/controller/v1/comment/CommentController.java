@@ -9,7 +9,7 @@ import com.catpaw.catpawmiddleware.service.comment.CommentRecruitService;
 import com.catpaw.catpawcore.domain.dto.service.CustomPageDto;
 import com.catpaw.catpawcore.domain.dto.service.comment.CommentDetailDto;
 import com.catpaw.catpawcore.domain.dto.service.comment.CommentSummaryDto;
-import com.catpaw.catpawmiddleware.service.member.MemberService;
+import com.catpaw.catpawcore.service.member.MemberService;
 import com.catpaw.catpawcore.utils.PageUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

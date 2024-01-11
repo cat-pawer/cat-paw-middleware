@@ -3,7 +3,7 @@ package com.catpaw.catpawmiddleware.service.security;
 import com.catpaw.catpawcore.common.factory.authentication.MemberAuthenticationFormFactory;
 import com.catpaw.catpawcore.domain.security.MemberContexts;
 import com.catpaw.catpawcore.domain.security.MemberContextsImpl;
-import com.catpaw.catpawmiddleware.repository.member.MemberRepository;
+import com.catpaw.catpawcore.repository.member.MemberRepository;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;

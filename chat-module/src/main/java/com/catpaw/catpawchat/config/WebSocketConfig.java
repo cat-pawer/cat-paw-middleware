@@ -1,6 +1,5 @@
 package com.catpaw.catpawchat.config;
 
-import com.catpaw.catpawchat.handler.PrincipalHandshakeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
@@ -35,7 +34,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
                 .addInterceptors(socketAuthenticationHandshakeInterceptor)
-                .setHandshakeHandler(new PrincipalHandshakeHandler())
                 .setAllowedOriginPatterns("*")
                 .withSockJS();
     }

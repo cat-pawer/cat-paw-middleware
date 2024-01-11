@@ -7,7 +7,7 @@ import com.catpaw.catpawmiddleware.controller.v1.request.portfolio.ModifyPortfol
 import com.catpaw.catpawmiddleware.controller.v1.response.Result;
 import com.catpaw.catpawmiddleware.controller.v1.response.portfolio.PortfolioDetailSchema;
 import com.catpaw.catpawmiddleware.controller.v1.response.portfolio.PortfolioSummarySchema;
-import com.catpaw.catpawmiddleware.service.member.MemberService;
+import com.catpaw.catpawcore.service.member.MemberService;
 import com.catpaw.catpawmiddleware.service.portfolio.PortfolioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

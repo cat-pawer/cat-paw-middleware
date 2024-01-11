@@ -8,7 +8,7 @@ import com.catpaw.catpawcore.domain.entity.Member;
 import com.catpaw.catpawcore.domain.security.MemberContexts;
 import com.catpaw.catpawcore.domain.security.MemberContextsImpl;
 import com.catpaw.catpawcore.exception.custom.MemberNotFoundException;
-import com.catpaw.catpawmiddleware.repository.member.MemberRepository;
+import com.catpaw.catpawcore.repository.member.MemberRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;

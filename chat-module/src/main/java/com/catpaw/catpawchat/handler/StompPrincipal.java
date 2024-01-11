@@ -1,17 +1,20 @@
 package com.catpaw.catpawchat.handler;
 
+import lombok.Setter;
+
 import java.security.Principal;
 
+@Setter
 public class StompPrincipal implements Principal {
 
-    private String name;
+    private String authToken;
 
-    public StompPrincipal(String name) {
-        this.name = name;
+    public StompPrincipal(String token) {
+        this.authToken = token;
     }
 
     @Override
     public String getName() {
-        return this.name;
+        return this.authToken;
     }
 }

@@ -1,15 +1,12 @@
 package com.catpaw.catpawmiddleware.controller.v1.file;
 
 import com.catpaw.catpawcore.common.resolver.annotation.LoginId;
-import com.catpaw.catpawcore.domain.dto.repository.PortFolioDto;
-import com.catpaw.catpawcore.domain.dto.service.file.FileSummaryDto;
 import com.catpaw.catpawcore.domain.dto.service.file.FileTarget;
-import com.catpaw.catpawcore.domain.dto.service.group.GroupsSummaryDto;
 import com.catpaw.catpawcore.domain.eumns.ResponseCode;
 import com.catpaw.catpawcore.domain.eumns.TargetType;
 import com.catpaw.catpawmiddleware.controller.v1.response.Result;
-import com.catpaw.catpawmiddleware.service.file.FileService;
-import com.catpaw.catpawmiddleware.service.member.MemberService;
+import com.catpaw.catpawcore.service.file.FileService;
+import com.catpaw.catpawcore.service.member.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,7 +21,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 import java.util.Optional;
 
 @Tag(name = "파일", description = "파일 도메인 API")

@@ -7,7 +7,7 @@ import com.catpaw.catpawcore.common.factory.authentication.MemberAuthenticationF
 import com.catpaw.catpawcore.common.factory.authentication.MemberAuthenticationFormFactory;
 import com.catpaw.catpawcore.domain.entity.Member;
 import com.catpaw.catpawcore.domain.security.MemberContexts;
-import com.catpaw.catpawmiddleware.repository.member.MemberRepository;
+import com.catpaw.catpawcore.repository.member.MemberRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;

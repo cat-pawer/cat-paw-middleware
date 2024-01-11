@@ -9,7 +9,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = { "com.catpaw.catpawcore", "com.catpaw.catpawmiddleware" })
 public class CatPawMiddlewareApplication {
 
 	public static void main(String[] args) {

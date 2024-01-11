@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 @Configuration
 @EntityScan(basePackages = "com.catpaw.catpawcore.domain.entity")
+@EnableJpaRepositories(basePackages = { "com.catpaw.catpawcore", "com.catpaw.catpawmiddleware" })
 public class JpaConfig {
 
     @Bean

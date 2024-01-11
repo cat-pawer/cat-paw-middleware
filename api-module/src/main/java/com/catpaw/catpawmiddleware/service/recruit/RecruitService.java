@@ -17,7 +17,7 @@ import com.catpaw.catpawmiddleware.repository.condition.RecruitSearchCond;
 import com.catpaw.catpawmiddleware.repository.condition.RecruitTopicCond;
 import com.catpaw.catpawcore.domain.dto.repository.RecruitDetailDto;
 import com.catpaw.catpawmiddleware.repository.recruit.RecruitRepository;
-import com.catpaw.catpawmiddleware.service.category.CategoryService;
+import com.catpaw.catpawcore.service.category.CategoryService;
 import com.catpaw.catpawcore.utils.LogUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

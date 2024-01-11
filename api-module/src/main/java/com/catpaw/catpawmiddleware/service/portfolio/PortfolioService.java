@@ -7,8 +7,8 @@ import com.catpaw.catpawcore.domain.entity.Member;
 import com.catpaw.catpawcore.domain.eumns.TargetType;
 import com.catpaw.catpawcore.exception.custom.DataNotFoundException;
 import com.catpaw.catpawcore.exception.custom.MemberNotFoundException;
-import com.catpaw.catpawmiddleware.service.file.FileService;
-import com.catpaw.catpawmiddleware.service.member.MemberService;
+import com.catpaw.catpawcore.service.file.FileService;
+import com.catpaw.catpawcore.service.member.MemberService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

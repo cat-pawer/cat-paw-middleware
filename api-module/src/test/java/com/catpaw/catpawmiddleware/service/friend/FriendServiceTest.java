@@ -2,7 +2,7 @@ package com.catpaw.catpawmiddleware.service.friend;
 
 import com.catpaw.catpawcore.domain.entity.Member;
 import com.catpaw.catpawmiddleware.repository.friend.FriendRepository;
-import com.catpaw.catpawmiddleware.repository.member.MemberRepository;
+import com.catpaw.catpawcore.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;

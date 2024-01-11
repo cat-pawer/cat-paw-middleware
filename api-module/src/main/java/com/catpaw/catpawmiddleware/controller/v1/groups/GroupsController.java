@@ -15,7 +15,7 @@ import com.catpaw.catpawmiddleware.controller.v1.response.groups.GroupsBoardSumm
 import com.catpaw.catpawmiddleware.controller.v1.response.groups.GroupsDetailSchema;
 import com.catpaw.catpawmiddleware.controller.v1.response.groups.GroupsSummarySchema;
 import com.catpaw.catpawmiddleware.service.groups.GroupsService;
-import com.catpaw.catpawmiddleware.service.member.MemberService;
+import com.catpaw.catpawcore.service.member.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

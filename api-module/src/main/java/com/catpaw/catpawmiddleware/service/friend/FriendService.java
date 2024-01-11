@@ -8,7 +8,7 @@ import com.catpaw.catpawcore.domain.entity.Member;
 import com.catpaw.catpawcore.domain.eumns.Auth;
 import com.catpaw.catpawmiddleware.repository.condition.FriendSearchCond;
 import com.catpaw.catpawmiddleware.repository.friend.FriendRepository;
-import com.catpaw.catpawmiddleware.repository.member.MemberRepository;
+import com.catpaw.catpawcore.repository.member.MemberRepository;
 import com.catpaw.catpawcore.domain.dto.service.CustomPageDto;
 import com.catpaw.catpawcore.domain.dto.service.friend.FriendSearchDto;
 import com.catpaw.catpawcore.domain.dto.service.friend.FriendSummaryDto;

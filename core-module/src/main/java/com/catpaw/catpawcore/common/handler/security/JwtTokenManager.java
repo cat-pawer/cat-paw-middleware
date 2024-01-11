@@ -15,7 +15,6 @@ import org.springframework.security.core.GrantedAuthority;
 import java.security.Key;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Enumeration;
 
 @Slf4j
 public class JwtTokenManager {

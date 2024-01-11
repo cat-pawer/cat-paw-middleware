@@ -11,7 +11,7 @@ import com.catpaw.catpawmiddleware.repository.condition.RecruitTopicCond;
 import com.catpaw.catpawcore.domain.dto.repository.RecruitDetailDto;
 import com.catpaw.catpawmiddleware.repository.recruit.RecruitRepository;
 import com.catpaw.catpawmiddleware.service.MockBaseTest;
-import com.catpaw.catpawmiddleware.service.category.CategoryService;
+import com.catpaw.catpawcore.service.category.CategoryService;
 import com.catpaw.catpawcore.domain.dto.service.recruit.RecruitSearchDto;
 import com.catpaw.catpawcore.domain.dto.service.recruit.RecruitTopicDto;
 import lombok.extern.slf4j.Slf4j;

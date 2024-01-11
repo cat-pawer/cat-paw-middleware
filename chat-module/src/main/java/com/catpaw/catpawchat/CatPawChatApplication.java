@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = { "com.catpaw.catpawcore", "com.catpaw.catpawchat" })
 public class CatPawChatApplication {
 
 	public static void main(String[] args) {

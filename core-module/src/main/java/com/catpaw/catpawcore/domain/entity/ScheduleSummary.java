@@ -28,14 +28,20 @@ public class ScheduleSummary extends BaseEntity {
     @JoinColumn(name = "SCHEDULE_ID")
     private Schedule schedule;
 
+    private String title;
+
     private LocalDate startDate;
 
     private LocalDate endDate;
 
-    private Long statusId;
+    private Long statusCodeId;
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void addCMember(Member cMember) {
@@ -54,7 +60,7 @@ public class ScheduleSummary extends BaseEntity {
         this.endDate = endDate;
     }
 
-    public void setStatusId(Long statusId) {
-        this.statusId = statusId;
+    public void setStatusCodeId(Long statusId) {
+        this.statusCodeId = statusId;
     }
 }

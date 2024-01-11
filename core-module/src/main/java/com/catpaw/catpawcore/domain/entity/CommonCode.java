@@ -1,6 +1,7 @@
 package com.catpaw.catpawcore.domain.entity;
 
 import com.catpaw.catpawcore.domain.entity.base.BaseEntity;
+import com.catpaw.catpawcore.domain.eumns.CodeType;
 import com.catpaw.catpawcore.domain.eumns.TargetType;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -21,6 +22,8 @@ public class CommonCode extends BaseEntity {
 
     @Column(length = 50)
     @Enumerated(EnumType.STRING)
-    private TargetType type;
+    private CodeType type;
+
+
 
 }

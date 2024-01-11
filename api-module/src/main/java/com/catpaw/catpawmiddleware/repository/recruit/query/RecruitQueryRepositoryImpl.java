@@ -52,7 +52,7 @@ public class RecruitQueryRepositoryImpl implements RecruitQueryRepository {
                 )
                 .leftJoin(categoryMapper)
                 .on(
-                        categoryMapper.targetId.eq(recruitId),
+                        categoryMapper.targetId.eq(recruit.id),
                         categoryMapper.type.eq(TargetType.RECRUIT),
                         categoryMapper.isDelete.eq(IsDelete.NO.getValue())
                 )

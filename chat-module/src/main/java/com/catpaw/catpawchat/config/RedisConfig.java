@@ -1,6 +1,6 @@
 package com.catpaw.catpawchat.config;
 
-import com.catpaw.catpawchat.handler.ActionSubscribe;
+import com.catpaw.catpawchat.handler.MessageSubscriber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -33,13 +33,13 @@ public class RedisConfig {
     private SimpMessagingTemplate simpMessagingTemplate;
 
     @Bean
-    MessageListener actionSubscribe() { return new ActionSubscribe(simpMessagingTemplate); }
+    MessageListener messageSubscriber() { return new MessageSubscriber(simpMessagingTemplate); }
 
     @Bean
     RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
-        container.addMessageListener(actionSubscribe(), new ChannelTopic("/actions"));
+        container.addMessageListener(messageSubscriber(), new ChannelTopic("/result"));
 
         return container;
     }
@@ -59,7 +59,7 @@ public class RedisConfig {
         template.setValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
 
         template.setHashKeySerializer(new StringRedisSerializer());
-        template.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(String.class));
+        template.setHashValueSerializer(new StringRedisSerializer());
 
         return template;
     }
