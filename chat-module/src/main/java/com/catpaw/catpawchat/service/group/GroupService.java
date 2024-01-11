@@ -1,7 +1,7 @@
 package com.catpaw.catpawchat.service.group;
 
 
-import com.catpaw.catpawchat.repository.group.ChatGroupRepository;
+import com.catpaw.catpawchat.repository.group.GroupRepository;
 import com.catpaw.catpawchat.service.dto.GroupMemberDto;
 import com.catpaw.catpawchat.service.dto.ScheduleDto;
 import com.catpaw.catpawcore.common.factory.dto.GroupDtoFactory;
@@ -18,28 +18,28 @@ import java.util.Optional;
 @Service
 public class GroupService {
 
-    private final ChatGroupRepository chatGroupRepository;
+    private final GroupRepository groupRepository;
 
-    public GroupService(ChatGroupRepository chatGroupRepository) {
-        this.chatGroupRepository = chatGroupRepository;
+    public GroupService(GroupRepository groupRepository) {
+        this.groupRepository = groupRepository;
     }
 
     public List<ScheduleDto> getScheduleSummaryList(long groupId) {
-        return chatGroupRepository.findScheduleSummaryByGroupId(groupId);
+        return groupRepository.findScheduleSummaryByGroupId(groupId);
     }
 
     public List<GroupsSummaryDto> getGroupListByMemberId(long memberId) {
-        List<Groups> groupList = chatGroupRepository.findGroupListByMemberId(memberId);
+        List<Groups> groupList = groupRepository.findGroupListByMemberId(memberId);
 
         return groupList.stream().map(GroupDtoFactory::toGroupSummary).toList();
     }
 
     public List<GroupMember> getGroupMemberList(long groupId) {
-        return chatGroupRepository.findGroupMemberList(groupId);
+        return groupRepository.findGroupMemberList(groupId);
     }
 
     public List<GroupMemberDto> getGroupMemberDtoList(long groupId) {
-        List<GroupMember> groupMemberList = chatGroupRepository.findGroupMemberList(groupId);
+        List<GroupMember> groupMemberList = groupRepository.findGroupMemberList(groupId);
 
         return groupMemberList.stream().map(groupMember -> {
             GroupMemberDto groupMemberDto = new GroupMemberDto();
@@ -56,10 +56,10 @@ public class GroupService {
     public Optional<Groups> findById(Long groupId) {
         Assert.notNull(groupId, LogUtils.notNullFormat("groupId"));
 
-        return chatGroupRepository.findById(groupId);
+        return groupRepository.findById(groupId);
     }
 
     public boolean checkAuthentication(long memberId, long groupId) {
-        return chatGroupRepository.findMemberOfGroups(memberId, groupId).isPresent();
+        return groupRepository.findMemberOfGroups(memberId, groupId).isPresent();
     }
 }
