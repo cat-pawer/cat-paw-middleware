@@ -3,10 +3,8 @@ package com.catpaw.catpawcore.repository.category;
 import com.catpaw.catpawcore.domain.entity.CategoryMapper;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
-import org.springframework.stereotype.Repository;
 
 
-@Repository
 public class CategoryRepositoryImpl implements CategoryRepositoryCustom {
 
     private final EntityManager em;
