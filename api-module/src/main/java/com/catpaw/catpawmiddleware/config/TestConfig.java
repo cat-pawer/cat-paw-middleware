@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-@Profile({"dev", "default"})
+@Profile({"dev", "default", "prod"})
 @Configuration
 public class TestConfig {
 
