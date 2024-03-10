@@ -109,6 +109,20 @@ public class TestService {
         groupBoard2.setTitle("hello2");
         groupBoard2.setContent("@3");
         groupBoardRepository.save(groupBoard2);
+
+        createScheduleCode();
+    }
+
+    private void createScheduleCode() {
+        CommonCode code1 = new CommonCode();
+        code1.setId(1L);
+        code1.setName("작업완료");
+        code1.setType(CodeType.SCHEDULE);
+
+        CommonCode code2 = new CommonCode();
+        code2.setId(2L);
+        code2.setName("작업대기");
+        code2.setType(CodeType.SCHEDULE);
     }
 
     private void createRecruitComment(List<Member> members, List<Recruit> recruitList, int i) {
